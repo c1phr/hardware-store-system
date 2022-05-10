@@ -1,0 +1,38 @@
+<div style="padding-left: 1%; padding-right: 1%; margin-top: 20px;">
+    <swiper [config]="config"
+            class="swiper-container">
+        <ng-template swiperSlide *ngFor="let slide of slides">
+                <div class="flex-center">
+                    <mat-card class="product-card">
+                        <div class="top-half-card">
+                            <img [src]="slide.marca_logo" class="brand-pos">
+                            <img [src]="slide.img" class="product-img-pos">
+                        </div>
+                        <div class="bottom-half-card">
+                            <div class="data-container">
+                                <div class="tags-container">
+                                    <div class="new-tag" *ngIf="slide.new">
+                                        <h5 class="tag-text">NUEVO</h5>
+                                    </div>
+                                    <div class="discount-tag" *ngIf="slide.descuento > 0">
+                                        <h5 class="tag-text">-{{ slide.descuento | percent }}</h5>
+                                    </div>
+                                </div>
+                                <div class="title-container">
+                                    <h3 class="product-brand">{{ slide.marca }}</h3>
+                                    <h1 class="product-title">{{ slide.producto }}</h1>
+                                </div>
+                                <p class="product-desc">{{ slide.descripcion }}</p>
+                            </div>
+                        </div>
+                        <div class="price-tag-container">
+                            <h5 class="price-tag">{{ getCurrency(slide.precio - slide.precio*slide.descuento) }}</h5>
+                        </div>
+                        <button mat-flat-button class="add-list-button">
+                            AGREGAR A LISTA                            
+                        </button>
+                    </mat-card>
+                </div>
+        </ng-template>
+    </swiper>
+</div>

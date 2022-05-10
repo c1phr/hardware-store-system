@@ -1,0 +1,29 @@
+.banner-grid {
+    height: 150px;
+    background-color: gray;
+    outline: 1px solid black;
+    width: 100%;
+}
+
+.catalogue-ctg-container {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title-banner {
+    width: 100%;
+    text-align: center;
+    height: 80px;
+    background-color: #FF7911;
+}
+
+.highlights-title {
+    font-family: Lato;
+    font-size: 32px;
+    line-height: 38px;
+    padding: 21px 0px;
+    letter-spacing: 0.12rem;
+    color: white;
+}
