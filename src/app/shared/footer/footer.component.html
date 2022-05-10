@@ -1,1 +1,27 @@
-<p>footer works!</p>
+<div class="footer-container">
+    <div class="top-half-container">
+        <img src="assets/monkeys-dev-logo.png" style="width: 220px; height: 220px">
+        <div class="links-column" *ngFor="let group of footer_links">
+            <h1 class="links-column-title"> {{ group.name | uppercase }} </h1>
+            <a class="links-column-link" [href]="link.path" *ngFor="let link of group.links"> {{ link.name }} </a>
+        </div>
+        <div class="links-column">
+            <h1 class="links-column-title">REDES SOCIALES</h1>
+            <div class="social-media-logos">
+                <a [href]="facebook_link">
+                    <img src="assets/facebook 1.svg" style="width: 40px;" class="logo-on-hover">
+                </a>
+                <a [href]="instagram_link" style="margin-left: 10px;">
+                    <img src="assets/instagram 1.svg" style="width: 40px;" class="logo-on-hover">
+                </a>
+                <a [href]="twitter_link" style="margin-left: 10px;">
+                    <img src="assets/twitter 1.svg" style="width: 40px;" class="logo-on-hover">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="bottom-half-container">
+        <img src="assets/monkeys-dev-logo.png" style="width: 30px; height: 30px">
+        <p class="copyright-text">THE MONKEYS DEV TODOS LOS DERECHOS RESERVADOS ©</p>
+    </div>
+</div>

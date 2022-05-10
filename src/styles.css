@@ -3,6 +3,10 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Lato, "Helvetica Neue", sans-serif; }
 
+.page-content-min {
+    min-height: calc(100vh - 500px);
+    overflow: hidden;
+}
 
 .swiper-container {
     min-width: 300px;

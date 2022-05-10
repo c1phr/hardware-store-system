@@ -22,7 +22,9 @@ import { ComponentsModule } from '../components/components.module';
   exports: [
     NavBarComponent,
     FooterComponent,
-    ComponentsModule
+    ComponentsModule,
+    MaterialModule,
+    RouterModule
   ]
 })
 export class SharedModule { }

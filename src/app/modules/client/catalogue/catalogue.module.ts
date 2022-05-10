@@ -19,7 +19,7 @@ import { PipelinesComponent } from './pipelines/pipelines.component';
   ],
   imports: [
     CommonModule,
-    CatalogueRoutingModule
+    CatalogueRoutingModule,
   ]
 })
 export class CatalogueModule { }
