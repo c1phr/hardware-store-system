@@ -36,4 +36,5 @@ export class UsersService {
         console.log(res.users)
       })
   }
+
 }
