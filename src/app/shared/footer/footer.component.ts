@@ -7,6 +7,7 @@ export interface LinkInfo{
 
 export interface LinkGroup {
   name: string,
+  path: string,
   links: LinkInfo[]
 }
 
@@ -20,6 +21,7 @@ export class FooterComponent implements OnInit {
   footer_links: LinkGroup[] = [
     {
       name: 'Servicio al cliente',
+      path: './',
       links: [
         {
           name: 'Términos y condiciones',
@@ -53,6 +55,7 @@ export class FooterComponent implements OnInit {
     },
     {
       name: 'Mi cuenta',
+      path: './',
       links: [
         {
           name: 'Regístrate',
@@ -74,6 +77,7 @@ export class FooterComponent implements OnInit {
     },
     {
       name: 'Nuestra empresa',
+      path: './',
       links: [
         {
           name: 'Quiénes somos',

@@ -1,6 +1,6 @@
 <mat-toolbar class="nav-bar mat-elevation-z3 grid-header">
     <div class="header-color">
-        <img src="assets/monkeys-dev-logo.png" style="height: 120px; margin-left: 5%;" routerLink="/inicio/catalogo" class="av-pointer">
+        <img src="assets/monkeys-dev-logo.png" routerLink="/inicio/catalogo" class="av-pointer">
         <input class="search-input" type="text" placeholder="Buscar">
         <div class="client-buttons" style="margin-right: 5%">
             <button mat-fab class="client-button-style">
@@ -13,6 +13,11 @@
                     account_circle
                 </span>
             </button>
+            <button mat-fab
+                    class="side-bar-menu-button"
+                    (click)="sidenav.toggle()">
+                <mat-icon class="menu-ham-button">menu</mat-icon>
+            </button>
         </div>
     </div>
     
@@ -21,17 +26,49 @@
         <button mat-button class="nav-button"
                 *ngFor="let button of navig"
                 name="button.name"
-                [routerLink]="button.nav">
+                [routerLink]="button.nav"
+                [matMenuTriggerFor]="belowMenu"
+                #menuTrigger="matMenuTrigger"
+                (mouseenter)="menuTrigger.openMenu()">
             <div class="button-flex">
                 <span>{{ button.name | uppercase }}</span>
                 <mat-icon style="color: #000000;">expand_more</mat-icon>
             </div>
+            <mat-menu #belowMenu="matMenu" yPosition="below" [overlapTrigger]="false">
+                <span (mouseleave)="menuTrigger.closeMenu()">
+                    <a mat-menu-item *ngFor="let subcat of button.subcat" [href]="subcat.nav" class="mat-menu-link">
+                        {{ subcat.name | uppercase }}
+                    </a>
+                </span>
+            </mat-menu>
         </button>
     </div>
 </mat-toolbar>
 
 <mat-sidenav-container class="side-nav-bar">
-    <mat-sidenav #sidenav mode="push" position="end">      
+    <mat-sidenav #sidenav mode="push" position="end">
+        <mat-nav-list>
+            <a mat-list-item
+               *ngFor="let button of navig"
+               [routerLink]="button.nav"
+               (click)="sidenav.toggle()"
+               class="side-bar-button"
+               [ngClass]="getPath() == button.nav ? 'current-page' : ''">
+               <span> {{ button.name | uppercase }} </span>
+            </a>
+            <button mat-list-item class="side-bar-button" (click)="openLogin(); sidenav.toggle()">
+                <mat-icon class="side-bar-icon-button">
+                    account_circle
+                </mat-icon>
+                INICIAR SESIÓN                
+            </button>
+            <button mat-list-item class="side-bar-button" (click)="sidenav.toggle()">
+                <mat-icon class="side-bar-icon-button">
+                    shopping_bag
+                </mat-icon>
+                CARRO DE COMPRA                
+            </button>
+        </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
         <router-outlet></router-outlet>

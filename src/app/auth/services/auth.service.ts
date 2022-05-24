@@ -14,5 +14,15 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  
+  login(rut: string, pass: string) {
+    const jsonString = {
+      rut: rut,
+      password: pass
+    }
+    return this.http.post<any>(this._baseUrl+'login', jsonString)
+      .subscribe( res => {
+        console.log(res)
+      })
+  }
+
 }

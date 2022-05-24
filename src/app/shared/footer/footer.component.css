@@ -1,17 +1,34 @@
 .footer-container {
-    height: 280px;
+    height: fit-content;
     width: 100%;
+    display: grid;
+    grid-template-columns: [first] 260px [second] auto [third] 20px [last];
+    grid-template-rows: [first] auto [second] 30px [last];
+    background-color: rgba(255, 120, 17, 0.88);
+}
+
+.logo-container {
+    grid-column-start: first;
+    grid-column-end: second;
+    grid-row-start: first;
+    grid-row-end: second;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .top-half-container {
     height: 250px;
     width: 100%;
-    background-color: rgba(255, 120, 17, 0.88);
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
     align-items: flex-start;
     padding-top: 20px;
+    grid-column-start: second;
+    grid-column-end: third;
+    grid-row-start: first;
+    grid-row-end: second;
 }
 
 .bottom-half-container {
@@ -22,6 +39,10 @@
     flex-flow: row;
     align-items: center;
     justify-content: center;
+    grid-column-start: first;
+    grid-column-end: last;
+    grid-row-start: second;
+    grid-row-end: last;
 }
 
 .copyright-text {
@@ -63,4 +84,70 @@
 
 .logo-on-hover:hover {
     filter: invert(99%) sepia(0%) saturate(0%) hue-rotate(151deg) brightness(104%) contrast(105%);
+}
+
+.links-column-title-link {
+    display: none;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 0.12rem;
+    text-decoration: none;
+    color: black;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.links-column-title-link:hover {
+    color: white;
+}
+
+/* smaller than 1100px screen */
+@media screen and (max-width: 1099px) {
+
+    .top-half-container {
+        height: fit-content;
+        padding-bottom: 20px;
+        column-gap: 20px;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+
+}
+
+/* smaller than 730px screen */
+@media screen and (max-width: 729px) {
+
+    .top-half-container {
+        height: fit-content;
+        padding-bottom: 20px;
+        align-items: center;
+        justify-content: center;
+        flex-flow: column;
+    }
+
+    .links-column-title {
+        display: none;
+    }
+
+    .links-column-link {
+        display: none;
+    }
+
+    .links-column-title-link {
+        display: block;
+    }
+
+}
+
+/* smaller than 450px screen */
+@media screen and (max-width: 449px) {
+
+    .footer-container {
+        height: fit-content;
+        width: 100%;
+        display: flex;
+        flex-flow: column;
+    }
+
 }

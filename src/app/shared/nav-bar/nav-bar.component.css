@@ -1,5 +1,7 @@
 .av-pointer {
     cursor: pointer;
+    height: 120px; 
+    margin-left: 5%;
 }
 
 .nav-bar {
@@ -101,4 +103,115 @@
     left: 0;
     right: 0;
     background-color: transparent;
+}
+
+.side-bar-button {
+    font-weight: 400;
+    font-size: 14px !important;
+    line-height: 12px;
+    letter-spacing: 0.2em;
+    max-width: 200px;
+}
+
+.current-page {
+    font-weight: 500;
+    color: #FF7911 !important;
+}
+
+.side-bar-menu-button {
+    color:#FF7911;
+    background-color: transparent;
+}
+
+.menu-ham-button {
+    font-size: 42px;
+    height: 42px;
+    width: 42px;
+    margin: 0;
+    
+}
+
+.side-bar-icon-button {
+    color: black;
+    margin-right: 10px;
+    font-size: 30px;
+    height: 30px;
+    width: 30px;
+}
+
+.mat-menu-link {
+    font-size: 12px;
+    font-family: Lato;
+    width: 150px;
+}
+
+.mat-menu-item {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 34px !important;
+    line-height: 34px;
+}
+
+/* MEDIA DECLARATION ALWAYS LAST */
+
+/* greater than 'small' screen */
+@media screen and (min-width: 960px) {
+
+    .side-bar-menu-button {
+        display: none !important;
+    }
+
+}
+
+/* small screen */
+@media screen and (max-width: 959px) {
+
+    .nav-buttons-grid {
+        display: none !important;
+    }
+
+    .nav-bar {
+        height: 120px;
+    }
+
+    .side-nav-bar {
+        top: 120px;
+    }
+
+    .client-button-style {
+        display: none !important;
+    }
+
+}
+
+/* smaller than 770px screen */
+@media screen and (max-width: 769px) {
+
+    .grid-header {
+        display: grid;
+        grid-template-columns: [first] auto [last];
+        grid-template-rows: [first] 90px [second] auto [last];
+    }
+    
+    .search-input {
+        display: none !important;
+    }
+
+    .av-pointer {
+        height: 90px;
+    }
+
+    .nav-bar {
+        height: 90px;
+    }
+
+    .side-nav-bar {
+        top: 90px;
+    }
+
+    .header-color {
+        height: 90px;
+    }
+
 }

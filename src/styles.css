@@ -51,6 +51,12 @@ body { margin: 0; font-family: Lato, "Helvetica Neue", sans-serif; }
     width: 400px;
 }
 
+.mat-fab .mat-button-wrapper {
+    padding: 0 !important;
+}
+
+
+
 /* MEDIA DECLARATIONS - ALWAYS LAST!! */
 
 /* 'mid-large' screen */

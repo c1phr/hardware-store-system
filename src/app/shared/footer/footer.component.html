@@ -1,9 +1,12 @@
 <div class="footer-container">
-    <div class="top-half-container">
+    <div class="logo-container">
         <img src="assets/monkeys-dev-logo.png" style="width: 220px; height: 220px">
+    </div>
+    <div class="top-half-container">
         <div class="links-column" *ngFor="let group of footer_links">
             <h1 class="links-column-title"> {{ group.name | uppercase }} </h1>
             <a class="links-column-link" [href]="link.path" *ngFor="let link of group.links"> {{ link.name }} </a>
+            <a class="links-column-title-link" [href]="group.path"> {{ group.name | uppercase }} </a>
         </div>
         <div class="links-column">
             <h1 class="links-column-title">REDES SOCIALES</h1>
