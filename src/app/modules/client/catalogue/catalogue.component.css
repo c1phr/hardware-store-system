@@ -48,7 +48,7 @@
 }
 
 .highlight-card {
-    width: 250px;
+    min-width: 250px;
     height: 300px;
     background-color: rgba(128, 128, 128, 0.4);
     border-radius: 4px;
@@ -68,4 +68,77 @@
     align-items: center;
     filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.1));
     cursor: pointer;
+}
+
+.ctg-container-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: [first] 300px [second] 20px [third] auto [last];
+    grid-template-rows: [first] 300px [second] 40px [third] auto [last];
+}
+
+.ctg-card-grid-container {
+    grid-column-start: first;
+    grid-column-end: second;
+    grid-row-start: first;
+    grid-row-end: last;
+}
+
+.highlight-card-grid-container {
+    grid-column-start: third;
+    grid-column-end: last;
+    grid-row-start: first;
+    grid-row-end: last;
+}
+
+.highlight-card-flex {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* media screen for highlights cards */
+@media screen and (max-width: 1510px) {
+    .highlight-card-grid-container {
+        overflow-x: scroll;
+        flex-grow: nowrap;
+    }
+    
+    .highlight-card-flex {
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+}
+
+@media screen and (max-width: 635px) {
+    .ctg-card-grid-container {
+        grid-column-start: first;
+        grid-column-end: last;
+        grid-row-start: first;
+        grid-row-end: second;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .highlight-card-grid-container {
+        grid-column-start: first;
+        grid-column-end: last;
+        grid-row-start: third;
+        grid-row-end: last;
+    }
+
+    .ctg-container {
+        margin: 10px;
+    }
+
+    .highlights-title {
+        font-family: Lato;
+        font-size: 24px;
+        line-height: 28px;
+    }
+
 }

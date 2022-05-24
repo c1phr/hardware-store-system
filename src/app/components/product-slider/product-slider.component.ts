@@ -60,6 +60,9 @@ export class ProductSliderComponent implements OnInit {
     breakpoints: {
       1140: {
         slidesPerView: 3
+      },
+      700: {
+        slidesPerView: 2
       }
     },
     grabCursor: true,
@@ -68,7 +71,9 @@ export class ProductSliderComponent implements OnInit {
     autoHeight: true,
     spaceBetween: 10,
     initialSlide: 1,
-    slideToClickedSlide: true
+    slideToClickedSlide: true,
+    loop: true,
+    threshold: 20
   }
 
   ngOnInit(): void {

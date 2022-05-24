@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-catalogue',
@@ -40,9 +41,13 @@ export class CatalogueComponent implements OnInit {
     }
   ]
 
-  constructor() { }
+  constructor(private _userService: UsersService) { }
 
   ngOnInit(): void {
+  }
+
+  getUsers() {
+    this._userService.getUsers();
   }
 
 }
