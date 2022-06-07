@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from 'src/app/services/users.service';
+import { ReportService } from '../../../services/report.service';
 
 @Component({
   selector: 'app-catalogue',
@@ -41,13 +42,18 @@ export class CatalogueComponent implements OnInit {
     }
   ]
 
-  constructor(private _userService: UsersService) { }
+  constructor(private _userService: UsersService,
+              private _reportService: ReportService) { }
 
   ngOnInit(): void {
   }
 
   getUsers() {
     this._userService.getUsers();
+  }
+
+  testReport() {
+    this._reportService.getReport()
   }
 
 }

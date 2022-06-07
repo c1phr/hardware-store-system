@@ -2,20 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { CatalogueRoutingModule } from './catalogue-routing.module';
-import { ConstructionComponent } from './construction/construction.component';
-import { TerminationsComponent } from './terminations/terminations.component';
-import { ToolsComponent } from './tools/tools.component';
-import { DecorationComponent } from './decoration/decoration.component';
-import { PipelinesComponent } from './pipelines/pipelines.component';
+import { CategoryViewComponent } from './category-view/category-view.component';
+import { SubCategoryViewComponent } from './sub-category-view/sub-category-view.component';
+import { ProductViewComponent } from './product-view/product-view.component';
 
 
 @NgModule({
   declarations: [
-    ConstructionComponent,
-    TerminationsComponent,
-    ToolsComponent,
-    DecorationComponent,
-    PipelinesComponent
+    CategoryViewComponent,
+    SubCategoryViewComponent,
+    ProductViewComponent
   ],
   imports: [
     CommonModule,

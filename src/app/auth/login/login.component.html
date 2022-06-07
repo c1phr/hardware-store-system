@@ -6,23 +6,23 @@
         <h1 class="login-title">INICIAR SESIÓN</h1>
         <div class="separator"></div>
     </div>
-    <div>
+    <form [formGroup]="loginForm">
         <div class="input-container" style="margin-bottom: 20px;">
             <h5 class="input-title">RUT</h5>
-            <input class="input-style" id="rut" type="text" placeholder="Sin puntos ni guión">
+            <input class="input-style" id="rut" type="text" placeholder="Rut del usuario" [value]="loginForm.controls['rut'].value | rut" formControlName="rut">
             <mat-icon class="input-icon">person</mat-icon>
         </div>
         <div class="input-container">
             <h5 class="input-title">CONTRASEÑA</h5>
-            <input class="input-style" id="rut" type="password">
+            <input class="input-style" id="rut" type="password" placeholder="Contraseña" formControlName="password">
             <mat-icon class="input-icon">lock</mat-icon>
         </div>
-    </div>
+    </form>
     <div class="buttons-container">
         <button mat-raised-button class="login-button" (click)="login()">
             ENTRAR
         </button>
-        <button mat-raised-button class="login-button">
+        <button mat-raised-button class="login-button" (click)="register()" mat-dialog-close>
             REGISTRARSE
         </button>
         <a href="./" class="password-link">Olvidó su contraseña?</a>

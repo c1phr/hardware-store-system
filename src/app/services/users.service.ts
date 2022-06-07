@@ -26,7 +26,7 @@ export class UsersService {
     'Content-Type': 'application/json'
   });
 
-  private _baseUrl: string = 'https://shrouded-taiga-53918.herokuapp.com/'
+  private _baseUrl: string = 'https://sistemaventainventario.herokuapp.com/'
 
   constructor(private http: HttpClient) { }
 
@@ -36,5 +36,7 @@ export class UsersService {
         console.log(res.users)
       })
   }
+
+  
 
 }

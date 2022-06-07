@@ -5,26 +5,37 @@ import { FooterComponent } from './footer/footer.component';
 import { MaterialModule } from '../modules/material/material.module';
 import { RouterModule } from '@angular/router';
 import { ComponentsModule } from '../components/components.module';
+import { RutPipe } from '../pipes/rut.pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
   declarations: [
     NavBarComponent,
-    FooterComponent
+    FooterComponent,
+    RutPipe
   ],
   imports: [
     CommonModule,
     RouterModule,
     MaterialModule,
-    ComponentsModule
+    ComponentsModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     NavBarComponent,
     FooterComponent,
     ComponentsModule,
     MaterialModule,
-    RouterModule
+    RouterModule,
+    RutPipe,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  providers: [
+    RutPipe
   ]
 })
 export class SharedModule { }

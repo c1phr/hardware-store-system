@@ -8,7 +8,47 @@
                     shopping_bag
                 </span>
             </button>
-            <button mat-fab class="client-button-style" (click)="openLogin()">
+            <div *ngIf="checkLog()" class="client-info-card">
+                <div class="client-info-content">
+                    <span class="user-name-text">{{ nameUser() | uppercase }}</span>
+                    <span class="portal-name" *ngIf="inStart()">Vista Cliente</span>
+                    <span class="portal-name" *ngIf="inWH()">Vista Bodega</span>
+                    <span class="portal-name" *ngIf="inAdmin()">Vista Administración</span>
+                    <span class="portal-name" *ngIf="inSales()">Vista Venta</span>
+                </div>
+                <button mat-icon-button style="transform: scale(1.5); margin-left: 10px" [matMenuTriggerFor]="beforeMenu">
+                    <span class="material-icons-outlined">
+                        face
+                    </span>
+                </button>
+                <mat-menu #beforeMenu="matMenu" xPosition="before">
+                    <button mat-menu-item
+                            *ngIf="inStart()"
+                            routerLink="/inicio/perfil"
+                            style="font-family: Lato; letter-spacing: 0.12em; font-size: 12px !important;">
+                        <mat-icon style="color: black;">person</mat-icon>IR A PERFIL 
+                    </button>
+                    <button mat-menu-item
+                            *ngIf="inStart()"
+                            routerLink="/inicio/perfil"
+                            style="font-family: Lato; letter-spacing: 0.12em; font-size: 12px !important;">
+                        <mat-icon style="color: black;">list_alt</mat-icon>HISTORIAL 
+                    </button>
+                    <button mat-menu-item
+                            *ngIf="inWH() || inAdmin() || inSales()"
+                            routerLink="/inicio"
+                            style="font-family: Lato; letter-spacing: 0.12em; font-size: 12px !important;">
+                        <mat-icon style="color: black;">home</mat-icon>VOLVER A INICIO
+                    </button>
+                    <button mat-menu-item 
+                            style="font-family: Lato; letter-spacing: 0.12em; color: #F44336; font-size: 12px !important;"
+                            (click)="logout()">
+                        <mat-icon style="color: #F44336;">logout</mat-icon>CERRAR SESIÓN
+                    </button>
+                </mat-menu>
+                
+            </div>
+            <button mat-fab class="client-button-style" (click)="openLogin()" *ngIf="!checkLog()">
                 <span class="material-icons-outlined">
                     account_circle
                 </span>
@@ -19,6 +59,7 @@
                 <mat-icon class="menu-ham-button">menu</mat-icon>
             </button>
         </div>
+        
     </div>
     
     
@@ -36,7 +77,8 @@
             </div>
             <mat-menu #belowMenu="matMenu" yPosition="below" [overlapTrigger]="false">
                 <span (mouseleave)="menuTrigger.closeMenu()">
-                    <a mat-menu-item *ngFor="let subcat of button.subcat" [href]="subcat.nav" class="mat-menu-link">
+                    <a mat-menu-item class="menu-nav-button" [routerLink]="button.nav" [state]="{ category_name: button.name }"></a>
+                    <a mat-menu-item *ngFor="let subcat of button.subcat" [routerLink]="subcat.nav" class="mat-menu-link" [state]="{ subcat_name: subcat.name }">
                         {{ subcat.name | uppercase }}
                     </a>
                 </span>
@@ -56,7 +98,7 @@
                [ngClass]="getPath() == button.nav ? 'current-page' : ''">
                <span> {{ button.name | uppercase }} </span>
             </a>
-            <button mat-list-item class="side-bar-button" (click)="openLogin(); sidenav.toggle()">
+            <button mat-list-item class="side-bar-button" (click)="sidenav.toggle()" routerLink="/auth/login" *ngIf="!checkLog()">
                 <mat-icon class="side-bar-icon-button">
                     account_circle
                 </mat-icon>

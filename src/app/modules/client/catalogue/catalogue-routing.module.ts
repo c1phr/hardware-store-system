@@ -1,22 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ConstructionComponent } from './construction/construction.component';
-import { DecorationComponent } from './decoration/decoration.component';
-import { TerminationsComponent } from './terminations/terminations.component';
-import { ToolsComponent } from './tools/tools.component';
-import { PipelinesComponent } from './pipelines/pipelines.component';
 import { CatalogueComponent } from './catalogue.component';
+import { CategoryViewComponent } from './category-view/category-view.component';
+import { SubCategoryViewComponent } from './sub-category-view/sub-category-view.component';
+import { ProductViewComponent } from './product-view/product-view.component';
 
 const routes: Routes = [
   {
     path: '',
     children: [
       { path: '', component: CatalogueComponent },
-      { path: 'construccion', component: ConstructionComponent },
-      { path: 'terminaciones', component: TerminationsComponent },
-      { path: 'herramientas', component: ToolsComponent },
-      { path: 'decoracion', component: DecorationComponent },
-      { path: 'pipelines', component: PipelinesComponent },
+      { path: ':id_cat/:name_cat', component: CategoryViewComponent},
+      { path: ':id_cat/:id_sub/:name_sub', component: SubCategoryViewComponent},
+      { path: ':id_cat/:id_sub/:id_product', component: ProductViewComponent},
       { path: '**', redirectTo: ''}
     ]
   }

@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { Category } from 'src/app/interfaces/category.interface';
+import { CatalogueService } from 'src/app/services/catalogue.service';
 import { LoginComponent } from '../../auth/login/login.component';
+
 
 @Component({
   selector: 'app-nav-bar',
@@ -10,171 +14,44 @@ import { LoginComponent } from '../../auth/login/login.component';
 })
 export class NavBarComponent implements OnInit {
 
-  navig = [
-    {
-      name: 'construcción y ferretería',
-      nav: './catalogo/construccion',
-      subcat: [
-        {
-          name: 'maderas y tablas',
-          nav: './'
-        },
-        {
-          name: 'ladrillos y bloques',
-          nav: './'
-        },
-        {
-          name: 'fierros, alambres y mallas',
-          nav: './'
-        },
-        {
-          name: 'cemento, morteros y aditivos',
-          nav: './'
-        },
-        {
-          name: 'tabiquería',
-          nav: './'
-        },
-        {
-          name: 'adhesivos',
-          nav: './'
-        },
-        {
-          name: 'aislación',
-          nav: './'
-        },
-        {
-          name: 'techumbre',
-          nav: './'
-        },
-      ]
-    },
-    {
-      name: 'pisos, pinturas y terminaciones',
-      nav: './catalogo/terminaciones',
-      subcat: [
-        {
-          name: 'pisos y revestimientos',
-          nav: './'
-        },
-        {
-          name: 'adhesivos, fragües y selladores',
-          nav: './'
-        },
-        {
-          name: 'marcos y molduras',
-          nav: './'
-        },
-        {
-          name: 'esmaltes y látex',
-          nav: './'
-        },
-        {
-          name: 'barnices y tratamiento',
-          nav: './'
-        },
-        {
-          name: 'pinturas especiales',
-          nav: './'
-        },
-      ]
-    },
-    {
-      name: 'herramientas y maquinaria',
-      nav: './catalogo/herramientas',
-      subcat: [
-        {
-          name: 'herramientas eléctricas',
-          nav: './'
-        },
-        {
-          name: 'maquinaria y herramientas estacionarias',
-          nav: './'
-        },
-        {
-          name: 'herramientas albañilería y construcción',
-          nav: './'
-        },
-        {
-          name: 'herramientas manuales',
-          nav: './'
-        },
-        {
-          name: 'maquinaria de jardín',
-          nav: './'
-        },
-        {
-          name: 'accesorios herramientas',
-          nav: './'
-        },
-      ]
-    },
-    {
-      name: 'decoración e iluminación',
-      nav: './catalogo/decoracion',
-      subcat: [
-        {
-          name: 'iluminación',
-          nav: './'
-        },
-        {
-          name: 'papel mural',
-          nav: './'
-        },
-        {
-          name: 'cortinas',
-          nav: './'
-        },
-        {
-          name: 'alfombras',
-          nav: './'
-        },
-        {
-          name: 'decoración hogar',
-          nav: './'
-        },
-      ]
-    },
-    {
-      name: 'baño, cocina y limpieza',
-      nav: './catalogo/pipelines',
-      subcat: [
-        {
-          name: 'sanitarios',
-          nav: './'
-        },
-        {
-          name: 'cabinas y duchas',
-          nav: './'
-        },
-        {
-          name: 'grifería y repuestos',
-          nav: './'
-        },
-        {
-          name: 'organización y limpieza',
-          nav: './'
-        },
-      ]
-    }
-  ]
+  navig: Category[] = []
+
+  wait_check: boolean = false;
+
 
   constructor(private _matDialog: MatDialog,
-              private _router: Router) { }
+              private _router: Router,
+              private _authService: AuthService,
+              private _catalogueService: CatalogueService) {}
 
   ngOnInit(): void {
+    this.getNavig()
+  }
 
+  async getNavig() {
+    this.navig = await this._catalogueService.createNavig()
+    if(this.navig.length > 0) {
+      this.wait_check = true;
+    }
   }
 
   openLogin() {
     const popupRef = this._matDialog.open(LoginComponent, {
       autoFocus: false,
       maxWidth: 340,
-      panelClass: ['login-dialog']
+      panelClass: ['login-dialog'],
+      data: {
+        open: true,
+      }
     });
     popupRef.afterClosed().subscribe(res => {
       console.log(`result: ${res}`)
     })
+  }
+
+  logout() {
+    this._authService.logout();
+    this._router.navigate(['/inicio'])
   }
 
   getPath():string {
@@ -187,4 +64,39 @@ export class NavBarComponent implements OnInit {
     }
   }
 
+  checkLog(): boolean {
+    return this._authService.isLoggedIn()
+  }
+
+  nameUser(): string {
+    return this._authService.getName()
+  }
+
+  typeUser(): string {
+    return this._authService.getType()
+  }
+
+  inWH(): boolean {
+    return (this._router.url.includes('/bodega')) 
+     ? true
+     : false
+  }
+
+  inAdmin(): boolean {
+    return (this._router.url.includes('/admin')) 
+     ? true
+     : false
+  }
+
+  inSales(): boolean {
+    return (this._router.url.includes('/ventas')) 
+     ? true
+     : false
+  }
+
+  inStart(): boolean {
+    return (this._router.url.includes('/inicio')) 
+     ? true
+     : false
+  }
 }
