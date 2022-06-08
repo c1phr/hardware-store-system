@@ -37,6 +37,13 @@ export class UsersService {
       })
   }
 
+  getProducts() {
+    this.http.get<any>(this._baseUrl+'api/products', { headers: this.header })
+      .subscribe(res => {
+        console.log(res)
+      })
+  }
+
   
 
 }

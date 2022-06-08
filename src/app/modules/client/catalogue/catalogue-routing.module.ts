@@ -12,7 +12,7 @@ const routes: Routes = [
       { path: '', component: CatalogueComponent },
       { path: ':id_cat/:name_cat', component: CategoryViewComponent},
       { path: ':id_cat/:id_sub/:name_sub', component: SubCategoryViewComponent},
-      { path: ':id_cat/:id_sub/:id_product', component: ProductViewComponent},
+      { path: ':id_cat/:id_sub/producto/:id_product', component: ProductViewComponent},
       { path: '**', redirectTo: ''}
     ]
   }

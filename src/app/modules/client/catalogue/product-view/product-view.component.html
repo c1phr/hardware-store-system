@@ -1,1 +1,49 @@
-<p>product-view works!</p>
+<div>
+    <a name="top"></a>
+    <div style="margin-top: 20px; margin-left: 20px;">
+        <a class="link-line" href="./">INICIO</a>
+        >
+        <a class="link-line" href="./">CATÁLOGO</a>
+        >
+        <a class="link-line" [href]="category_link">{{ name_category }}</a>
+        >
+        <a class="link-line" [href]="subcat_link">{{ name_subcat | uppercase }}</a>
+        >
+        <a class="active-link">{{ name_product | uppercase }}</a>
+    </div>
+    <div style="height: 50px"></div>
+    <div class="larger-container">
+        <div class="product-info-container">
+            <div class="image-container">
+                <img [src]="selectedProduct.url" class="image-style">
+            </div>
+            <div class="detailed-info-container">
+                <div class="smaller-container">
+                    <span class="product-title">{{ selectedProduct.name }}</span>
+                    <span class="product-brand"><span class="information-title">MARCA</span> {{ selectedProduct.brand | uppercase }}</span>
+                </div>
+                <div class="smaller-spacer"></div>
+                <div class="smaller-container">
+                    <span class="product-price">${{ selectedProduct.value | number:'1.0-0':'es-CL' }}</span>
+                </div>
+                <div class="smaller-spacer"></div>
+                <div class="smaller-container">
+                    <span class="information-title">DESCRIPCIÓN:</span>
+                    <span class="product-description">{{ selectedProduct.desc }}</span>
+                </div>
+                <div class="smaller-spacer"></div>
+                <div class="spacer"></div>
+                <div class="smaller-container">
+                    <span class="product-amount">{{ selectedProduct.amount }} productos restantes.</span>
+                </div>
+                <div class="smaller-spacer"></div>
+                <button mat-raised-button class="add-item-button">
+                    AGREGAR A LISTA
+                </button>
+                <div class="smaller-spacer"></div>
+            </div>
+        </div>
+        
+    </div>
+    <div style="height: 100px"></div>
+</div>

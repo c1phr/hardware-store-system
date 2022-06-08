@@ -55,11 +55,51 @@ body { margin: 0; font-family: Lato, "Helvetica Neue", sans-serif; }
     padding: 0 !important;
 }
 
+
+.spacer {
+    display: flex;
+    flex-grow: 1;
+}
+
+.router-height {
+    min-height: calc(100% - 320px)
+}
+
 /* MEDIA DECLARATIONS - ALWAYS LAST!! */
 
-/* 'mid-large' screen */
-@media screen and (min-width: 1280px) and (max-width: 1550px) {
+/* smaller than 1087px screen */
+@media screen and (max-width: 1086px) {
 
+    .router-height {
+        min-height: calc(100% - 383px)
+    }
+
+}
+
+/* smaller than 913px screen */
+@media screen and (max-width: 912px) {
+
+    .router-height {
+        min-height: calc(100% - 412px)
+    }
+
+}
+
+/* smaller than 730px screen */
+@media screen and (max-width: 729px) {
+
+    .router-height {
+        min-height: calc(100% - 270px)
+    }
+
+}
+
+/* smaller than 450px screen */
+@media screen and (max-width: 449px) {
+
+    .router-height {
+        min-height: calc(100% - 443px)
+    }
 
 }
 

@@ -7,17 +7,13 @@
     <div class="title-banner">
         <h1 class="highlights-title">PRODUCTOS DESTACADOS</h1>
     </div>
-    
-    <button mat-raised-button (click)="testReport()">
-        TEST
-    </button>
 
     <div class="catalogue-ctg-container">
         <div class="ctg-container" *ngFor="let ctg of categories">
             <div class="ctg-container-grid">
                 <div class="ctg-card-grid-container">
-                    <div class="ctg-card" style="background-image: url({{ctg.img_path}});">
-                        <div class="ctg-title" [routerLink]="ctg.link">
+                    <div class="ctg-card" style="background-image: url({{ctg.image_path}});">
+                        <div class="ctg-title" [routerLink]="ctg.nav">
                             {{ ctg.name | uppercase }}
                         </div>
                     </div>

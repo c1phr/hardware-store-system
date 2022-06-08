@@ -6,6 +6,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu'; 
+import { MatPaginatorModule } from '@angular/material/paginator'; 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
@@ -19,6 +20,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatIconModule,
     MatListModule,
     MatMenuModule,
+    MatPaginatorModule,
     MatSidenavModule,
     MatToolbarModule
   ]

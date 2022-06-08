@@ -8,5 +8,6 @@ export interface Category {
     id: number,
     name: string,
     nav: string,
-    subcat: Subcategory[]
+    subcat: Subcategory[],
+    image_path: string
 }

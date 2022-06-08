@@ -34,6 +34,14 @@ export class CatalogueService {
     this.product_name = prod_name;
   }
 
+  getCategoryLink(id: number): string {
+    return this.navig.find(x => x.id === id)!.nav
+  }
+
+  getSubcatLink(id_cat: number, id_subcat: number): string {
+    return this.navig.find(x => x.id === id_cat)!.subcat.find(x => x.id === id_subcat)!.nav;
+  }
+
   getCategoryName(id: number): string {
     return this.navig.find(x => x.id === id)!.name
     //return this.category_name;
@@ -85,7 +93,8 @@ export class CatalogueService {
           id: categories[i].id,
           name: categories[i].name,
           nav: `./catalogo/${categories[i].id}/${str}`,
-          subcat: []
+          subcat: [],
+          image_path: categories[i].url,
         };
         this.navig.push(new_cat)
       }
@@ -109,4 +118,22 @@ export class CatalogueService {
       }
     }
   }
+
+  getCategoryProducts(cat_id?: string, subcat_id?: string): Observable<any> {
+    var body = {
+      id_category: cat_id,
+      id_subcategory: subcat_id
+    }
+    return this.http.post(this._baseUrl+'api/productcategory', body)
+  }
+
+  getProduct(id_product: string, cat_id: string, subcat_id: string): Observable<any> {
+    var body = {
+      id_product: id_product,
+      id_category: cat_id,
+      id_subcategory: subcat_id,
+    };
+    return this.http.post(this._baseUrl+'api/selectproduct', body)
+  }
+
 }

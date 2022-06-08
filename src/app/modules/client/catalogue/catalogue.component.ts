@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from 'src/app/services/users.service';
 import { ReportService } from '../../../services/report.service';
+import { Category } from '../../../interfaces/category.interface';
+import { CatalogueService } from '../../../services/catalogue.service';
 
 @Component({
   selector: 'app-catalogue',
@@ -9,51 +11,43 @@ import { ReportService } from '../../../services/report.service';
 })
 export class CatalogueComponent implements OnInit {
 
-  categories: any[] = [
-    {
-      name: 'construcción y ferretería',
-      img_path: 'assets/categories/construction.jpg',
-      link: './construccion',
-      highlights: []
-    },
-    {
-      name: 'pisos, pinturas y terminaciones',
-      img_path: 'assets/categories/pisos.png',
-      link: './terminaciones',
-      highlights: []
-    },
-    {
-      name: 'herramientas y maquinaria',
-      img_path: 'assets/categories/herramientas.png',
-      link: './herramientas',
-      highlights: []
-    },
-    {
-      name: 'decoración e iluminación',
-      img_path: 'assets/categories/iluminacion.png',
-      link: './decoracion',
-      highlights: []
-    },
-    {
-      name: 'baño, cocina y limpieza',
-      img_path: 'assets/categories/bathroom.png',
-      link: './pipelines',
-      highlights: []
-    }
-  ]
+  private _baseUrl: string = 'https://sistemaventainventario.herokuapp.com/'
+
+  categories: Category[] = []
 
   constructor(private _userService: UsersService,
-              private _reportService: ReportService) { }
+              private _reportService: ReportService,
+              private _catalogueService: CatalogueService) { }
 
   ngOnInit(): void {
+    this.getCategories()
   }
 
-  getUsers() {
-    this._userService.getUsers();
+  async getCategories() {
+    var resp = await this._catalogueService.getCategories().toPromise();
+    if(resp) {
+      this.createCat(resp.categorys);
+    }
   }
 
-  testReport() {
-    this._reportService.getReport()
+  createCat(categories: any[]) {
+    for(var i = 0; i < categories.length; i++) {
+      if(!categories[i].removed) {
+        var str = categories[i].name;
+        str = str.normalize("NFD").replace(/\p{Diacritic}/gu, "");
+        str = str.replace(/\ /g,'-');
+        str = str.replace(/\,/g,'');
+        str = str.toLowerCase();
+        var new_cat = {
+          id: categories[i].id,
+          name: categories[i].name,
+          nav: `./catalogo/${categories[i].id}/${str}`,
+          subcat: [],
+          image_path: `${this._baseUrl}${categories[i].url}`,
+        };
+        this.categories.push(new_cat)
+      }
+    }
   }
 
 }
