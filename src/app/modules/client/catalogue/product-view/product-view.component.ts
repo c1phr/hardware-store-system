@@ -13,7 +13,7 @@ export class ProductViewComponent implements OnInit {
   selectedProduct: Product  = {
     amount: 0,
     brand: '',
-    desc: '',
+    description: '',
     id: -1,
     name: '',
     url: '',
@@ -70,7 +70,7 @@ export class ProductViewComponent implements OnInit {
       this.selectedProduct = resp.products[0];
       this.name_product = resp.products[0].name;
       this.selectedProduct!.url = this._baseUrl + resp.products[0].url;
-      this.selectedProduct!.desc = resp.products[0].description;
+      this.selectedProduct!.description = resp.products[0].description;
       this.productChecked = true;
     }
     else {

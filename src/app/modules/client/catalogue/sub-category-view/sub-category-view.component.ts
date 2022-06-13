@@ -73,7 +73,7 @@ export class SubCategoryViewComponent implements OnInit {
         var newProd: Product = {
           amount: products[i].amount,
           brand: products[i].brand,
-          desc: products[i].description,
+          description: products[i].description,
           id: products[i].id,
           name: products[i].name,
           url: `${this._baseUrl}${products[i].url}`,

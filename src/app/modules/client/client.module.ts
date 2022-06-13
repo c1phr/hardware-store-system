@@ -6,13 +6,15 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CatalogueComponent } from './catalogue/catalogue.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ProfileComponent } from './profile/profile.component';
+import { SearchComponent } from './search/search.component';
 
 
 @NgModule({
   declarations: [
     CatalogueComponent,
     ShoppingListComponent,
-    ProfileComponent
+    ProfileComponent,
+    SearchComponent
   ],
   imports: [
     CommonModule,

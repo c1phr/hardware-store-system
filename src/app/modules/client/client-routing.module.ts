@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NavBarComponent } from 'src/app/shared/nav-bar/nav-bar.component';
 import { ProfileComponent } from './profile/profile.component';
+import { SearchComponent } from './search/search.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 
 const routes: Routes = [
@@ -12,6 +13,7 @@ const routes: Routes = [
       { path: 'catalogo', loadChildren: () => import('./catalogue/catalogue.module').then(m => m.CatalogueModule)},
       { path: 'lista-compras', component: ShoppingListComponent },
       { path: 'perfil', component: ProfileComponent },
+      { path: 'productos', component: SearchComponent },
       { path: '**', redirectTo: 'catalogo'}
     ]
   }

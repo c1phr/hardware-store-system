@@ -99,4 +99,11 @@ export class NavBarComponent implements OnInit {
      ? true
      : false
   }
+
+  search(event: Event) {
+    var target = event.target as HTMLInputElement;
+    this._router.navigate(['/inicio/productos'], {
+      queryParams: { buscar: target.value }
+    });
+  }
 }

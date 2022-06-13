@@ -1,7 +1,7 @@
 <mat-toolbar class="nav-bar mat-elevation-z3 grid-header">
     <div class="header-color">
         <img src="assets/monkeys-dev-logo.png" routerLink="/inicio/catalogo" class="av-pointer">
-        <input class="search-input" type="text" placeholder="Buscar">
+        <input class="search-input" type="text" placeholder="Buscar" (keyup.enter)="search($event)">
         <div class="client-buttons" style="margin-right: 5%">
             <button mat-fab class="client-button-style">
                 <span class="material-icons-outlined">

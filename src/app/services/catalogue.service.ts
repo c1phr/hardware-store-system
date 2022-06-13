@@ -136,4 +136,11 @@ export class CatalogueService {
     return this.http.post(this._baseUrl+'api/selectproduct', body)
   }
 
+  searchProduct(param: string): Observable<any> {
+    var body = {
+      name: param
+    };
+    return this.http.post(this._baseUrl+'api/searchproduct', body)
+  }
+
 }
