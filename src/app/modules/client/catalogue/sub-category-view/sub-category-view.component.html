@@ -1,7 +1,6 @@
 
 <div>
-    <a name="top"></a>
-    <div style="margin-top: 20px; margin-left: 20px;">
+    <div #to_top style="margin-top: 20px; margin-left: 20px;">
         <a class="link-line" href="./">INICIO</a>
         >
         <a class="link-line" href="./">CATÁLOGO</a>
@@ -20,11 +19,11 @@
                     <a class="product-title" [href]="product.nav">{{ product.name }}</a>
                     <span class="brand-name">{{ product.brand }}</span>
                     <span class="price-content">${{ product.value | number:'1.0-0':'es-CL' }}</span>
-                    <button mat-raised-button class="add-item-button">AGREGAR A LISTA</button>
+                    <button mat-raised-button class="add-item-button" [disabled]="!checkLogged" (click)="addItemToWishlist(product.id)">AGREGAR A LISTA</button>
                 </div>
             </mat-card>
         </div>
-        <mat-paginator #myPaginator (page)="onPageChange($event)" [length]="this.subcategory_products.length" [pageSize]="10" [pageSizeOptions]="[10, 25, 50]">
+        <mat-paginator #myPaginator (page)="onPageChange($event, to_top)" [length]="this.subcategory_products.length" [pageSize]="10" [pageSizeOptions]="[10, 25, 50]">
         </mat-paginator>
     </div>
 </div>

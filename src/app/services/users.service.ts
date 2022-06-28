@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, lastValueFrom } from 'rxjs';
 
 export interface User {
   rut: string;
@@ -22,28 +23,48 @@ export interface UsersCall {
 })
 export class UsersService {
 
+  wishlist: any[] = [];
+  wishlist_msg: string = ''
+
   private header = new HttpHeaders({
     'Content-Type': 'application/json'
   });
 
-  private _baseUrl: string = 'https://sistemaventainventario.herokuapp.com/'
+  private _baseUrl: string = 'https://sistemaventainventario.herokuapp.com/api'
 
-  constructor(private http: HttpClient) { }
+  constructor(private _http: HttpClient) { }
 
-  getUsers() {
-    this.http.get<UsersCall>(this._baseUrl+'api/users', { headers: this.header })
-      .subscribe(res => {
-        console.log(res.users)
-      })
+  getWishlist(rut: string): Observable<any> {
+    var body = {
+      rut: rut
+    }
+    return this._http.post(this._baseUrl + '/getwantedcart', body, { headers: this.header, observe: 'response' })
   }
 
-  getProducts() {
-    this.http.get<any>(this._baseUrl+'api/products', { headers: this.header })
-      .subscribe(res => {
-        console.log(res)
-      })
+  addProdToWishlist(rut: string, id: number, amount: number): Observable<any> {
+    var body = {
+      rut: rut,
+      id_product: id,
+      amount: amount
+    }
+    return this._http.post(this._baseUrl + '/addproductwantedcart', body, { observe: 'response' })
   }
 
-  
+  editProdWishlist(rut: string, id: number, amount: number): Observable<any> {
+    var body = {
+      rut: rut,
+      id_product: id,
+      amount: amount
+    }
+    return this._http.post(this._baseUrl + '/modifyproductwantedcart', body, { observe: 'response' })
+  }
+
+  removeProdWishlist(rut: string, id: number): Observable<any> {
+    var body = {
+      rut: rut,
+      id_product: id,
+    }
+    return this._http.post(this._baseUrl + '/deleteproductwantedcart', body, { observe: 'response' })
+  }
 
 }

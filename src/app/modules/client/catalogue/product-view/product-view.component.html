@@ -37,9 +37,16 @@
                     <span class="product-amount">{{ selectedProduct.amount }} productos restantes.</span>
                 </div>
                 <div class="smaller-spacer"></div>
-                <button mat-raised-button class="add-item-button">
-                    AGREGAR A LISTA
-                </button>
+                <div class="add-prod-container">
+                    <div class="form-fields">
+                        <label for="product_amount" class="title-label">Cantidad: </label>
+                        <input id="product_amount" class="select-container" min="1" type="number" [max]="selectedProduct.amount" style="width: 80px;" [(ngModel)]="amount">
+                    </div>
+
+                    <button mat-raised-button class="add-item-button" [disabled]="selectedProduct.removed || !checkLogged" (click)="addItemToWishlist(selectedProduct.id)">
+                        AGREGAR A LISTA
+                    </button>
+                </div>
                 <div class="smaller-spacer"></div>
             </div>
         </div>

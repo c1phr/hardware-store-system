@@ -1,7 +1,8 @@
 export interface Subcategory {
     id: number,
     name: string,
-    nav: string
+    nav: string,
+    id_category?: number,
 }
 
 export interface Category {

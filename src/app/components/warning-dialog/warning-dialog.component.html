@@ -1,0 +1,19 @@
+<div class="question-card" *ngIf="type === 'general'">
+    <div class="title-container">
+        <h1 class="dialog-title">¿ESTÁ SEGURO?</h1>
+        <button mat-icon-button class="close-button-pos" (click)="close()">
+            <mat-icon class="close-button">close</mat-icon>
+        </button>
+    </div>
+    <div class="body-container">
+        <p style="font-size: 14px;">{{ data.message }}</p>
+        <div class="buttons-container">
+            <button mat-raised-button class="answer-button continue-button" (click)="answerQuestion(true)">
+                CONTINUAR
+            </button>
+            <button mat-raised-button class="answer-button cancel-button" (click)="answerQuestion(false)">
+                CANCELAR
+            </button>
+        </div>
+    </div>
+</div>

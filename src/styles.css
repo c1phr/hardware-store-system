@@ -3,6 +3,65 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Lato, "Helvetica Neue", sans-serif; }
 
+.ngx-slider .ngx-slider-pointer {
+    width: 12px !important;
+    height: 12px !important;
+    top: -4px !important;
+    background-color: #FF8000!important;
+    border-radius: 6px !important;
+}
+
+.ngx-slider .ngx-slider-pointer:after {
+    width: 4px !important;
+    height: 4px !important;
+    top: 4px !important;
+    left: 4px !important;
+    background: #3d3d3d !important;
+}
+
+.ngx-slider .ngx-slider-bar {
+    background: #3d3d3d !important;
+}
+
+.ngx-slider .ngx-slider-selection {
+    background: #FF8000 !important;
+}
+
+
+
+.general-container {
+    padding: 20px;
+}
+
+.page-content-card {
+    background-color: rgba(255, 255, 255, 0.8);
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 20px;
+}
+
+.error-field {
+    font-size: 12px;
+    color: red;
+}
+
+.mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #FF8000 !important;
+}
+
+.bg-login {
+    background: no-repeat center center fixed; 
+    background-size: cover;
+    display: block;
+    left: -35px;
+    top:-35px;
+    bottom:-35px;
+    position: fixed;
+    right: -35px;
+    filter: blur(0px);
+    z-index: -999;
+}
+
 .page-content-min {
     min-height: calc(100vh - 500px);
     overflow: hidden;
@@ -43,6 +102,19 @@ body { margin: 0; font-family: Lato, "Helvetica Neue", sans-serif; }
     bottom: 0px;
 }
 
+.tooltip-position {
+    position: relative !important;
+    top: 10px !important;
+    font-size: 12px;
+}
+
+.tooltip-position-warn {
+    position: relative !important;
+    top: 10px !important;
+    font-size: 12px;
+    background: rgba(187, 0, 0, 0.692);
+}
+
 .mat-fab {
     box-shadow: none !important;
 }
@@ -55,6 +127,50 @@ body { margin: 0; font-family: Lato, "Helvetica Neue", sans-serif; }
     padding: 0 !important;
 }
 
+.delete-warning-dialog .mat-dialog-container {
+    width: 400px;
+    padding: 0 !important;
+}
+
+.register-product-dialog .mat-dialog-container {
+    width: 500px;
+    padding: 0 !important;
+}
+
+.dialog-title {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0.2rem;
+    margin-bottom: 15px;
+    color: white;
+    text-align: center;
+}
+
+.success-sb {
+    background-color: rgb(255, 255, 255);
+    color: black;
+    position: relative;
+    bottom: 25px;
+}
+
+.error-sb {
+    background-color: rgb(255, 255, 255);
+    color: black;
+    position: relative;
+    bottom: 25px;
+}
+
+.success-sb .mat-simple-snackbar-action {
+    background-color: #FF8000;
+    color: white;
+    border-radius: 2px;
+}
+
+.error-sb .mat-simple-snackbar-action {
+    background-color: #be3838;
+    color: white;
+    border-radius: 2px;
+}
 
 .spacer {
     display: flex;
@@ -62,7 +178,11 @@ body { margin: 0; font-family: Lato, "Helvetica Neue", sans-serif; }
 }
 
 .router-height {
-    min-height: calc(100% - 320px)
+    min-height: calc(100% - 516px)
+}
+
+.router-height-staff {
+    min-height: calc(100% - 150px)
 }
 
 /* MEDIA DECLARATIONS - ALWAYS LAST!! */
@@ -71,7 +191,7 @@ body { margin: 0; font-family: Lato, "Helvetica Neue", sans-serif; }
 @media screen and (max-width: 1086px) {
 
     .router-height {
-        min-height: calc(100% - 383px)
+        min-height: calc(100% - 579px)
     }
 
 }
@@ -80,7 +200,16 @@ body { margin: 0; font-family: Lato, "Helvetica Neue", sans-serif; }
 @media screen and (max-width: 912px) {
 
     .router-height {
-        min-height: calc(100% - 412px)
+        min-height: calc(100% - 528px)
+    }
+
+}
+
+/* smaller than 770px screen */
+@media screen and (max-width: 769px) {
+
+    .router-height-staff {
+        min-height: calc(100% - 120px)
     }
 
 }
@@ -89,7 +218,7 @@ body { margin: 0; font-family: Lato, "Helvetica Neue", sans-serif; }
 @media screen and (max-width: 729px) {
 
     .router-height {
-        min-height: calc(100% - 270px)
+        min-height: calc(100% - 356px)
     }
 
 }
@@ -98,7 +227,7 @@ body { margin: 0; font-family: Lato, "Helvetica Neue", sans-serif; }
 @media screen and (max-width: 449px) {
 
     .router-height {
-        min-height: calc(100% - 443px)
+        min-height: calc(100% - 529px)
     }
 
 }

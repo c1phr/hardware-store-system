@@ -3,6 +3,7 @@ import { UsersService } from 'src/app/services/users.service';
 import { ReportService } from '../../../services/report.service';
 import { Category } from '../../../interfaces/category.interface';
 import { CatalogueService } from '../../../services/catalogue.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-catalogue',
@@ -24,7 +25,7 @@ export class CatalogueComponent implements OnInit {
   }
 
   async getCategories() {
-    var resp = await this._catalogueService.getCategories().toPromise();
+    var resp = await lastValueFrom(this._catalogueService.getCategories())
     if(resp) {
       this.createCat(resp.categorys);
     }
@@ -41,7 +42,7 @@ export class CatalogueComponent implements OnInit {
         var new_cat = {
           id: categories[i].id,
           name: categories[i].name,
-          nav: `./catalogo/${categories[i].id}/${str}`,
+          nav: `./${categories[i].id}/${str}`,
           subcat: [],
           image_path: `${this._baseUrl}${categories[i].url}`,
         };

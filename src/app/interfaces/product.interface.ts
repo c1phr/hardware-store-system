@@ -6,5 +6,10 @@ export interface Product {
     name: string,
     url: string,
     value: number,
-    nav: string
+    nav?: string,
+    id_category?: number,
+    id_subcategory?: number,
+    removed?: boolean,
+    stockmin?: number
+    year?: number
 }

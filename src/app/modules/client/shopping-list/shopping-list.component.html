@@ -1,1 +1,46 @@
-<p>shopping-list works!</p>
+<div class="general-container" *ngIf="!checkLogged">
+    <div class="product-card message-container">
+        <h2 class="message-style">{{ message }}</h2>
+    </div>
+    <div class="product-card">
+    </div>
+</div>
+
+
+<div class="general-container" *ngIf="checkLogged">
+    <div class="product-card" *ngFor="let product of wishlist">
+        <img class="picture-container" [src]="product.url">
+        <div class="product-info-larger-container">
+            <a class="product-title" [href]="product.nav">{{ product.name }}</a>
+        </div>
+        <div class="product-info-container">
+            <div class="product-info-content">
+                <label class="title-label">Total: </label>
+                <span class="product-price">${{ product.value | number:'1.0-0':'es-CL' }}</span>
+            </div>
+            <div class="product-info-content">
+                <label class="title-label">Cantidad: </label>
+                <span class="product-amount">{{ product.amount }}</span>
+            </div>
+        </div>
+        <div class="product-actions-container-top">
+            <button mat-icon-button class="action-button-style" color="primary" (click)="subtractProduct(wishlist.indexOf(product))">
+                <mat-icon class="button-icon-style">remove</mat-icon>
+            </button>
+            <button mat-icon-button class="action-button-style" color="primary" (click)="addProduct(wishlist.indexOf(product))">
+                <mat-icon class="button-icon-style">add</mat-icon>
+            </button>
+        </div>
+        <div class="product-actions-container-bottom">
+            <button mat-icon-button class="action-button-style" color="primary" [disabled]="!product.changed" (click)="modifyProduct(product.id_product, product.amount)">
+                <mat-icon class="button-icon-style">save</mat-icon>
+            </button>
+            <button mat-icon-button class="action-button-style" color="warn" (click)="deleteProduct(product.id_product)">
+                <mat-icon class="button-icon-style">delete</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="product-card">
+
+    </div>
+</div>

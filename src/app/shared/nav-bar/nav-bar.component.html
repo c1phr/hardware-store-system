@@ -1,95 +1,8 @@
-<mat-toolbar class="nav-bar mat-elevation-z3 grid-header">
-    <div class="header-color">
-        <img src="assets/monkeys-dev-logo.png" routerLink="/inicio/catalogo" class="av-pointer">
-        <input class="search-input" type="text" placeholder="Buscar" (keyup.enter)="search($event)">
-        <div class="client-buttons" style="margin-right: 5%">
-            <button mat-fab class="client-button-style">
-                <span class="material-icons-outlined">
-                    shopping_bag
-                </span>
-            </button>
-            <div *ngIf="checkLog()" class="client-info-card">
-                <div class="client-info-content">
-                    <span class="user-name-text">{{ nameUser() | uppercase }}</span>
-                    <span class="portal-name" *ngIf="inStart()">Vista Cliente</span>
-                    <span class="portal-name" *ngIf="inWH()">Vista Bodega</span>
-                    <span class="portal-name" *ngIf="inAdmin()">Vista Administración</span>
-                    <span class="portal-name" *ngIf="inSales()">Vista Venta</span>
-                </div>
-                <button mat-icon-button style="transform: scale(1.5); margin-left: 10px" [matMenuTriggerFor]="beforeMenu">
-                    <span class="material-icons-outlined">
-                        face
-                    </span>
-                </button>
-                <mat-menu #beforeMenu="matMenu" xPosition="before">
-                    <button mat-menu-item
-                            *ngIf="inStart()"
-                            routerLink="/inicio/perfil"
-                            style="font-family: Lato; letter-spacing: 0.12em; font-size: 12px !important;">
-                        <mat-icon style="color: black;">person</mat-icon>IR A PERFIL 
-                    </button>
-                    <button mat-menu-item
-                            *ngIf="inStart()"
-                            routerLink="/inicio/perfil"
-                            style="font-family: Lato; letter-spacing: 0.12em; font-size: 12px !important;">
-                        <mat-icon style="color: black;">list_alt</mat-icon>HISTORIAL 
-                    </button>
-                    <button mat-menu-item
-                            *ngIf="inWH() || inAdmin() || inSales()"
-                            routerLink="/inicio"
-                            style="font-family: Lato; letter-spacing: 0.12em; font-size: 12px !important;">
-                        <mat-icon style="color: black;">home</mat-icon>VOLVER A INICIO
-                    </button>
-                    <button mat-menu-item 
-                            style="font-family: Lato; letter-spacing: 0.12em; color: #F44336; font-size: 12px !important;"
-                            (click)="logout()">
-                        <mat-icon style="color: #F44336;">logout</mat-icon>CERRAR SESIÓN
-                    </button>
-                </mat-menu>
-                
-            </div>
-            <button mat-fab class="client-button-style" (click)="openLogin()" *ngIf="!checkLog()">
-                <span class="material-icons-outlined">
-                    account_circle
-                </span>
-            </button>
-            <button mat-fab
-                    class="side-bar-menu-button"
-                    (click)="sidenav.toggle()">
-                <mat-icon class="menu-ham-button">menu</mat-icon>
-            </button>
-        </div>
-        
-    </div>
-    
-    
-    <div class="nav-buttons-grid">
-        <button mat-button class="nav-button"
-                *ngFor="let button of navig"
-                name="button.name"
-                [routerLink]="button.nav"
-                [matMenuTriggerFor]="belowMenu"
-                #menuTrigger="matMenuTrigger"
-                (mouseenter)="menuTrigger.openMenu()">
-            <div class="button-flex">
-                <span>{{ button.name | uppercase }}</span>
-                <mat-icon style="color: #000000;">expand_more</mat-icon>
-            </div>
-            <mat-menu #belowMenu="matMenu" yPosition="below" [overlapTrigger]="false">
-                <span (mouseleave)="menuTrigger.closeMenu()">
-                    <a mat-menu-item class="menu-nav-button" [routerLink]="button.nav" [state]="{ category_name: button.name }"></a>
-                    <a mat-menu-item *ngFor="let subcat of button.subcat" [routerLink]="subcat.nav" class="mat-menu-link" [state]="{ subcat_name: subcat.name }">
-                        {{ subcat.name | uppercase }}
-                    </a>
-                </span>
-            </mat-menu>
-        </button>
-    </div>
-</mat-toolbar>
 
-<mat-sidenav-container class="side-nav-bar">
-    <mat-sidenav #sidenav mode="push" position="end">
-        <mat-nav-list>
+
+<mat-sidenav-container [ngClass]="inStaff() ? 'side-nav-bar-staff' : 'side-nav-bar'" (window:resize)="onResize($event)">
+    <mat-sidenav #sidenav [position]="inStaff() ? 'start' : 'end'" [mode]="((innerWidth > 1280) && inStaff()) ? 'side' : 'push'" [opened]="(innerWidth > 1280) && inStaff()" [ngClass]="inStaff() ? 'side-nav-bar-staff-style' : ''">
+        <mat-nav-list *ngIf="!inStaff()">
             <a mat-list-item
                *ngFor="let button of navig"
                [routerLink]="button.nav"
@@ -104,19 +17,250 @@
                 </mat-icon>
                 INICIAR SESIÓN                
             </button>
-            <button mat-list-item class="side-bar-button" (click)="sidenav.toggle()">
+            <button mat-list-item class="side-bar-button" (click)="sidenav.toggle()" *ngIf="checkLog()">
                 <mat-icon class="side-bar-icon-button">
                     shopping_bag
                 </mat-icon>
                 CARRO DE COMPRA                
             </button>
         </mat-nav-list>
+
+        <mat-nav-list *ngIf="((innerWidth > 1280) && inStaff())">
+            <div class="icon-position">
+                <mat-icon *ngIf="inWH()" class="icon-logo">warehouse</mat-icon>
+                <mat-icon *ngIf="inSales()" class="icon-logo">store</mat-icon>
+                <mat-icon *ngIf="inAdmin()" class="material-symbols-outlined icon-logo">monitoring</mat-icon>
+            </div>
+            <div *ngIf="inWH()">
+                <a mat-list-item
+                   *ngFor="let button of wh_navig"
+                   [routerLink]="button.nav"
+                   class="side-bar-button-staff link-line"
+                   [ngClass]="getPathStaff() == button.nav ? 'current-page' : ''">
+                    <mat-icon class="side-bar-icon-button-staff" [ngClass]="getPathStaff() == button.nav ? 'current-page' : ''">
+                            {{ button.icon }}
+                    </mat-icon>
+                    <span> {{ button.name }} </span>
+                </a>
+            </div>
+            <div *ngIf="inSales()">
+                <a mat-list-item
+                   *ngFor="let button of sales_navig"
+                   [routerLink]="button.nav"
+                   class="side-bar-button-staff link-line"
+                   [ngClass]="getPathStaff() == button.nav ? 'current-page' : ''">
+                    <mat-icon class="side-bar-icon-button-staff" [ngClass]="getPathStaff() == button.nav ? 'current-page' : ''">
+                            {{ button.icon }}
+                    </mat-icon>
+                    <span> {{ button.name }} </span>
+                </a>
+            </div>
+            <div *ngIf="inAdmin()">
+                <a mat-list-item
+                   *ngFor="let button of admin_navig"
+                   [routerLink]="button.nav"
+                   class="side-bar-button-staff link-line"
+                   [ngClass]="getPathStaff() == button.nav ? 'current-page' : ''">
+                    <mat-icon class="side-bar-icon-button-staff" [ngClass]="getPathStaff() == button.nav ? 'current-page' : ''">
+                            {{ button.icon }}
+                    </mat-icon>
+                    <span> {{ button.name }} </span>
+                </a>
+            </div>
+            <button mat-list-item class="side-bar-button-staff link-line" routerLink="/inicio">
+                <mat-icon class="side-bar-icon-button-staff">
+                    shopping_bag
+                </mat-icon>
+                Volver al Catálogo                 
+            </button>
+        </mat-nav-list>
+
+        <mat-nav-list *ngIf="((innerWidth < 1280) && inStaff())">
+            <div class="icon-position">
+                <mat-icon *ngIf="inWH()" class="icon-logo">warehouse</mat-icon>
+                <mat-icon *ngIf="inSales()" class="icon-logo">store</mat-icon>
+                <mat-icon *ngIf="inAdmin()" class="material-symbols-outlined icon-logo">monitoring</mat-icon>
+            </div>
+            <div *ngIf="inWH()">
+                <a mat-list-item
+                   *ngFor="let button of wh_navig"
+                   [routerLink]="button.nav"
+                   (click)="sidenav.toggle()"
+                   class="side-bar-button-staff"
+                   [ngClass]="getPathStaff() == button.nav ? 'current-page' : ''">
+                    <mat-icon class="side-bar-icon-button-staff" [ngClass]="getPathStaff() == button.nav ? 'current-page' : ''">
+                            {{ button.icon }}
+                    </mat-icon>
+                    <span> {{ button.name }} </span>
+                </a>
+            </div>
+
+            <div *ngIf="inSales()">
+                <a mat-list-item
+                   *ngFor="let button of sales_navig"
+                   [routerLink]="button.nav"
+                   (click)="sidenav.toggle()"
+                   class="side-bar-button-staff"
+                   [ngClass]="getPathStaff() == button.nav ? 'current-page' : ''">
+                    <mat-icon class="side-bar-icon-button-staff" [ngClass]="getPathStaff() == button.nav ? 'current-page' : ''">
+                            {{ button.icon }}
+                    </mat-icon>
+                    <span> {{ button.name }} </span>
+                </a>
+            </div>
+
+            <div *ngIf="inAdmin()">
+                <a mat-list-item
+                   *ngFor="let button of admin_navig"
+                   [routerLink]="button.nav"
+                   (click)="sidenav.toggle()"
+                   class="side-bar-button-staff"
+                   [ngClass]="getPathStaff() == button.nav ? 'current-page' : ''">
+                    <mat-icon class="side-bar-icon-button-staff" [ngClass]="getPathStaff() == button.nav ? 'current-page' : ''">
+                            {{ button.icon }}
+                    </mat-icon>
+                    <span> {{ button.name }} </span>
+                </a>
+            </div>
+
+            <button mat-list-item class="side-bar-button-staff" (click)="sidenav.toggle()" routerLink="/inicio">
+                <mat-icon class="side-bar-icon-button-staff">
+                    shopping_bag
+                </mat-icon>
+                Volver al Catálogo                
+            </button>
+        </mat-nav-list>
+
     </mat-sidenav>
     <mat-sidenav-content>
-        <div class="router-height">
+        <mat-toolbar class="mat-elevation-z3 grid-header" [ngClass]="inStaff() ? 'nav-bar-staff' : 'nav-bar'">
+            <div class="header-color">
+                <img src="assets/monkeys-dev-logo.png" routerLink="/inicio/catalogo" class="av-pointer" *ngIf="inStart() || inAuth()">
+                <button mat-fab
+                        class="side-bar-menu-button-staff"
+                        (click)="sidenav.toggle()" *ngIf="inStaff()">
+                    <mat-icon class="menu-ham-button">menu</mat-icon>
+                </button>
+                <input class="search-input" type="text" placeholder="Buscar" (keyup.enter)="search($event)" *ngIf="inStart() || inAuth()">
+                <div class="client-buttons" style="margin-right: 5%">
+                    <button mat-fab class="client-button-style" *ngIf="inStart() && checkLog()" [matMenuTriggerFor]="wishlistMenu" (click)="openWishlist()">
+                        <span class="material-icons-outlined">
+                            shopping_bag
+                        </span>
+                    </button>
+                    <mat-menu #wishlistMenu="matMenu" xPosition="before" style="width: 200px !important;">
+                        <button mat-menu-item
+                                *ngFor="let product of wishlist"
+                                [routerLink]="product.nav"
+                                style="font-family: Lato; font-size: 14px !important; height: 60px !important;">
+                            <div style="display: flex; flex-flow: row; gap: 4px; align-items: center;">
+                                <img [src]="product.url" style="width: 50px; height: 50px; object-fit: cover;">
+                                <p style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: black;"> {{ product.name }} </p>
+                                <p style="font-size: 16px; color: #FF8000;"> {{ product.amount }} </p>
+                            </div>
+                        </button>
+                        
+                        <button mat-menu-item style="text-align: center; font-family: Lato; font-size: 16px !important; height: 60px !important;">
+                            <div style="border: 2px solid #FF8000; border-radius: 30px; background-color:#FF8000; color: white; font-weight: 700;"
+                                 routerLink="/inicio/lista-compras">
+                                Ir a la wishlist
+                            </div>
+                        </button>
+                    </mat-menu>
+                    <div *ngIf="checkLog()" class="client-info-card">
+                        <div class="client-info-content">
+                            <span class="user-name-text">{{ nameUser() | uppercase }}</span>
+                            <span class="portal-name" *ngIf="inStart()">Vista Cliente</span>
+                            <span class="portal-name" *ngIf="inWH()">Vista Bodega</span>
+                            <span class="portal-name" *ngIf="inAdmin()">Vista Administración</span>
+                            <span class="portal-name" *ngIf="inSales()">Vista Venta</span>
+                        </div>
+                        <button mat-icon-button style="transform: scale(1.5); margin-left: 10px" [matMenuTriggerFor]="beforeMenu">
+                            <span class="material-icons-outlined">
+                                face
+                            </span>
+                        </button>
+                        <button mat-fab class="notifications-button" *ngIf="!inStart() && (inAdmin() || inWH())">
+                            <span class="material-icons-outlined">
+                                notifications
+                            </span>
+                        </button>
+                        <mat-menu #beforeMenu="matMenu" xPosition="before">
+                            <button mat-menu-item
+                                    *ngIf="inStart() && (typeUser() != 'client')"
+                                    (click)="enterSystem()"
+                                    style="font-family: Lato; letter-spacing: 0.12em; font-size: 12px !important;">
+                                <mat-icon style="color: black;">store</mat-icon>ENTRAR AL SISTEMA 
+                            </button>
+                            <button mat-menu-item
+                                    *ngIf="inStart()"
+                                    routerLink="/inicio/perfil"
+                                    style="font-family: Lato; letter-spacing: 0.12em; font-size: 12px !important;">
+                                <mat-icon style="color: black;">person</mat-icon>IR A PERFIL 
+                            </button>
+                            <button mat-menu-item
+                                    *ngIf="inStart()"
+                                    routerLink="/inicio/perfil"
+                                    style="font-family: Lato; letter-spacing: 0.12em; font-size: 12px !important;">
+                                <mat-icon style="color: black;">list_alt</mat-icon>HISTORIAL 
+                            </button>
+                            <button mat-menu-item
+                                    *ngIf="inWH() || inAdmin() || inSales()"
+                                    routerLink="/inicio"
+                                    style="font-family: Lato; letter-spacing: 0.12em; font-size: 12px !important;">
+                                <mat-icon style="color: black;">home</mat-icon>VOLVER A INICIO
+                            </button>
+                            <button mat-menu-item 
+                                    style="font-family: Lato; letter-spacing: 0.12em; color: #F44336; font-size: 12px !important;"
+                                    (click)="logout()">
+                                <mat-icon style="color: #F44336;">logout</mat-icon>CERRAR SESIÓN
+                            </button>
+                        </mat-menu>
+                        
+                    </div>
+                    <button mat-fab class="client-button-style" (click)="openLogin()" *ngIf="!checkLog()">
+                        <span class="material-icons-outlined">
+                            account_circle
+                        </span>
+                    </button>
+                    <button mat-fab
+                            class="side-bar-menu-button"
+                            (click)="sidenav.toggle()" *ngIf="!inStaff()">
+                        <mat-icon class="menu-ham-button">menu</mat-icon>
+                    </button>
+                </div>
+                
+            </div>
+            
+            <div class="nav-buttons-grid" *ngIf="!inStaff()">
+                <button mat-button class="nav-button"
+                        *ngFor="let button of navig"
+                        name="button.name"
+                        [routerLink]="button.nav"
+                        [matMenuTriggerFor]="belowMenu"
+                        #menuTrigger="matMenuTrigger"
+                        (mouseenter)="menuTrigger.openMenu()">
+                    <div class="button-flex">
+                        <span>{{ button.name | uppercase }}</span>
+                        <mat-icon style="color: #000000;">expand_more</mat-icon>
+                    </div>
+                    <mat-menu #belowMenu="matMenu" yPosition="below" [overlapTrigger]="false">
+                        <span (mouseleave)="menuTrigger.closeMenu()">
+                            <a mat-menu-item class="menu-nav-button" [routerLink]="button.nav" [state]="{ category_name: button.name }"></a>
+                            <a mat-menu-item *ngFor="let subcat of button.subcat" [routerLink]="subcat.nav" class="mat-menu-link" [state]="{ subcat_name: subcat.name }">
+                                {{ subcat.name | uppercase }}
+                            </a>
+                        </span>
+                    </mat-menu>
+                </button>
+            </div>
+        </mat-toolbar>
+        <div class="router-height" *ngIf="!inStaff()">
             <router-outlet></router-outlet>
         </div>
-        
+        <div class="router-height-staff" *ngIf="inStaff()">
+            <router-outlet></router-outlet>
+        </div>
         <app-footer></app-footer>
     </mat-sidenav-content>
 </mat-sidenav-container>

@@ -156,3 +156,33 @@
     font-weight: 700;
     height: 40px;
 }
+
+.select-container {
+    background-color: #3d3d3d;
+    height: 30px;
+    width: 220px;
+    border-radius: 2px;
+    border: none;
+    outline: none;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    color: white;
+    font-size: 16px;
+    font-family: Lato;
+}
+
+.form-fields {
+    display: flex;
+    flex-flow: column;
+}
+
+.title-label {
+    font-weight: 600;
+}
+
+.add-prod-container {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 20px;
+    align-items: flex-end;
+}

@@ -1,0 +1,132 @@
+.general-container {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-card {
+    border-top: 2px solid rgba(61, 61, 61, 0.2);
+    width: 90%;
+    height: fit-content;
+    display: grid;
+    grid-template-columns: [first] 160px [second] auto [third] 200px [fourth] 200px [last];
+    grid-template-rows: [first] 50% [mid] 50% [last];
+    padding: 20px;
+}
+
+.message-container {
+    height: 450px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-column-start: first;
+    grid-column-end: last;
+    grid-row-start: first;
+    grid-row-end: last;
+}
+
+.message-style {
+    text-align: center;
+}
+
+.picture-container {
+    grid-column-start: first;
+    grid-column-end: second;
+    grid-row-start: first;
+    grid-row-end: last;
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+}
+
+.product-info-larger-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    grid-column-start: second;
+    grid-column-end: third;
+    grid-row-start: first;
+    grid-row-end: last;
+}
+
+.product-info-container {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    grid-column-start: third;
+    grid-column-end: fourth;
+    grid-row-start: first;
+    grid-row-end: last;
+}
+
+.product-info-content {
+    display: flex;
+    flex-flow: column;
+}
+
+.product-title {
+    text-transform: uppercase;
+    font-size: 18px;
+    letter-spacing: 0.12rem;
+    font-weight: 800;
+    font-family: Lato;
+    text-decoration: none;
+    color: black;
+}
+
+.product-price {
+    font-weight: 900;
+    font-family: Lato;
+    letter-spacing: 0.2rem;
+    color: #FF8000;
+    font-size: 28px;
+    text-align: center;
+}
+
+.product-amount {
+    font-family: Lato;
+    letter-spacing: 0.08rem;
+    font-size: 14px;
+    text-align: center;
+}
+
+.title-label {
+    font-weight: 600;
+}
+
+.product-actions-container-top {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: center;
+    grid-column-start: fourth;
+    grid-column-end: last;
+    grid-row-start: first;
+    grid-row-end: mid;
+}
+
+.product-actions-container-bottom {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: center;
+    grid-column-start: fourth;
+    grid-column-end: last;
+    grid-row-start: mid;
+    grid-row-end: last;
+}
+
+.button-icon-style {
+    font-size: 35px;
+    margin-right: 10px;
+}
+
+.action-button-style {
+    height: 70px;
+    width: 70px;
+}

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { RutPipe } from 'src/app/pipes/rut.pipe';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -42,17 +42,21 @@ export class LoginComponent implements OnInit {
       this.loginForm.controls['rut'].setValue(this.loginForm.controls['rut'].value.replace(/\./g,''));
       var res = await this._authService.login(this.loginForm.controls['rut'].value, this.loginForm.controls['password'].value)
       if(res) {
-        return (res.status === 200 && (this._authService.getType() === 'client'))
+        return (res.status === 200)
           ? (this._router.navigate(['']), this._matDialog.closeAll())
-          : (res.status === 200)
-            ? (this._router.navigateByUrl('/'+this._authService.getType()), this._matDialog.closeAll())
-            : console.log('ERROR')
+          : (res.status === 400)
+            ? console.log('ERROR')
+            : console.log('UNKNOWN ERROR')
       }
     }
   }
 
   register() {
     this._router.navigateByUrl('/auth/registrar');
+  }
+
+  closeDialogs() {
+    this._matDialog.closeAll()
   }
 
   validateRut() {

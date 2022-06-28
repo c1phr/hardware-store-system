@@ -10,12 +10,12 @@ export class ReportService {
 
   constructor(private http: HttpClient) { }
 
-  getReport() {
-    this.http.get(this._baseUrl+'api/get-reporte-existencia', { responseType: 'blob' })
-      .subscribe(res => {
-        var pdfUrl = URL.createObjectURL(res);
-        window.open(pdfUrl)
-      })
+  getReportExist() {
+    return this.http.get(this._baseUrl+'api/get-reporte-existencia', { responseType: 'blob' })
+      // .subscribe(res => {
+      //   var pdfUrl = URL.createObjectURL(res);
+      //   window.open(pdfUrl)
+      // })
   }
 
 }

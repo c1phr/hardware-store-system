@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthComponent } from './auth.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
 import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../modules/material/material.module';
 import { AuthRoutingModule } from './auth-routing.module';
+import { StaffLoginComponent } from './pages/staff-login/staff-login.component';
 
 
 
@@ -13,7 +14,8 @@ import { AuthRoutingModule } from './auth-routing.module';
   declarations: [
     AuthComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    StaffLoginComponent
   ],
   imports: [
     CommonModule,

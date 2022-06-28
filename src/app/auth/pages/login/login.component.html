@@ -14,7 +14,7 @@
         </div>
         <div class="input-container">
             <h5 class="input-title">CONTRASEÑA</h5>
-            <input class="input-style" id="rut" type="password" placeholder="Contraseña" formControlName="password">
+            <input class="input-style" id="password" type="password" placeholder="Contraseña" formControlName="password">
             <mat-icon class="input-icon">lock</mat-icon>
         </div>
     </form>
@@ -26,5 +26,6 @@
             REGISTRARSE
         </button>
         <a href="./" class="password-link">Olvidó su contraseña?</a>
+        <a routerLink="/staff/login" (click)="closeDialogs()" class="password-link">Portal de empleados</a>
     </div>
 </div>

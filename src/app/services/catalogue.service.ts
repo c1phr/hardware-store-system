@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, lastValueFrom } from 'rxjs';
 import { Category } from '../interfaces/category.interface';
 
 @Injectable({
@@ -59,8 +59,8 @@ export class CatalogueService {
   }
 
   async createNavig() {
-    var resp_cat = await this.getCategories().toPromise();
-    var resp_sub = await this.getSubCategories().toPromise();
+    var resp_cat = await lastValueFrom(this.getCategories())
+    var resp_sub = await lastValueFrom(this.getSubCategories())
     if(resp_cat && resp_sub) {
       await this.buildNavig(resp_cat.categorys, resp_sub.subcategorys)
       this._checkExistance.next(true);
@@ -69,6 +69,10 @@ export class CatalogueService {
     else {
       return this.navig;
     }
+  }
+
+  getProducts(): Observable<any> {
+    return this.http.get(this._baseUrl+'api/products')
   }
 
   getCategories(): Observable<any> {
@@ -124,7 +128,7 @@ export class CatalogueService {
       id_category: cat_id,
       id_subcategory: subcat_id
     }
-    return this.http.post(this._baseUrl+'api/productcategory', body)
+    return this.http.post(this._baseUrl + 'api/productcategory', body)
   }
 
   getProduct(id_product: string, cat_id: string, subcat_id: string): Observable<any> {
@@ -133,14 +137,14 @@ export class CatalogueService {
       id_category: cat_id,
       id_subcategory: subcat_id,
     };
-    return this.http.post(this._baseUrl+'api/selectproduct', body)
+    return this.http.post(this._baseUrl + 'api/selectproduct', body)
   }
 
   searchProduct(param: string): Observable<any> {
     var body = {
       name: param
     };
-    return this.http.post(this._baseUrl+'api/searchproduct', body)
+    return this.http.post(this._baseUrl + 'api/searchproduct', body)
   }
 
 }

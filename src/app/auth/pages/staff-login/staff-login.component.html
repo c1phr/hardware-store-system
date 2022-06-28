@@ -1,0 +1,26 @@
+<div class="bg-color-style fixed-center">
+    <div class="login-container-flex fixed-center animate__animated animate__fadeIn">
+        <img src="assets/monkeys-dev-logo.png" style="width: 200px;">
+        <div class="wait-spinner-container" *ngIf="wait_account">
+            <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner>
+        </div>
+        <div class="login-flex" *ngIf="!wait_account">
+            <h1 class="login-box-title">INICIAR SESIÓN</h1>
+            <form [formGroup]="loginForm" class="form-fields">
+                <div class="input-line">
+                    <mat-icon class="login-icon">person</mat-icon>
+                    <input class="input-login" id="email" type="email" placeholder="correo electrónico" required formControlName="email">
+                </div>
+                <label for="email" class="separator-label"><span *ngIf="validField('email')" class="error-field">Ingrese un correo válido.</span></label>
+                <div class="input-line">
+                    <mat-icon class="login-icon">lock</mat-icon>
+                    <input class="input-login" id="password" type="password" placeholder="password" required formControlName="password">
+                </div>
+                <label for="password"><span *ngIf="validField('password')" class="error-field">Ingrese una contraseña válida.</span></label>
+            </form>
+        </div>
+        <button mat-flat-button class="login-button" (click)="login()" *ngIf="!wait_account">
+            ENTRAR
+        </button>
+    </div>
+</div>

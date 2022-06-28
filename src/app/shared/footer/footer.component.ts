@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 export interface LinkInfo{
   name: string,
@@ -99,9 +100,15 @@ export class FooterComponent implements OnInit {
   instagram_link: string = './'
   twitter_link: string = './'
 
-  constructor() { }
+  constructor(private _router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  inStaff(): boolean {
+    return (this._router.url.includes('/staff')) 
+     ? true
+     : false
   }
 
 }

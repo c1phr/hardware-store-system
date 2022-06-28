@@ -31,14 +31,16 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     if(!this._authService.isLoggedIn()) {
       return ((root_path == 'auth') && ((full_path.includes('login')) || (full_path.includes('registrar'))))
         ? (true)
-        : ((this._router.navigateByUrl('/auth/login')), false)
+        : ((root_path == 'staff') && ((full_path.includes('login'))))
+          ? (true)
+          : ((this._router.navigateByUrl('/auth/login')), false)
     }
     else {
       return ((root_path == 'auth') && ((full_path.includes('login')) || (full_path.includes('registrar')))) 
         ? (false)
-        : ((root_path) && (root_path == this._authService.getType()))
+        : ((root_path) && (root_path == 'staff') && ((full_path.includes(this._authService.getType()))))
           ? (true)
-          : (this._router.navigateByUrl(`/${this._authService.getType()}`), false)
+          : (this._router.navigateByUrl(`/inicio`), false)
     }
   }
 }

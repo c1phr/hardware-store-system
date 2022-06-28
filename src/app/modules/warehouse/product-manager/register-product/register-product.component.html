@@ -1,0 +1,80 @@
+<div class="register-container">
+    <div class="title-container">
+        <h1 *ngIf="type === 'add'" class="dialog-title">AGREGAR PRODUCTO</h1>
+        <h1 *ngIf="type === 'edit'" class="dialog-title">EDITAR PRODUCTO</h1>
+    </div>
+
+    <div class="column-container">
+        <div class="rows-container">
+            <div>
+                <form [formGroup]="editProductForm" class="form-fields">
+                    <label for="product_name" class="title-label">Nombre Producto: </label>
+                    <input class="select-container" id="product_name" type="text" placeholder="Nombre Producto" required formControlName="product_name">
+                    <label for="product_name" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldEdit('product_name') ? 'visible' : 'hidden'}">Nombre debe tener entre 7 y 50 caractéres.</span></label>
+        
+                    <label for="product_brand" class="title-label">Marca Producto: </label>
+                    <input class="select-container" id="product_brand" type="text" placeholder="Marca Producto" required formControlName="product_brand">
+                    <label for="product_brand" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldEdit('product_brand') ? 'visible' : 'hidden'}">Marca debe tener entre 2 y 25 caractéres.</span></label>
+
+                    <label for="id_category" class="title-label">Categoría: </label>
+                    <select (change)="selectCategory($event)" class="select-container" [disabled]="type === 'edit'">
+                        <option class="option-style" *ngFor="let category of categories" [value]="category.id"> {{ category.name | titlecase }} </option>
+                    </select>
+                    <label for="id_category" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldEdit('id_category') ? 'visible' : 'hidden'}">Seleccione una categoría.</span></label>
+
+                    <label for="id_subcategory" class="title-label">Subcategoría: </label>
+                    <select (change)="selectSubCategory($event)" class="select-container" [disabled]="type === 'edit'">
+                        <option class="option-style" *ngFor="let subcategory of filtered_sub_categories" [value]="subcategory.id"> {{ subcategory.name }} </option>
+                    </select>
+                    <label for="id_subcategory" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldEdit('id_subcategory') ? 'visible' : 'hidden'}">Seleccione una subcategoría.</span></label>
+
+                    <div *ngIf="type === 'add'" class="form-fields">
+                        <label for="id_supplier" class="title-label">Proveedor: </label>
+                        <select (change)="selectSupplier($event)" class="select-container">
+                            <option class="option-style" *ngFor="let supplier of suppliers" [value]="supplier.id"> {{ supplier.name }} </option>
+                        </select>
+                        <label for="id_supplier" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldEdit('id_supplier') ? 'visible' : 'hidden'}">Seleccione un proveedor.</span></label>
+                    </div>
+                </form>
+            </div>
+    
+            <form [formGroup]="editProductForm" class="form-fields">
+                <label for="product_year" class="title-label">Año: </label>
+                <input class="select-container" id="product_year" type="number" min="1990" placeholder="1990" [max]="current_date.getFullYear()" required formControlName="product_year">
+                <label for="product_year" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldEdit('product_year') ? 'visible' : 'hidden'}">Año debe estar entre 1990 y {{ current_date.getFullYear() }}.</span></label>
+    
+                <label for="product_amount" class="title-label">Cantidad: </label>
+                <input class="select-container" id="product_amount" type="number" min="1" max="10000" placeholder="100" required formControlName="product_amount">
+                <label for="product_amount" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldEdit('product_amount') ? 'visible' : 'hidden'}">Cantidad debe ser entre 1 y 10000.</span></label>
+    
+                <label for="product_value" class="title-label">Precio: </label>
+                <input class="select-container" id="product_value" type="number" min="1" max="10000000" placeholder="1000" required formControlName="product_value">
+                <label for="product_value" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldEdit('product_value') ? 'visible' : 'hidden'}">Precio debe ser entre 1 y 10000000.</span></label>
+    
+                <label for="product_stockmin" class="title-label">Stock Mínimo: </label>
+                <input class="select-container" id="product_stockmin" type="number" min="1" max="10000" placeholder="100" required formControlName="product_stockmin">
+                <label for="product_stockmin" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldEdit('product_stockmin') ? 'visible' : 'hidden'}">Stock mínimo debe ser entre 1 y 10000.</span></label>
+
+            </form>
+        </div>
+
+        <form [formGroup]="editProductForm" class="form-fields" style="width: 100%;">
+            <label for="product_desc" class="title-label">Descripción: </label>
+            <textarea #desc_text class="textarea-container" id="product_desc" placeholder="Descripción" required formControlName="product_desc"></textarea>
+            <label align="end" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'color': validFieldEdit('product_desc') ? 'red' : 'black'}"> {{desc_text.value?.length || 0}}/1000 </span></label>
+            <label for="product_desc" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldEdit('product_desc') ? 'visible' : 'hidden'}">Descripción debe tener entre 0 y 250 caractéres.</span></label>
+        </form>
+
+        <div class="buttons-container">
+            <button mat-raised-button class="add-button" *ngIf="type === 'add'" (click)="addProductWarning()">
+                AGREGAR   
+            </button>
+            <button mat-raised-button class="add-button" *ngIf="type === 'edit'" (click)="editProductWarning()">
+                EDITAR   
+            </button>
+            <button mat-raised-button class="close-button" (click)="close()">
+                CANCELAR       
+            </button>
+        </div>
+    </div>
+</div>
