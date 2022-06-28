@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from 'src/app/services/users.service';
 import { ReportService } from '../../../services/report.service';
-import { Category } from '../../../interfaces/category.interface';
+import { Category, Highlight } from '../../../interfaces/category.interface';
 import { CatalogueService } from '../../../services/catalogue.service';
 import { lastValueFrom } from 'rxjs';
 
@@ -47,8 +47,28 @@ export class CatalogueComponent implements OnInit {
           image_path: `${this._baseUrl}${categories[i].url}`,
         };
         this.categories.push(new_cat)
+        var index = this.categories.length - 1;
+        this.getCategoryRandoms(this.categories[index].id, index)
       }
     }
+  }
+
+  async getCategoryRandoms(id: number, index: number) {
+    var res = await lastValueFrom(this._catalogueService.getRandomProductsCategory(id))
+    if(res) {
+      this.productsArray(res.products, index)
+    }
+  }
+
+  productsArray(array: Highlight[], index: number) {
+    if(array){
+      console.log(array)
+      for(var i=0; i<array.length;i++) {
+        array[i].nav = `/inicio/catalogo/${array[i].category}/${array[i].subcategory}/producto/${array[i].id}`
+        array[i].url = `${this._baseUrl}${array[i].url}`
+      }
+    }
+    this.categories[index].highlights = array;
   }
 
 }

@@ -1,35 +1,35 @@
 <div style="padding-left: 1%; padding-right: 1%; margin-top: 20px;">
     <swiper [config]="config"
-            class="swiper-container">
+            class="swiper-container" *ngIf="check_prod">
         <ng-template swiperSlide *ngFor="let slide of slides">
                 <div class="flex-center">
                     <mat-card class="product-card">
                         <div class="top-half-card">
-                            <img [src]="slide.marca_logo" class="brand-pos">
-                            <img [src]="slide.img" class="product-img-pos">
+                            <!-- <img [src]="slide.marca_logo" class="brand-pos"> -->
+                            <img [src]="slide.url" class="product-img-pos">
                         </div>
                         <div class="bottom-half-card">
                             <div class="data-container">
-                                <div class="tags-container">
+                                <!-- <div class="tags-container">
                                     <div class="new-tag" *ngIf="slide.new">
                                         <h5 class="tag-text">NUEVO</h5>
                                     </div>
                                     <div class="discount-tag" *ngIf="slide.descuento > 0">
                                         <h5 class="tag-text">-{{ slide.descuento | percent }}</h5>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="title-container">
-                                    <h3 class="product-brand">{{ slide.marca }}</h3>
-                                    <h1 class="product-title">{{ slide.producto }}</h1>
+                                    <!-- <h3 class="product-brand">{{ slide.brand }}</h3> -->
+                                    <h1 class="product-title" style="max-width: 290px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ slide.name }}</h1>
                                 </div>
-                                <p class="product-desc">{{ slide.descripcion }}</p>
+                                <p class="product-desc" style="max-height: 95px; white-space: wrap; overflow: hidden; text-overflow: ellipsis;">{{ slide.description }}</p>
                             </div>
                         </div>
                         <div class="price-tag-container">
-                            <h5 class="price-tag">{{ getCurrency(slide.precio - slide.precio*slide.descuento) }}</h5>
+                            <h5 class="price-tag">${{ slide.value | number:'1.0-0':'es-CL' }}</h5>
                         </div>
-                        <button mat-flat-button class="add-list-button">
-                            AGREGAR A LISTA                            
+                        <button mat-flat-button class="add-list-button" [routerLink]="slide.nav">
+                            IR A PRODUCTO                           
                         </button>
                     </mat-card>
                 </div>

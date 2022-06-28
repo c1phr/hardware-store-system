@@ -49,9 +49,11 @@
 
 .highlight-card {
     min-width: 250px;
+    max-width: 250px;
     height: 300px;
     background-color: rgba(128, 128, 128, 0.4);
     border-radius: 4px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
 }
 
 .ctg-title {
@@ -96,6 +98,83 @@
     flex-flow: row;
     justify-content: space-around;
     align-items: center;
+}
+
+.top-half-card {
+    border-radius: 4px 4px 0px 0px;
+    width: 100%;
+    height: 60%;
+}
+
+.product-img-pos {
+    border-radius: 4px 4px 0px 0px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.bottom-half-card {
+    width: 100%;
+    height: 40%;
+    box-sizing: border-box;
+    padding: 6px 15px;
+    background-color: white;
+}
+
+.title-container {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.product-title {
+    font-family: Lato;
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: 0.12em;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.price-tag {
+    text-align: center;
+    font-size: 24px;
+    line-height: 36px;
+    color: #FF8000;
+    font-family: Lato;
+    font-weight: 700;
+    letter-spacing: 0.2rem;
+    margin: 0;
+}
+
+.add-list-button {
+    width: 142px;
+    height: 36px;
+
+    text-align: center;
+    font-family: Lato;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 12px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.12em;
+    
+    color: #FF7911;
+
+    box-sizing: border-box;
+    border: 1px solid #FF7911;
+}
+
+.price-button-container {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 86px;
 }
 
 /* media screen for highlights cards */

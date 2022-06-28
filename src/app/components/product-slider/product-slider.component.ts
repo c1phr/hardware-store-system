@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import SwiperCore, { Pagination, SwiperOptions } from 'swiper';
 
 import localeEsCl from '@angular/common/locales/es-CL';
+import { CatalogueService } from '../../services/catalogue.service';
+import { lastValueFrom } from 'rxjs';
 registerLocaleData(localeEsCl, 'es-CL');
 
 SwiperCore.use([Pagination])
@@ -13,41 +15,7 @@ SwiperCore.use([Pagination])
   styleUrls: ['./product-slider.component.css']
 })
 export class ProductSliderComponent implements OnInit {
-
-  constructor() { }
-
-  slides = [
-    {
-      producto: 'Taladro1',
-      img: 'assets/products/tools/5302498_01-Taladro.png',
-      descripcion: 'Taladro percutor inalámbrico atornillador con velocidad ajustable, giro reversible, y más. Contiene kit de 29 accesorios.',
-      precio: 89500,
-      descuento: 0.1,
-      new: true,
-      marca_logo: 'assets/brands/bauker.png',
-      marca: 'Bauker'
-    },
-    {
-      producto: 'Taladro2',
-      img: 'assets/products/tools/5302498_01-Taladro.png',
-      descripcion: 'Taladro percutor inalámbrico atornillador con velocidad ajustable, giro reversible, y más. Contiene kit de 29 accesorios.',
-      precio: 89500,
-      descuento: 0.2,
-      new: true,
-      marca_logo: 'assets/brands/bauker.png',
-      marca: 'Bauker'
-    },
-    {
-      producto: 'Taladro Inalámbrico',
-      img: 'assets/products/tools/5302498_01-Taladro.png',
-      descripcion: 'Taladro percutor inalámbrico atornillador con velocidad ajustable, giro reversible, y más. Contiene kit de 29 accesorios.',
-      precio: 89500,
-      descuento: 0,
-      new: true,
-      marca_logo: 'assets/brands/bauker.png',
-      marca: 'Bauker'
-    }
-  ]
+  slides: any[] = [];
 
   config: SwiperOptions = {
     centeredSlides: true,
@@ -76,11 +44,34 @@ export class ProductSliderComponent implements OnInit {
     threshold: 20
   }
 
+  check_prod: boolean = false;
+
+  private _baseUrl: string = 'https://sistemaventainventario.herokuapp.com/'
+
+  constructor(private _catalogueService: CatalogueService) { }
+
+
   ngOnInit(): void {
+    this.getProducts()
   }
 
-  getCurrency(price: number): string {
-    return formatCurrency(price, 'es-CL', '$', 'CLP', '1.0')
+  async getProducts() {
+    this.check_prod = false;
+    var res = await lastValueFrom(this._catalogueService.getRandomProducts())
+    if(res) {
+      this.slides = res.products
+      this.productsArray()
+    }
+  }
+
+  productsArray() {
+    for(var i=0; i<this.slides.length;i++) {
+      this.slides[i].nav = `/inicio/catalogo/${this.slides[i].category}/${this.slides[i].subcategory}/producto/${this.slides[i].id}`
+      this.slides[i].url = `${this._baseUrl}${this.slides[i].url}`
+      this.check_prod = true;
+    }
+    this.check_prod = true;
+    console.log(this.slides)
   }
 
 }

@@ -20,17 +20,69 @@
                 </div>
                 <div class="highlight-card-grid-container">
                     <div class="highlight-card-flex">
-                        <div class="highlight-card">
-        
+                        <div class="highlight-card" *ngIf="ctg.highlights">
+                            <div class="top-half-card">
+                                <img [src]="ctg.highlights![0].url" class="product-img-pos">
+                            </div>
+                            <div class="bottom-half-card">
+                                <div class="title-container">
+                                    <h1 class="product-title" style="max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ ctg.highlights![0].name }}</h1>
+                                </div>
+                                <div class="price-button-container">
+                                    <h5 class="price-tag">${{ ctg.highlights![0].value | number:'1.0-0':'es-CL' }}</h5>
+                                    <button mat-flat-button class="add-list-button" [routerLink]="ctg.highlights![0].nav">
+                                        IR A PRODUCTO                           
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="highlight-card">
-                
+                        <div class="highlight-card" *ngIf="ctg.highlights">
+                            <div class="top-half-card">
+                                <img [src]="ctg.highlights![1].url" class="product-img-pos">
+                            </div>
+                            <div class="bottom-half-card">
+                                <div class="title-container">
+                                    <h1 class="product-title" style="max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ ctg.highlights![1].name }}</h1>
+                                </div>
+                                <div class="price-button-container">
+                                    <h5 class="price-tag">${{ ctg.highlights![1].value | number:'1.0-0':'es-CL' }}</h5>
+                                    <button mat-flat-button class="add-list-button" [routerLink]="ctg.highlights![1].nav">
+                                        IR A PRODUCTO                           
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="highlight-card">
-                
+                        <div class="highlight-card" *ngIf="ctg.highlights">
+                            <div class="top-half-card">
+                                <img [src]="ctg.highlights![2].url" class="product-img-pos">
+                            </div>
+                            <div class="bottom-half-card">
+                                <div class="title-container">
+                                    <h1 class="product-title" style="max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ ctg.highlights![2].name }}</h1>
+                                </div>
+                                <div class="price-button-container">
+                                    <h5 class="price-tag">${{ ctg.highlights![2].value | number:'1.0-0':'es-CL' }}</h5>
+                                    <button mat-flat-button class="add-list-button" [routerLink]="ctg.highlights![2].nav">
+                                        IR A PRODUCTO                           
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="highlight-card">
-                
+                        <div class="highlight-card" *ngIf="ctg.highlights">
+                            <div class="top-half-card">
+                                <img [src]="ctg.highlights![3].url" class="product-img-pos">
+                            </div>
+                            <div class="bottom-half-card">
+                                <div class="title-container">
+                                    <h1 class="product-title" style="max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ ctg.highlights![3].name }}</h1>
+                                </div>
+                                <div class="price-button-container">
+                                    <h5 class="price-tag">${{ ctg.highlights![3].value | number:'1.0-0':'es-CL' }}</h5>
+                                    <button mat-flat-button class="add-list-button" [routerLink]="ctg.highlights![3].nav">
+                                        IR A PRODUCTO                           
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

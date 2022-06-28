@@ -147,4 +147,15 @@ export class CatalogueService {
     return this.http.post(this._baseUrl + 'api/searchproduct', body)
   }
 
+  getRandomProducts(): Observable<any> {
+    return this.http.get(this._baseUrl + 'api/getrandomproduct')
+  }
+
+  getRandomProductsCategory(id: number): Observable<any> {
+    var body = {
+      id_category: id
+    }
+    return this.http.post(this._baseUrl + 'api/getrandomproductcategory', body)
+  }
+
 }
