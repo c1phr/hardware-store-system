@@ -163,6 +163,10 @@ export class NavBarComponent implements OnInit {
     });
     popupRef.afterClosed().subscribe(res => {
       console.log(`result: ${res}`)
+      if(this.checkLog()) {
+        this.rut = this._authService.getID()
+        this.getWishlist(this.rut)
+      }
     })
   }
 

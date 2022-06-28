@@ -56,17 +56,17 @@ export class AuthService {
       rut: rut,
       password: pass
     }
-    var response = await lastValueFrom(this.http.post<any>(this._baseUrl+'login', jsonString))
+    var response = await lastValueFrom(this.http.post<any>(this._baseUrl+'login', jsonString, { observe: 'response' }))
     if(response) {
       if(response.status === 200) {
-        this._user.role = response.role;
-        this._user.rut = response.rut;
-        this._user.name = response.name;
-        this._user.surname = response.surname;
-        this._user.email = response.email;
-        this._user.address = response.address;
-        this._user.phone = response.phone;
-        this._user.city = response.city;
+        this._user.role = response.body.role;
+        this._user.rut = response.body.rut;
+        this._user.name = response.body.name;
+        this._user.surname = response.body.surname;
+        this._user.email = response.body.email;
+        this._user.address = response.body.address;
+        this._user.phone = response.body.phone;
+        this._user.city = response.body.city;
         var stringJSON = JSON.stringify(this._user);
         var user_info = cryptoJS.AES.encrypt(stringJSON, this.hashing);
         this._cookieService.set('userHWS', user_info.toString());
@@ -89,17 +89,18 @@ export class AuthService {
       email: email,
       password: pass
     }
-    var response = await lastValueFrom(this.http.post<any>(this._baseUrl+'loginstaff', jsonString))
+    var response = await lastValueFrom(this.http.post<any>(this._baseUrl+'loginstaff', jsonString, { observe: 'response' }))
     if(response) {
+      console.log(response)
       if(response.status === 200) {
-        this._user.role = response.role;
-        this._user.rut = response.rut;
-        this._user.name = response.name;
-        this._user.surname = response.surname;
-        this._user.email = response.email;
-        this._user.address = response.address;
-        this._user.phone = response.phone;
-        this._user.city = response.city;
+        this._user.role = response.body.role;
+        this._user.rut = response.body.rut;
+        this._user.name = response.body.name;
+        this._user.surname = response.body.surname;
+        this._user.email = response.body.email;
+        this._user.address = response.body.address;
+        this._user.phone = response.body.phone;
+        this._user.city = response.body.city;
         var stringJSON = JSON.stringify(this._user);
         var user_info = cryptoJS.AES.encrypt(stringJSON, this.hashing);
         this._cookieService.set('userHWS', user_info.toString());
