@@ -149,6 +149,7 @@ export class DataManagerService {
       password: pass,
       newpassword: new_pass
     }
+    console.log(body)
     return this._http.post(this._baseUrl+'resetpassword', body, { observe: 'response' })
   }
 

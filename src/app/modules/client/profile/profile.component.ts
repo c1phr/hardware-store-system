@@ -157,7 +157,7 @@ export class ProfileComponent implements OnInit {
       });
       popupRef.afterClosed().subscribe(res => {
         if(res.data.answer) {
-          this.changePass(this.modifyUserData.value.rut, this.modifyPassData.value.old_password, this.modifyPassData.value.new_password)
+          this.changePass(this.modifyUserData.value.rut_profile, this.modifyPassData.value.old_password, this.modifyPassData.value.new_password)
         }
       })
     }
