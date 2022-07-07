@@ -67,6 +67,8 @@
 .product-info-content {
     display: flex;
     flex-flow: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .product-title {
@@ -80,23 +82,11 @@
 }
 
 .product-price {
-    font-weight: 900;
-    font-family: Lato;
-    letter-spacing: 0.2rem;
-    color: #FF8000;
-    font-size: 28px;
     text-align: center;
 }
 
 .product-amount {
-    font-family: Lato;
-    letter-spacing: 0.08rem;
-    font-size: 14px;
     text-align: center;
-}
-
-.title-label {
-    font-weight: 600;
 }
 
 .product-actions-container-top {
@@ -129,4 +119,24 @@
 .action-button-style {
     height: 70px;
     width: 70px;
+}
+
+.total-wishlist-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.confirm-button {
+    border: 2px solid #FF8000; 
+    border-radius: 30px; 
+    background-color:#FF8000; 
+    color: white; 
+    font-weight: 700;
+    text-align: center; 
+    font-family: Lato; 
+    font-size: 16px !important; 
+    height: 45px !important;
+    width: 220px;
 }

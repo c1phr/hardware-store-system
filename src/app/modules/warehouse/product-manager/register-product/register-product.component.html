@@ -1,5 +1,5 @@
-<div class="register-container">
-    <div class="title-container">
+<div class="dialog-general-container">
+    <div class="dialog-title-banner">
         <h1 *ngIf="type === 'add'" class="dialog-title">AGREGAR PRODUCTO</h1>
         <h1 *ngIf="type === 'edit'" class="dialog-title">EDITAR PRODUCTO</h1>
     </div>
@@ -62,17 +62,17 @@
             <label for="product_desc" class="title-label">Descripción: </label>
             <textarea #desc_text class="textarea-container" id="product_desc" placeholder="Descripción" required formControlName="product_desc"></textarea>
             <label align="end" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'color': validFieldEdit('product_desc') ? 'red' : 'black'}"> {{desc_text.value?.length || 0}}/1000 </span></label>
-            <label for="product_desc" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldEdit('product_desc') ? 'visible' : 'hidden'}">Descripción debe tener entre 0 y 250 caractéres.</span></label>
+            <label for="product_desc" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldEdit('product_desc') ? 'visible' : 'hidden'}">Descripción debe tener entre 0 y 1000 caractéres.</span></label>
         </form>
 
         <div class="buttons-container">
-            <button mat-raised-button class="add-button" *ngIf="type === 'add'" (click)="addProductWarning()">
+            <button mat-raised-button class="orange-action-button" *ngIf="type === 'add'" (click)="addProductWarning()">
                 AGREGAR   
             </button>
-            <button mat-raised-button class="add-button" *ngIf="type === 'edit'" (click)="editProductWarning()">
+            <button mat-raised-button class="orange-action-button" *ngIf="type === 'edit'" (click)="editProductWarning()">
                 EDITAR   
             </button>
-            <button mat-raised-button class="close-button" (click)="close()">
+            <button mat-raised-button class="dialog-close-button" (click)="close()">
                 CANCELAR       
             </button>
         </div>

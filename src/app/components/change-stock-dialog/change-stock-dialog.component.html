@@ -1,0 +1,31 @@
+<div class="dialog-general-container">
+    <div class="dialog-title-banner">
+        <h1 class="dialog-title">EDITAR STOCK</h1>
+    </div>
+
+    <div class="column-container">
+        <div class="form-fields" style="width: 220px; margin-top: 20px;">
+            <label class="title-label" style="margin-bottom: 5px;">Nombre Producto: </label>
+            <p style="margin: 0;">{{ data.name }}</p>
+        </div>
+        <form [formGroup]="editStockForm" class="form-fields">
+
+            <label for="amount" class="title-label">Cantidad: </label>
+            <input class="select-container" id="amount" type="number" [min]="min_stock" max="10000" [placeholder]="current_stock" required formControlName="amount">
+            <label for="amount" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldEdit('amount') ? 'visible' : 'hidden'}">Cantidad debe ser mayor a {{min_stock}}.</span></label>
+
+            <label class="title-label">Stock Mínimo: </label>
+            <input class="select-container" id="stockmin" type="number" [value]="data.stockmin" [disabled]="true">
+
+        </form>
+
+        <div class="buttons-container">
+            <button mat-raised-button class="orange-action-button" (click)="editStockWarning()">
+                EDITAR   
+            </button>
+            <button mat-raised-button class="dialog-close-button" (click)="close()">
+                CANCELAR       
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,142 @@
+.type-button-container {
+    width: 50%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.type-button {
+    font-weight: 700;
+    font-family: Lato;
+    margin-bottom: 10px;
+    width: 180px;
+    letter-spacing: 0.1rem;
+}
+
+.centered-container {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.inline-container {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.sales-type-container {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-evenly;
+    min-height: 700px;
+}
+
+.return-button {
+    font-weight: 800;
+    font-family: Lato;
+    margin-bottom: 10px;
+    width: 120px;
+}
+
+.button-content {
+    display: flex;
+    flex-flow: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.select-container {
+    height: 30px;
+    width: 220px;
+}
+
+.form-error-field {
+    font-size: 12px;
+    line-height: 12px;
+}
+
+.added-product-grid {
+    display: grid;
+    grid-template-columns: [first] auto [second] 120px [third] 200px [fourth] 200px [fifth] 120px [last];
+    grid-template-rows: [first] 80px [last];
+    background-color: white;
+    width: 100%;
+    border-top: 1px solid #ff8000;
+}
+
+.added-product-shared {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.added-product-name {
+    grid-column-start: first;
+    grid-column-end: second;
+    grid-row-start: first;
+    grid-row-end: last;
+}
+
+.added-product-amount {
+    grid-column-start: second;
+    grid-column-end: third;
+    grid-row-start: first;
+    grid-row-end: last;
+}
+
+.added-product-unit {
+    grid-column-start: third;
+    grid-column-end: fourth;
+    grid-row-start: first;
+    grid-row-end: last;
+}
+
+.added-product-total {
+    grid-column-start: fourth;
+    grid-column-end: fifth;
+    grid-row-start: first;
+    grid-row-end: last;
+}
+
+.added-product-actions {
+    grid-column-start: fifth;
+    grid-column-end: last;
+    grid-row-start: first;
+    grid-row-end: last;
+}
+
+.last-line {
+    width: 100%;
+    border-top: 1px solid #ff8000;
+}
+
+.product-price {
+    font-weight: 800;
+    text-align: center;
+    font-size: 18px;
+}
+
+.product-amount {
+    text-align: center;
+}
+
+.product-total-container {
+    display: flex; 
+    flex-flow: row; 
+    align-items: center; 
+    justify-content: flex-end;
+    margin-top: 20px; 
+    font-size: 20px !important; 
+    text-align: center;
+    width: 100%;
+}
+
+.payment-button {
+    width: 160px;
+    margin-left: 24px;
+}

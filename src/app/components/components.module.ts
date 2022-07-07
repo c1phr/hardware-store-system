@@ -6,19 +6,23 @@ import { ProductSliderComponent } from './product-slider/product-slider.componen
 import { MaterialModule } from '../modules/material/material.module';
 import { RouterModule } from '@angular/router';
 import { WarningDialogComponent } from './warning-dialog/warning-dialog.component';
+import { ChangeStockDialogComponent } from './change-stock-dialog/change-stock-dialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
   declarations: [
     ProductSliderComponent,
-    WarningDialogComponent
+    WarningDialogComponent,
+    ChangeStockDialogComponent
   ],
   imports: [
     CommonModule,
     SwiperModule,
     MaterialModule,
-    RouterModule
+    RouterModule,
+    ReactiveFormsModule
   ],
   exports: [
     ProductSliderComponent

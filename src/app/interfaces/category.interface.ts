@@ -3,6 +3,8 @@ export interface Subcategory {
     name: string,
     nav: string,
     id_category?: number,
+    url?: string,
+    removed?: boolean
 }
 
 export interface Highlight {
@@ -24,5 +26,7 @@ export interface Category {
     subcat: Subcategory[],
     image_path: string,
     highlights?: Highlight[]
+    url?: string,
+    removed?: boolean
 }
 

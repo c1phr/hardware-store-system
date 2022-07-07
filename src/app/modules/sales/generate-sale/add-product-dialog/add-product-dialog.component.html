@@ -1,0 +1,22 @@
+<div class="dialog-general-container">
+    <div class="dialog-title-banner">
+        <h1 class="dialog-title">AGREGAR PRODUCTO</h1>
+    </div>
+
+    <div class="column-container">
+        <div class="form-fields">
+            <label for="product_amount" class="title-label">Cantidad: </label>
+            <input class="select-container" id="product_amount" type="number" min="1" [max]="data.stock" placeholder="1" [(ngModel)]="amount_to_add">
+            <label for="product_amount" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validAmount() ? 'visible' : 'hidden'}">Cantidad debe ser entre 1 y {{ data.stock }}.</span></label>
+        </div>
+
+        <div class="buttons-container">
+            <button mat-raised-button class="orange-action-button" (click)="addProductWarning()">
+                AGREGAR   
+            </button>
+            <button mat-raised-button class="dialog-close-button" (click)="close()">
+                CANCELAR       
+            </button>
+        </div>
+    </div>
+</div>

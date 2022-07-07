@@ -10,6 +10,11 @@ import { StockManagerComponent } from './stock-manager/stock-manager.component';
 import { AdminReportsComponent } from './admin-reports/admin-reports.component';
 import { AdminProductsComponent } from './admin-products/admin-products.component';
 import { ClearRegistryComponent } from './clear-registry/clear-registry.component';
+import { RegisterUserComponent } from './users-manager/register-user/register-user.component';
+import { SharedModule } from '../../shared/shared.module';
+import { RegisterSupplierComponent } from './suppliers-manager/register-supplier/register-supplier.component';
+import { RegisterCategoryComponent } from './categories-manager/register-category/register-category.component';
+import { UploadCtgImageComponent } from './categories-manager/upload-ctg-image/upload-ctg-image.component';
 
 
 @NgModule({
@@ -21,11 +26,16 @@ import { ClearRegistryComponent } from './clear-registry/clear-registry.componen
     StockManagerComponent,
     AdminReportsComponent,
     AdminProductsComponent,
-    ClearRegistryComponent
+    ClearRegistryComponent,
+    RegisterUserComponent,
+    RegisterSupplierComponent,
+    RegisterCategoryComponent,
+    UploadCtgImageComponent
   ],
   imports: [
     CommonModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    SharedModule
   ]
 })
 export class AdminModule { }

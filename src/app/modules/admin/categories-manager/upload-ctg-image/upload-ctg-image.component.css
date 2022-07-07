@@ -1,0 +1,19 @@
+.select-container {
+    height: 30px;
+    width: 220px;
+    margin: 0;
+    border-radius: 0px 4px 4px 0px;
+}
+
+.input-png {
+    background-color: #FF8000;
+    color: white;
+    height: 30px;
+    border-radius: 4px 0px 0px 4px;
+    max-width: 180px;
+}
+
+.input-row {
+    display: flex; 
+    flex-flow: row wrap;
+}

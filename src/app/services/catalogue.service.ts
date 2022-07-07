@@ -62,7 +62,7 @@ export class CatalogueService {
     var resp_cat = await lastValueFrom(this.getCategories())
     var resp_sub = await lastValueFrom(this.getSubCategories())
     if(resp_cat && resp_sub) {
-      await this.buildNavig(resp_cat.categorys, resp_sub.subcategorys)
+      await this.buildNavig(resp_cat, resp_sub)
       this._checkExistance.next(true);
       return this.navig;
     }
@@ -88,6 +88,7 @@ export class CatalogueService {
     this.navig = new_navig;
     for(var i = 0; i < categories.length; i++) {
       if(!categories[i].removed) {
+        console.log(categories[i])
         var str = categories[i].name;
         str = str.normalize("NFD").replace(/\p{Diacritic}/gu, "");
         str = str.replace(/\ /g,'-');
@@ -106,19 +107,22 @@ export class CatalogueService {
 
     for(var i = 0; i < subcategories.length; i++) {
       if(!subcategories[i].removed) {
-        var str = subcategories[i].name;
-        str = str.normalize("NFD").replace(/\p{Diacritic}/gu, "")
-        str = str.replace(/\ /g,'-')
-        str = str.replace(/\,/g,'');
-        str = str.toLowerCase();
         var cat = this.navig.find(x => x.id == subcategories[i].id_category);
-        var cat_index = this.navig.indexOf(cat!);
-        var new_subcat = {
-          id: subcategories[i].id,
-          name: subcategories[i].name,
-          nav: `./catalogo/${cat!.id}/${subcategories[i].id}/${str}`
-        };
-        this.navig[cat_index].subcat.push(new_subcat)
+        if(cat) {
+          var str = subcategories[i].name;
+          str = str.normalize("NFD").replace(/\p{Diacritic}/gu, "")
+          str = str.replace(/\ /g,'-')
+          str = str.replace(/\,/g,'');
+          str = str.toLowerCase();
+          var cat_index = this.navig.indexOf(cat!);
+          var new_subcat = {
+            id: subcategories[i].id,
+            name: subcategories[i].name,
+            nav: `./catalogo/${cat!.id}/${subcategories[i].id}/${str}`
+          };
+          this.navig[cat_index].subcat.push(new_subcat)
+        }
+        
       }
     }
   }

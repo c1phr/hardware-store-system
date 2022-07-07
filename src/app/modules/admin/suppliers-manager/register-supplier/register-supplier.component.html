@@ -1,0 +1,50 @@
+<div class="dialog-general-container">
+    <div class="dialog-title-banner">
+        <h1 *ngIf="type === 'add'" class="dialog-title">AGREGAR PROVEEDOR</h1>
+        <h1 *ngIf="type === 'edit'" class="dialog-title">EDITAR PROVEEDOR</h1>
+    </div>
+
+    <div class="column-container">
+       
+        <form [formGroup]="supplierForm" class="form-fields">
+            <label for="name" class="title-label">Nombre Proveedor: </label>
+            <input class="select-container" id="name" type="text" placeholder="Nombre Proveedor" required formControlName="name">
+            <label for="name" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('name') ? 'visible' : 'hidden'}">Nombre debe tener entre 2 y 25 caractéres.</span></label>
+
+            <label for="email" class="title-label">Correo: </label>
+            <input class="select-container" id="email" type="text" placeholder="correo@correo.cl" required formControlName="email">
+            <label for="email" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('email') ? 'visible' : 'hidden'}">Correo debe ser de formato válido.</span></label>
+
+            <label for="address" class="title-label">Dirección: </label>
+            <input class="select-container" id="address" type="text" placeholder="Dirección" required formControlName="address">
+            <label for="address" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('address') ? 'visible' : 'hidden'}">Dirección entre 2 y 70 caractéres.</span></label>
+
+            <label for="phone" class="title-label">Teléfono: </label>
+            <div class="input-line">
+                <span class="prefix-space">+56</span>
+                <input class="phone-input" id="phone" type="text" placeholder="9XXXXXXXX" required formControlName="phone">
+            </div>
+            <label for="phone" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('phone') ? 'visible' : 'hidden'}">Formato +569XXXXXXXX.</span></label>
+        </form>       
+           
+
+        <form [formGroup]="supplierForm" class="form-fields" style="width: 100%;">
+            <label for="description" class="title-label">Descripción: </label>
+            <textarea #desc_text class="textarea-container" id="description" placeholder="Descripción" required formControlName="description"></textarea>
+            <label align="end" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'color': validField('description') ? 'red' : 'black'}"> {{desc_text.value?.length || 0}}/70 </span></label>
+            <label for="description" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('description') ? 'visible' : 'hidden'}">Descripción debe tener entre 0 y 70 caractéres.</span></label>
+        </form>
+
+        <div class="buttons-container">
+            <button mat-raised-button class="orange-action-button" *ngIf="type === 'add'" (click)="addSupplierWarning()">
+                AGREGAR   
+            </button>
+            <button mat-raised-button class="orange-action-button" *ngIf="type === 'edit'" (click)="editSupplierWarning()">
+                EDITAR   
+            </button>
+            <button mat-raised-button class="dialog-close-button" (click)="close()">
+                CANCELAR       
+            </button>
+        </div>
+    </div>
+</div>

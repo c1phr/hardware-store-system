@@ -1,6 +1,6 @@
 
 <div>
-    <div #to_top style="margin-top: 20px; margin-left: 20px;">
+    <div #to_top style="padding-top: 20px; margin-left: 20px;">
         <a class="link-line" href="./">INICIO</a>
         >
         <a class="link-line" href="./">CATÁLOGO</a>
@@ -11,15 +11,15 @@
     </div>
     <div class="larger-container">
         <div class="products-container" *ngIf="productsExist">
-            <mat-card class="product-card" *ngFor="let product of products_to_show">
+            <mat-card class="ctg-product-card" *ngFor="let product of products_to_show">
                 <div class="top-half">
                     <img [src]="product.url" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
                 <div class="bottom-half">
-                    <a class="product-title" [href]="product.nav">{{ product.name }}</a>
+                    <a class="ctg-product-title" [href]="product.nav">{{ product.name }}</a>
                     <span class="brand-name">{{ product.brand }}</span>
                     <span class="price-content">${{ product.value | number:'1.0-0':'es-CL' }}</span>
-                    <button mat-raised-button class="add-item-button" [disabled]="!checkLogged" (click)="addItemToWishlist(product.id)">AGREGAR A LISTA</button>
+                    <button mat-raised-button class="add-item-button" [disabled]="!checkLogged || confirmedcart" (click)="addItemToWishlist(product.id)">AGREGAR A LISTA</button>
                 </div>
             </mat-card>
         </div>

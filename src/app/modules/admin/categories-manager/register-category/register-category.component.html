@@ -1,0 +1,55 @@
+<div class="dialog-general-container">
+    <div class="dialog-title-banner" *ngIf="subtype === 'ctg'">
+        <h1 *ngIf="type === 'add'" class="dialog-title">AGREGAR CATEGORÍA</h1>
+        <h1 *ngIf="type === 'edit'" class="dialog-title">EDITAR CATEGORÍA</h1>
+    </div>
+
+    <div class="dialog-title-banner" *ngIf="subtype === 'subctg'">
+        <h1 *ngIf="type === 'add'" class="dialog-title">AGREGAR SUBCATEGORÍA</h1>
+        <h1 *ngIf="type === 'edit'" class="dialog-title">EDITAR SUBCATEGORÍA</h1>
+    </div>
+
+    <div class="column-container">
+        <form [formGroup]="newCtg" class="form-fields">
+            <label for="name" class="title-label">Nombre: </label>
+            <input class="select-container" id="name" type="text" placeholder="Nombre" required formControlName="name">
+            <label for="name" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('name') ? 'visible' : 'hidden'}">Nombre debe tener entre 7 y 40 caractéres.</span></label>
+
+            <label for="description" class="title-label">Descripción: </label>
+            <textarea #desc_text class="textarea-container" id="description" placeholder="Descripción" formControlName="description"></textarea>
+            <label align="end" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'color': validField('description') ? 'red' : 'black'}"> {{desc_text.value?.length || 0}}/70 </span></label>
+            <label for="description" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('description') ? 'visible' : 'hidden'}">Descripción debe tener entre 0 y 70 caractéres.</span></label>
+        </form>
+
+        <div *ngIf="subtype === 'subctg'" class="form-fields">
+            <label for="id_supplier" class="title-label">Categoría: </label>
+            <select [(ngModel)]="selected_ctg" class="select-container">
+                <option class="option-style" *ngFor="let category of categories" [value]="category.id"> {{ category.name }} </option>
+            </select>
+        </div>
+
+        <div class="buttons-container" *ngIf="subtype === 'ctg'">
+            <button mat-raised-button class="orange-action-button" *ngIf="type === 'add'" (click)="addCtgWarning()">
+                AGREGAR   
+            </button>
+            <button mat-raised-button class="orange-action-button" *ngIf="type === 'edit'" (click)="editCtgWarning()">
+                EDITAR   
+            </button>
+            <button mat-raised-button class="dialog-close-button" (click)="close()">
+                CANCELAR       
+            </button>
+        </div>
+
+        <div class="buttons-container" *ngIf="subtype === 'subctg'">
+            <button mat-raised-button class="orange-action-button" *ngIf="type === 'add'" (click)="addSubctgWarning()">
+                AGREGAR   
+            </button>
+            <button mat-raised-button class="orange-action-button" *ngIf="type === 'edit'" (click)="editSubctgWarning()">
+                EDITAR   
+            </button>
+            <button mat-raised-button class="dialog-close-button" (click)="close()">
+                CANCELAR       
+            </button>
+        </div>
+    </div>
+</div>

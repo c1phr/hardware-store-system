@@ -1,5 +1,160 @@
 <div class="general-container">
-    <div class="page-content-card">
-        <p>generate-sale works!</p>
+
+    <!-- CHOOSE TO START A NEW SALE OR CONTINUE -->
+    <div class="sales-type-container" *ngIf="sale_type === ''">
+
+        <!-- NEW SALE FORM -->
+        <div class="page-content-card type-button-container">
+            <h2 class="page-title-style centered-title-container">INICIAR NUEVA VENTA</h2>
+            <div class="inline-container">
+                <mat-slide-toggle [(ngModel)]="add_wanted_cart">
+                    <span class="title-label" style="font-family: Lato">Agregar Wishlist</span>
+                </mat-slide-toggle>
+            </div>
+            <form [formGroup]="newSaleForm" class="form-fields" style="margin-bottom: 12px;">
+                <label for="rut" class="title-label">Rut Cliente: </label>
+                <input class="select-container" id="rut" type="text" placeholder="11111111-1" required formControlName="rut">
+                <label for="rut" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldNew('rut') ? 'visible' : 'hidden'}">Rut sin puntos, con guión.</span></label>
+                <label for="rut" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'display': checkIfSame() ? 'inline-block' : 'none'}">No puede iniciar una venta propia.</span></label>
+            </form>
+            <button mat-raised-button class="type-button" (click)="startNewSale()" color="primary" *ngIf="!add_wanted_cart">
+                Nueva Venta
+            </button>
+            <button mat-raised-button class="type-button" (click)="startNewSale()" color="accent" *ngIf="add_wanted_cart" style="color: white;">
+                Nueva Venta
+            </button>
+        </div>
+        
+        <!-- CONTINUE SALE FORM -->
+        <div class="page-content-card type-button-container">
+            <h2 class="page-title-style centered-title-container">CONTINUAR VENTA</h2>
+            <form [formGroup]="continueSaleForm" class="form-fields" style="margin-bottom: 20px;">
+                <label for="id_sale" class="title-label">Código Compra: </label>
+                <input class="select-container" id="id_sale" type="text" required formControlName="id_sale">
+                <label for="id_sale" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldContinue('id_sale') ? 'visible' : 'hidden'}">Código alfanumérico, mínimo 9 caracteres.</span></label>
+            </form>
+            <button mat-raised-button class="type-button" (click)="continueSale()" color="primary">
+                Continuar Venta
+            </button>
+        </div>
+
+    </div>
+
+    <!-- RETURN BUTTON -->
+    <button mat-raised-button class="return-button" (click)="resetType()" *ngIf="sale_type != ''" color="primary">
+        <span class="button-content"><mat-icon>chevron_left</mat-icon> Volver</span>
+    </button>
+
+
+    <div *ngIf="sale_type === 'continue' || sale_type === 'new'">
+        <div class="page-content-card">
+            <h2 class="page-title-style centered-title-container" style="margin: 10px;"><b style="font-weight: 800; margin-right: 20px;">ID DE VENTA: </b> {{ id_sale }}</h2>
+        </div>
+        <div class="page-content-card centered-container" style="margin-top: 20px;">
+            <h3 class="page-title-style centered-title-container" style="margin: 10px;">BÚSQUEDA DE PRODUCTOS</h3>
+            <input class="select-container" id="search" type="text" placeholder="Ejemplo: Tabla" style="width: 400px;" (keyup.enter)="search(inputFilter.valid)" [pattern]="input_regex" #inputFilter="ngModel" [(ngModel)]="filterValue">
+            <label class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': !inputFilter.valid ? 'visible' : 'hidden'}">Búsqueda ingresada contiene caracteres no aceptados.</span></label>
+            <div style="width: 100%;">
+                <table mat-table #dataTable [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;" matSort>
+                    <ng-container matColumnDef="image">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Imagen</th>
+                        <td mat-cell *matCellDef="let element" style="width: 60px;"> 
+                            <img [src]="element.url" style="width: 48px; height: 48px; object-fit: cover">
+                        </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{ element.name }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="brand">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Marca</th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{ element.brand }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="value">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor Unitario</th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{ element.value }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="amount">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Stock</th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{ element.amount }}
+                        </td>
+                    </ng-container>
+            
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                        <td mat-cell *matCellDef="let row; let i = index" style="width: 120px;">
+                            <button mat-icon-button style="color: green" (click)="openAddProductDialog(row.amount, row.id)">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+            
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            
+                </table>
+                <mat-paginator #myPaginator [pageSizeOptions]="pageSizeOptions" showFirstLastButtons aria-label="Select page of users">
+                </mat-paginator>
+            </div>
+        </div>
+        <div class="page-content-card" style="margin-top: 20px;">
+            <h3 class="page-title-style centered-title-container" style="margin: 10px;">PRODUCTOS AGREGADOS</h3>
+            <div class="centered-container" style="gap: 0 !important">
+                <div class="added-product-grid" *ngFor="let product of sale_data">
+                    <div class="added-product-name added-product-shared">
+                        <div class="form-fields">
+                            <label class="title-label">Nombre Producto: </label>
+                            <span class="product-amount">{{ product.nombre }}</span>
+                        </div>
+                    </div>
+                    <div class="added-product-amount added-product-shared">
+                        <div class="form-fields">
+                            <label class="title-label">Cantidad: </label>
+                            <span class="product-amount">{{ product.amount }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="added-product-unit added-product-shared">
+                        <div class="form-fields">
+                            <label class="title-label">Precio Unitario: </label>
+                            <span class="product-price">${{ product.price_unit | number:'1.0-0':'es-CL' }}</span>
+                        </div>
+                    </div>
+
+                    <div class="added-product-total added-product-shared">
+                        <div class="form-fields">
+                            <label class="title-label">Total por Cantidad: </label>
+                            <span class="product-price">${{ product.price | number:'1.0-0':'es-CL' }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="added-product-actions added-product-shared">
+                        <button mat-icon-button style="color: red" (click)="warnRemoveProduct(product.id_product)">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="last-line"></div>
+
+                <div class="product-total-container">
+                    <label class="title-label" style="margin-right: 20px">Total Compra: </label>
+                    <span class="product-price" style="font-size: 20px !important;">${{ getAbsoluteTotal() | number:'1.0-0':'es-CL' }}</span>
+                    <button mat-raised-button class="payment-button" color="accent" (click)="startConfirmation()">
+                        <span style="color: white">Pagar</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

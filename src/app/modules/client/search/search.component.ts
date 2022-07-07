@@ -37,11 +37,10 @@ export class SearchComponent implements OnInit {
     this.results = [];
     var respSearch = await lastValueFrom(this._catalogueService.searchProduct(param))
     if(respSearch) {
-      respSearch.products.forEach((element: any) => {
-        element.url = this._baseUrl + element.url
+      respSearch.forEach((element: any) => {
         element.nav = `inicio/catalogo/${element.id_category}/${element.id_subcategory}/producto/${element.id}`
       });
-      this.results = respSearch.products
+      this.results = respSearch
       this.products_to_show = this.results;
       this.paginator._changePageSize(5);
     }

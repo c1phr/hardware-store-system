@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NavBarComponent } from '../shared/nav-bar/nav-bar.component';
 import { AuthComponent } from './auth.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { PassResetComponent } from './pages/pass-reset/pass-reset.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,7 @@ const routes: Routes = [
     children: [
       { path: 'login', component: AuthComponent },
       { path: 'registrar', component: RegisterComponent },
+      { path: 'reset-password', component: PassResetComponent },
       { path: '**', redirectTo: 'login' }
     ]
   }

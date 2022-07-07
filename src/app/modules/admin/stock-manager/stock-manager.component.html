@@ -1,1 +1,103 @@
-<p>stock-manager works!</p>
+<div class="general-container">
+    <div class="page-content-card page-title-container">
+        <h1 class="page-title-style">GESTOR DE STOCK</h1>
+    </div>
+
+    <div class="page-content-card" style="margin-bottom: 15px;">
+        <h2 class="page-title-style page-title-container">CATEGORÍAS</h2>
+        <div class="page-actions-container">
+            <div class="form-fields">
+                <label class="title-label">Filtrar:</label>
+                <input class="select-container" (keyup)="applyFilter(inputCtgFilter.valid)" placeholder="Ejemplo: nombre categoría" [pattern]="input_regex" #inputCtgFilter="ngModel" [(ngModel)]="ctgFilterValue">
+                <label class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': !inputCtgFilter.valid ? 'visible' : 'hidden'}">Búsqueda ingresada contiene caracteres no aceptados.</span></label>
+            </div>
+        </div>
+        <div class="table-wait-spinner-container" *ngIf="loading_spinner">
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
+        <table mat-table #dataTable [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%; margin-top: 20px;" matSort>
+
+            <ng-container matColumnDef="image">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Categoría</th>
+                <td mat-cell *matCellDef="let element" style="padding-right: 5px;">
+                    <img [src]="element.url" style="width: 48px; height: 48px; object-fit: cover">
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Producto</th>
+                <td mat-cell *matCellDef="let element" style="padding-right: 5px;">
+                    {{ element.name }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="category">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Categoría</th>
+                <td mat-cell 
+                    *matCellDef="let element" style="width: 220px;">
+                    <p style="max-width: 200px;"
+                       class="table-bounds"
+                       #tooltip="matTooltip"
+                       [matTooltip]="getCategoryName(element.category)"
+                       matTooltipPosition="above"
+                       matTooltipClass="tooltip-position">
+                       {{ getCategoryName(element.category) | titlecase }} 
+                    </p>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="sub_category">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Subcategoría</th>
+                <td mat-cell 
+                    *matCellDef="let element" style="width: 220px;"> 
+                    <p style="max-width: 200px;"
+                       class="table-bounds"
+                       #tooltip="matTooltip"
+                       [matTooltip]="getSubcategoryName(element.subcategory)"
+                       matTooltipPosition="above"
+                       matTooltipClass="tooltip-position">
+                       {{ getSubcategoryName(element.subcategory) }} 
+                    </p>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="value">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Valor</th>
+                <td mat-cell *matCellDef="let element" style="width: 120px;"> 
+                    ${{ element.value | number:'1.0-0':'es-CL' }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
+                <td mat-cell *matCellDef="let element">
+                    <p style="color: red">
+                        {{ element.amount }}
+                    </p>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="stockmin">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Mínimo</th>
+                <td mat-cell *matCellDef="let element"> 
+                    {{ element.stockmin }}
+                </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                <td mat-cell *matCellDef="let row; let i = index" style="min-width: 120px; padding-right: 5px;">
+                    <button mat-icon-button style="color: green" (click)="openRestockDialog(row.id, row.amount, row.stockmin, row.name)">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    
+        </table>
+        <mat-paginator #ctgPaginator [pageSizeOptions]="pageSizeOptions" showFirstLastButtons aria-label="Select page of users">
+        </mat-paginator>
+    </div>
+</div>

@@ -6,7 +6,9 @@ export interface Auth {
     address: string,
     phone: string,
     city: string,
-    role: number
+    role: number,
+    banned?: boolean,
+    confirmcart?: boolean
 }
 
 export interface Role {

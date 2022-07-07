@@ -67,4 +67,12 @@ export class UsersService {
     return this._http.post(this._baseUrl + '/deleteproductwantedcart', body, { observe: 'response' })
   }
 
+  changeStateWishlist(rut: string, confirmcart: boolean) {
+    var body = {
+      rut: rut,
+      confirmcart: confirmcart
+    }
+    return this._http.post(this._baseUrl+'/modifystatewantedcart', body, { observe: 'response' })
+  }
+
 }

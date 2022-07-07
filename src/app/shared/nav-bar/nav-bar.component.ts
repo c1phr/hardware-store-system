@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/auth/services/auth.service';
@@ -6,7 +6,12 @@ import { Category } from 'src/app/interfaces/category.interface';
 import { CatalogueService } from 'src/app/services/catalogue.service';
 import { LoginComponent } from '../../auth/pages/login/login.component';
 import { UsersService } from '../../services/users.service';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Subscription } from 'rxjs';
+import { DataManagerService } from '../../services/data-manager.service';
+import { ChangeStockDialogComponent } from '../../components/change-stock-dialog/change-stock-dialog.component';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { CommsService } from '../../services/comms.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -14,7 +19,7 @@ import { lastValueFrom } from 'rxjs';
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })
-export class NavBarComponent implements OnInit {
+export class NavBarComponent implements OnInit, OnDestroy {
 
   innerWidth: number = document.defaultView!.innerWidth;
 
@@ -48,11 +53,6 @@ export class NavBarComponent implements OnInit {
       name: 'Gestor de Compra',
       nav: '../ventas/compra',
       icon: 'shopping_cart'
-    },
-    {
-      name: 'Consultar Producto',
-      nav: '../ventas/consulta',
-      icon: 'help_center'
     },
     {
       name: 'Gestor de Reportes',
@@ -114,21 +114,58 @@ export class NavBarComponent implements OnInit {
   rut: string = '';
   wishlist: any[] = [];
   wishlist_msg: string = ''
+  stock_min: any[] = []
 
   private _baseUrl: string = 'https://sistemaventainventario.herokuapp.com/'
+
+  configSuccess: MatSnackBarConfig = {
+    duration: 3000,
+    panelClass: ['success-sb']
+  }
+
+  configError: MatSnackBarConfig = {
+    duration: 5000,
+    panelClass: ['error-sb']
+  }
+
+  dbProductChangeSub: Subscription | undefined = undefined;
+
+  confirmedCart: boolean = false;
+
+  input_regex: string = `[a-zA-ZÁÉÍÓÚÑáéíóúñü '-]+`
+  filterValue: string = ''
 
   constructor(private _matDialog: MatDialog,
               private _router: Router,
               private _authService: AuthService,
               private _catalogueService: CatalogueService,
-              private _userService: UsersService) {}
+              private _userService: UsersService,
+              private _dataService: DataManagerService,
+              private _sb: MatSnackBar,
+              private _commsServices: CommsService) {
+                this.dbProductChangeSub = this._commsServices.dbProductChange$
+                  .subscribe($event =>
+                    this.receiveChange($event))
+              }
 
-  ngOnInit(): void {
-    this.getNavig()
+  ngOnInit(): void { 
     this.type = this._authService.getType();
-    if(this.checkLog()) {
+    if(this.checkLog() && !this.inStaff()) {
       this.rut = this._authService.getID()
       this.getWishlist(this.rut)
+    }
+    if(this.inAdmin() || this.inWH()) {
+      this.getStockMinList()
+    }
+
+    if(this.inStart()) {
+      this.getNavig()
+    }
+  }
+
+  ngOnDestroy(): void {
+    if(this.dbProductChangeSub) {
+      this.dbProductChangeSub.unsubscribe()
     }
   }
 
@@ -140,14 +177,31 @@ export class NavBarComponent implements OnInit {
   }
 
   async getWishlist(rut: string) {
-    var res = await lastValueFrom(this._userService.getWishlist(rut))
-    if(res) {
-      if(res.body.want) {
-        this.wishlist = res.body.want;
-        this.wishlistArray()
+    try {
+      var res = await lastValueFrom(this._userService.getWishlist(rut))
+      if(res) {
+        if(res.body && !res.body.msg) {
+          this.confirmedCart = res.body[0].confirmcart
+          this.sendConfirmChange(this.confirmedCart)
+          this.wishlist = res.body;
+          this.wishlistArray()
+        }
+        else {
+          this.wishlist_msg = res.body.msg;
+        }
       }
-      else {
-        this.wishlist_msg = res.body.msg;
+    }
+    catch(error) {
+      this.wishlist_msg = (error as HttpErrorResponse).error.msg;
+    }
+  }
+
+  async getStockMinList() {
+    this.stock_min = [];
+    var res = await lastValueFrom(this._dataService.getStockMinList())
+    if(res) {
+      if(res.status == 200 && res.body && res.body.length > 0) {
+        this.stock_min = res.body;
       }
     }
   }
@@ -162,7 +216,6 @@ export class NavBarComponent implements OnInit {
       }
     });
     popupRef.afterClosed().subscribe(res => {
-      console.log(`result: ${res}`)
       if(this.checkLog()) {
         this.rut = this._authService.getID()
         this.getWishlist(this.rut)
@@ -243,11 +296,12 @@ export class NavBarComponent implements OnInit {
      : false
   }
 
-  search(event: Event) {
-    var target = event.target as HTMLInputElement;
-    this._router.navigate(['/inicio/productos'], {
-      queryParams: { buscar: target.value }
-    });
+  search(event: any) {
+    if(event) {
+      this._router.navigate(['/inicio/productos'], {
+        queryParams: { buscar: this.filterValue }
+      });
+    }
   }
 
   enterSystem() {
@@ -265,9 +319,62 @@ export class NavBarComponent implements OnInit {
 
   wishlistArray() {
     for(var i=0; i<this.wishlist.length;i++) {
-      this.wishlist[i].url = `${this._baseUrl}${this.wishlist[i].url}`
+      //this.wishlist[i].url = `${this._baseUrl}${this.wishlist[i].url}`
       this.wishlist[i].nav = `/inicio/catalogo/${this.wishlist[i].category}/${this.wishlist[i].subcategory}/producto/${this.wishlist[i].id_product}`
     }
+  }
+
+  openDropdown(name: string) {
+    var dropdown = document.getElementById(name)
+    dropdown!.style.display = 'block'
+  }
+
+  closeDropdown(name: string) {
+    var dropdown = document.getElementById(name)
+    dropdown!.style.display = 'none'
+  }
+
+  openRestockDialog(id: number, amount: number, stockmin: number, name: string) {
+    const dialogRestock = this._matDialog.open(ChangeStockDialogComponent, {
+      autoFocus: false,
+      maxWidth: 340,
+      panelClass: ['register-product-dialog'],
+      data: {
+        id: id,
+        amount: amount,
+        stockmin: stockmin,
+        name: name
+      }
+    });
+    dialogRestock.afterClosed().subscribe(res => {
+      if(res) {
+        return (res.data.status === 200)
+          ? (this.openSnackBar(res.data.message, this.configSuccess), this.reloadStock(), this.sendChange(res.data.message, 202))
+          : (this.openSnackBar(res.data.message, this.configError))
+      }
+    })
+  }
+
+  reloadStock() {
+    this.getStockMinList()
+  }
+
+  openSnackBar(message: string, config: MatSnackBarConfig) {
+    this._sb.open(message, 'CERRAR', config);
+  }
+
+  receiveChange(event: any) {
+    if(event.status === 201) {
+      this.getStockMinList()
+    }
+  }
+
+  sendChange(msg: string, status: number) {
+    this._commsServices.createRestockChange({ msg: msg, status: status })
+  }
+
+  sendConfirmChange(status: boolean) {
+    this._commsServices.createConfirmChange(status)
   }
 
 }

@@ -6,6 +6,7 @@ import { WarningDialogComponent } from 'src/app/components/warning-dialog/warnin
 import { Category, Subcategory } from 'src/app/interfaces/category.interface';
 import { DataManagerService } from 'src/app/services/data-manager.service';
 import { CatalogueService } from '../../../../services/catalogue.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-register-product',
@@ -24,10 +25,10 @@ export class RegisterProductComponent implements OnInit {
   current_date: Date = new Date()
 
   editProductForm: FormGroup = this._fb.group({
-    product_name: [,[Validators.required, Validators.minLength(7), Validators.maxLength(50)]],
+    product_name: [,[Validators.required, Validators.minLength(7), Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9ÁÉÍÓÚÑáéíóúñü., \'\-\(\)]+$')]],
     product_year: [,[Validators.required, Validators.min(1990), Validators.max(this.current_date.getFullYear())]],
-    product_brand: [, [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
-    product_desc: [, [Validators.required, Validators.minLength(0), Validators.maxLength(1000)]],
+    product_brand: [, [Validators.required, Validators.minLength(2), Validators.maxLength(25), Validators.pattern('^[a-zA-Z0-9ÁÉÍÓÚÑáéíóúñü., \'\-\(\)]+$')]],
+    product_desc: [, [Validators.required, Validators.minLength(0), Validators.maxLength(1000), Validators.pattern('^[a-zA-Z0-9ÁÉÍÓÚÑáéíóúñü., \'\-\(\)]+$')]],
     product_amount: [, [Validators.required, Validators.min(1), Validators.max(10000)]],
     product_value: [, [Validators.required, Validators.min(1), Validators.max(10000000)]],
     product_stockmin: [, [Validators.required, Validators.min(1), Validators.max(10000)]],
@@ -63,8 +64,8 @@ export class RegisterProductComponent implements OnInit {
     var resCat = await lastValueFrom(this._catalogueService.getCategories())
     var resSubCat = await lastValueFrom(this._catalogueService.getSubCategories())
     if(resCat && resSubCat) {
-      this.categories = resCat.categorys
-      this.sub_categories = resSubCat.subcategorys
+      this.categories = resCat
+      this.sub_categories = resSubCat
       this.filtered_sub_categories = this.sub_categories.filter(x => x.id_category === this.categories[0].id)
     }
   }
@@ -72,7 +73,7 @@ export class RegisterProductComponent implements OnInit {
   async getSuppliers() {
     var res = await lastValueFrom(this._dataService.getSuppliers())
     if(res) {
-      this.suppliers = res.suppliers
+      this.suppliers = res
     }
   }
 
@@ -102,69 +103,91 @@ export class RegisterProductComponent implements OnInit {
   }
 
   editProductWarning() {
-    const popupRef = this._matDialog.open(WarningDialogComponent, {
-      autoFocus: false,
-      panelClass: ['delete-warning-dialog'],
-      data: {
-        message: `¿Está seguro que desea editar los datos de este producto?`
-      },
-      disableClose: true
-    });
-    popupRef.afterClosed().subscribe(res => {
-      if(res.data.answer) {
-        var body = {
-          id: this.data.product.id,
-          name: this.editProductForm.value.product_name,
-          year: this.editProductForm.value.product_year,
-          brand: this.editProductForm.value.product_brand,
-          description: this.editProductForm.value.product_desc,
-          amount: this.editProductForm.value.product_amount,
-          value: this.editProductForm.value.product_value,
-          stockmin: this.editProductForm.value.product_stockmin
+    if(this.editProductForm.invalid) {
+      return this.editProductForm.markAllAsTouched();
+    }
+    else {
+      const popupRef = this._matDialog.open(WarningDialogComponent, {
+        autoFocus: false,
+        panelClass: ['delete-warning-dialog'],
+        data: {
+          message: `¿Está seguro que desea editar los datos de este producto?`
+        },
+        disableClose: true
+      });
+      popupRef.afterClosed().subscribe(res => {
+        if(res.data.answer) {
+          var body = {
+            id: this.data.product.id,
+            name: this.editProductForm.value.product_name,
+            year: this.editProductForm.value.product_year,
+            brand: this.editProductForm.value.product_brand,
+            description: this.editProductForm.value.product_desc,
+            amount: this.editProductForm.value.product_amount,
+            value: this.editProductForm.value.product_value,
+            stockmin: this.editProductForm.value.product_stockmin
+          }
+          this.editProduct(body)
         }
-        this.editProduct(body)
-      }
-    })
+      })
+    }
   }
 
   async editProduct(body: any) {
-    var res = await lastValueFrom(this._dataService.modifyProducts(body))
-    if(res) {
-      this._dialogRef.close({ data: { message: res.body.msg, status: res.status } });
+    try {
+      var res = await lastValueFrom(this._dataService.modifyProducts(body))
+      if(res) {
+        this._dialogRef.close({ data: { message: res.body.msg, status: res.status } });
+      }
+    }
+    catch(error) {
+      var errorSt = error as HttpErrorResponse
+      this._dialogRef.close({ data: { message: errorSt.error.msg, status: errorSt .status } });
     }
   }
 
   addProductWarning() {
-    const popupRef = this._matDialog.open(WarningDialogComponent, {
-      autoFocus: false,
-      panelClass: ['delete-warning-dialog'],
-      data: {
-        message: `¿Está seguro que desea agregar el producto al sistema?`
-      },
-      disableClose: true
-    });
-    popupRef.afterClosed().subscribe(res => {
-      if(res.data.answer) {
-        var body = {
-          name: this.editProductForm.value.product_name,
-          year: this.editProductForm.value.product_year,
-          brand: this.editProductForm.value.product_brand,
-          description: this.editProductForm.value.product_desc,
-          amount: this.editProductForm.value.product_amount,
-          value: this.editProductForm.value.product_value,
-          stockmin: this.editProductForm.value.product_stockmin,
-          id_subcategory: this.editProductForm.value.id_subcategory,
-          id_supplier: this.editProductForm.value.id_supplier
+    if(this.editProductForm.invalid) {
+      return this.editProductForm.markAllAsTouched();
+    }
+    else {
+      const popupRef = this._matDialog.open(WarningDialogComponent, {
+        autoFocus: false,
+        panelClass: ['delete-warning-dialog'],
+        data: {
+          message: `¿Está seguro que desea agregar el producto al sistema?`
+        },
+        disableClose: true
+      });
+      popupRef.afterClosed().subscribe(res => {
+        if(res.data.answer) {
+          var body = {
+            name: this.editProductForm.value.product_name,
+            year: this.editProductForm.value.product_year,
+            brand: this.editProductForm.value.product_brand,
+            description: this.editProductForm.value.product_desc,
+            amount: this.editProductForm.value.product_amount,
+            value: this.editProductForm.value.product_value,
+            stockmin: this.editProductForm.value.product_stockmin,
+            id_subcategory: this.editProductForm.value.id_subcategory,
+            id_supplier: this.editProductForm.value.id_supplier
+          }
+          this.addProduct(body)
         }
-        this.addProduct(body)
-      }
-    })
+      })
+    }
   }
 
   async addProduct(body: any) {
-    var res = await lastValueFrom(this._dataService.addProduct(body))
-    if(res) {
-      this._dialogRef.close({ data: { message: res.body.msg, status: res.status } });
+    try {
+      var res = await lastValueFrom(this._dataService.addProduct(body))
+      if(res) {
+        this._dialogRef.close({ data: { message: res.body.msg, status: res.status } });
+      }
+    }
+    catch(error) {
+      var errorSt = error as HttpErrorResponse
+      this._dialogRef.close({ data: { message: errorSt.error.msg, status: errorSt.status } });
     }
   }
 

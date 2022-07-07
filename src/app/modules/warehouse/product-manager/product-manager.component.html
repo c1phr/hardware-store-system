@@ -1,14 +1,15 @@
 <div class="general-container grid-container">
-    <div class="page-content-card title-container">
-        <h1 class="title-style">MANTENEDOR DE PRODUCTOS</h1>
+    <div class="page-content-card page-title-container">
+        <h1 class="page-title-style">MANTENEDOR DE PRODUCTOS</h1>
     </div>
 
     <div class="page-content-card filters-container">
-        <span class="subtitle-style">Filtros</span>
+        <span class="page-title-style subtitle-style">Filtros</span>
 
         <div class="form-fields">
             <label class="title-label">Nombre: </label>
-            <input class="select-container" type="text" placeholder="Ejemplo: Tablero" (keyup)="filterName($event)" [(ngModel)]="this.searchJson.name">
+            <input class="select-container" type="text" placeholder="Ejemplo: Tablero" (keyup)="filterName(inputUserFilter.valid)" [(ngModel)]="this.searchJson.name" #inputUserFilter="ngModel" [pattern]="input_regex">
+            <label class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': !inputUserFilter.valid ? 'visible' : 'hidden'}">Búsqueda contiene caracteres prohibidos.</span></label>
         </div>
 
         <div class="form-fields">
@@ -64,17 +65,21 @@
     </div>
 
     <div class="page-content-card table-container">
-        <div class="actions-container">
+        <div class="page-actions-container">
             <button mat-raised-button class="action-button" color="primary" (click)="openDialog(-1)">
                 Agregar Producto <mat-icon>add</mat-icon>
             </button>
+        </div>
+        <div class="table-wait-spinner-container" *ngIf="loading_spinner">
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
         </div>
         <table mat-table #dataTable [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;" matSort>
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
                 <td mat-cell 
                     *matCellDef="let element" style="width: 220px;">
-                    <p style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                    <p style="max-width: 200px;"
+                       class="table-bounds"
                        #tooltip="matTooltip"
                        [matTooltip]="element.name"
                        matTooltipPosition="above"
@@ -88,7 +93,8 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Marca</th>
                 <td mat-cell 
                     *matCellDef="let element" style="width: 120px;"> 
-                    <p style="max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                    <p style="max-width: 100px;"
+                       class="table-bounds"
                        #tooltip="matTooltip"
                        [matTooltip]="element.brand"
                        matTooltipPosition="above"
@@ -102,7 +108,8 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Categoría</th>
                 <td mat-cell 
                     *matCellDef="let element" style="width: 100px;">
-                    <p style="max-width: 80px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                    <p style="max-width: 80px;"
+                       class="table-bounds"
                        #tooltip="matTooltip"
                        [matTooltip]="getCategoryName(element.id_category)"
                        matTooltipPosition="above"
@@ -116,7 +123,8 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Subcategoría</th>
                 <td mat-cell 
                     *matCellDef="let element" style="width: 100px;"> 
-                    <p style="max-width: 80px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+                    <p style="max-width: 80px;"
+                       class="table-bounds"
                        #tooltip="matTooltip"
                        [matTooltip]="getSubCategoryName(element.id_subcategory)"
                        matTooltipPosition="above"
@@ -141,7 +149,7 @@
                        [matTooltipDisabled]="element.amount > element.stockmin"
                        matTooltipPosition="above"
                        matTooltipClass="tooltip-position-warn"
-                       [ngStyle]="{'color': (element.amount < element.stockmin) ? 'red' : ''}">
+                       [ngStyle]="{'color': (element.amount <= element.stockmin) ? 'red' : ''}">
                         {{ element.amount }}
                     </p>
                 </td>
@@ -170,9 +178,6 @@
                     </a>
                     <button mat-icon-button style="color: green" (click)="openDialog(1, row)">
                         <mat-icon>edit</mat-icon>
-                    </button>
-                    <button mat-icon-button (click)="deleteWarning(row.id)">
-                        <mat-icon color="warn">delete</mat-icon>
                     </button>
                 </td>
             </ng-container>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { ReportService } from '../../../services/report.service';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-warehouse-reports',
@@ -27,14 +28,36 @@ export class WarehouseReportsComponent implements OnInit {
   }
 
   async getReportExist() {
-    var res = await lastValueFrom(this._reportService.getReportExist())
-    if(res) {
-      var pdfUrl = URL.createObjectURL(res);
-      this.openSnackBar('Reporte se obtuvo correctamente.', this.configSuccess)
-      window.open(pdfUrl)
+    try {
+      var res = await lastValueFrom(this._reportService.getReportExist())
+      if(res) {
+        var pdfUrl = URL.createObjectURL(res);
+        this.openSnackBar('Reporte se obtuvo correctamente.', this.configSuccess)
+        window.open(pdfUrl)
+      }
+      else {
+        this.openSnackBar('No se pudo obtener el reporte de existencias.', this.configError)
+      }
     }
-    else {
-      this.openSnackBar('No se pudo obtener el reporte de existencias.', this.configError)
+    catch(error) {
+      this.openSnackBar((error as HttpErrorResponse).error.msg, this.configError)
+    }
+  }
+
+  async getReportDefect() {
+    try {
+      var res = await lastValueFrom(this._reportService.getReportDefects())
+      if(res) {
+        var pdfUrl = URL.createObjectURL(res);
+        this.openSnackBar('Reporte se obtuvo correctamente.', this.configSuccess)
+        window.open(pdfUrl)
+      }
+      else {
+        this.openSnackBar('No se pudo obtener el reporte de existencias.', this.configError)
+      }
+    }
+    catch(error) {
+      this.openSnackBar((error as HttpErrorResponse).error.msg, this.configError)
     }
   }
 

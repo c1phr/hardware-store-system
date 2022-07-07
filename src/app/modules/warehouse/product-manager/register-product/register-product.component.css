@@ -1,25 +1,3 @@
-.register-container {
-    display: flex;
-    flex-flow: column;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
-}
-
-.title-container {
-    background-color: #3d3d3d;
-    width: 100%;
-    height: 60px;
-}
-
-.column-container {
-    display: flex;
-    flex-flow: column;
-    justify-content: space-around;
-    align-items: center;
-    gap: 20px;
-}
-
 .rows-container {
     display: flex;
     flex-flow: row wrap;
@@ -28,33 +6,9 @@
     gap: 20px;
 }
 
-.form-fields {
-    display: flex;
-    flex-flow: column;
-}
-
-.title-label {
-    font-weight: 600;
-}
-
-.option-style {
-    color: white;
-    font-size: 16px;
-    font-family: Lato;
-}
-
 .select-container {
-    background-color: #3d3d3d;
     height: 30px;
     width: 220px;
-    border-radius: 2px;
-    border: none;
-    outline: none;
-    padding: 5px 10px;
-    box-sizing: border-box;
-    color: white;
-    font-size: 16px;
-    font-family: Lato;
 }
 
 .textarea-container {
@@ -69,44 +23,4 @@
     color: white;
     font-size: 16px;
     font-family: Lato;
-}
-
-.form-error-field {
-    font-size: 10px;
-    line-height: 10px;
-    margin: 0;
-    color: red;
-    top: -5px;
-    position: relative;
-}
-
-.form-separator-label {
-    height: 8px;
-}
-
-.add-button {
-    width: 200px;
-    color: white;
-    background-color: #FF8000;
-    letter-spacing: 0.12rem;
-    font-family: Lato;
-    font-weight: 700;
-}
-
-.close-button {
-    width: 200px;
-    color: white;
-    background-color: #3d3d3d;
-    letter-spacing: 0.12rem;
-    font-family: Lato;
-    font-weight: 700;
-}
-
-.buttons-container {
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
 }

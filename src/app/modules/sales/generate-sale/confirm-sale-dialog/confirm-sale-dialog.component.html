@@ -1,0 +1,28 @@
+<div class="dialog-general-container">
+    <div class="dialog-title-banner">
+        <h1 class="dialog-title">MÉTODOS DE PAGO</h1>
+    </div>
+
+    <div class="column-container">
+        <div class="form-fields">
+            <label for="payment_total" class="title-label">Precio Total: </label>
+            <span class="product-price" id="payment_total">${{ data.total | number:'1.0-0':'es-CL' }}</span>
+
+            <label for="payment_method" class="title-label">Seleccione un método de pago: </label>
+            <mat-radio-group [(ngModel)]="selected_payment" class="radios-column">
+                <mat-radio-button *ngFor="let payment of payment_list" [value]="payment.id">{{ payment.name }}</mat-radio-button>
+            </mat-radio-group>
+            <label for="rut" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validPayment() ? 'hidden' : 'visible'}">Debe seleccionar un método de pago.</span></label>
+        </div>
+
+        <div class="buttons-container">
+            <button mat-raised-button class="orange-action-button" (click)="confirmationWarning()">
+                CONFIRMAR
+            </button>
+            <button mat-raised-button class="dialog-close-button" (click)="close()">
+                CANCELAR       
+            </button>
+        </div>
+    </div>
+</div>
+

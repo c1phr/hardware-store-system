@@ -1,0 +1,8 @@
+.table-wait-spinner-container {
+    transform: scale(1.5) translate(9%,25%)
+}
+
+.select-container {
+    height: 36px;
+    width: 220px;
+}

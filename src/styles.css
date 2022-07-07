@@ -27,7 +27,12 @@ body { margin: 0; font-family: Lato, "Helvetica Neue", sans-serif; }
     background: #FF8000 !important;
 }
 
-
+.table-wait-spinner-container {
+    margin-left: 50%;
+    transform: scale(1.5) translate(5%,25%);
+    margin-bottom: 100px;
+    color: #FF8000;
+}
 
 .general-container {
     padding: 20px;
@@ -127,9 +132,26 @@ body { margin: 0; font-family: Lato, "Helvetica Neue", sans-serif; }
     padding: 0 !important;
 }
 
+.mat-button-toggle {
+    outline: 1px solid black;
+}
+
+.mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle {
+    border-left: none;
+}
+
+.mat-button-toggle-label-content {
+    line-height: 36px !important;
+    letter-spacing: 0.1rem;
+}
+
 .delete-warning-dialog .mat-dialog-container {
     width: 400px;
     padding: 0 !important;
+}
+
+.mat-drawer-inner-container {
+    overflow: hidden !important;
 }
 
 .register-product-dialog .mat-dialog-container {
@@ -178,11 +200,324 @@ body { margin: 0; font-family: Lato, "Helvetica Neue", sans-serif; }
 }
 
 .router-height {
-    min-height: calc(100% - 516px)
+    min-height: calc(100% - 500px)
 }
 
 .router-height-staff {
     min-height: calc(100% - 150px)
+}
+
+
+/* GLOBAL CSS */
+
+.product-title-container {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.dialog-title-banner {
+    background-color: #3d3d3d;
+    width: 100%;
+    height: 60px;
+}
+
+.page-title-container {
+    grid-row-start: first;
+    grid-row-end: mid;
+    grid-column-start: first;
+    grid-column-end: last;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.centered-title-container {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page-title-style {
+    color: #3d3d3d;
+    letter-spacing: 0.2rem;
+    font-weight: 700;
+    margin: 10px;
+}
+
+.page-actions-container {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.form-fields {
+    display: flex;
+    flex-flow: column;
+}
+
+.title-label {
+    font-weight: 600;
+}
+
+.select-container {
+    background-color: #3d3d3d;
+    border-radius: 2px;
+    border: none;
+    outline: none;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    color: white;
+    font-size: 16px;
+    font-family: Lato;
+}
+
+.button-toggle-container {
+    margin-top: 10px;
+    height: 36px;
+    border: 1px solid black;
+}
+
+.button-toggle-content {
+    font-size: 12px;
+    color: black;
+}
+
+.orange-action-button {
+    width: 200px;
+    color: white;
+    background-color: #FF8000;
+    letter-spacing: 0.12rem;
+    font-family: Lato;
+    font-weight: 700;
+}
+
+.table-bounds {
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+}
+
+.option-style {
+    color: white;
+    font-size: 16px;
+    font-family: Lato;
+}
+
+.column-container {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+}
+
+.dialog-general-container {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.form-error-field {
+    font-size: 10px;
+    line-height: 10px;
+    margin: 0;
+    color: red;
+    top: -5px;
+    position: relative;
+}
+
+.form-separator-label {
+    height: 8px;
+}
+
+.dialog-close-button {
+    width: 200px;
+    color: white;
+    background-color: #3d3d3d;
+    letter-spacing: 0.12rem;
+    font-family: Lato;
+    font-weight: 700;
+}
+
+.buttons-container {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.product-price {
+    font-weight: 900;
+    font-family: Lato;
+    letter-spacing: 0.2rem;
+    color: #FF8000;
+    font-size: 34px;
+}
+
+.product-amount {
+    font-family: Lato;
+    letter-spacing: 0.08rem;
+    font-size: 12px;
+}
+
+.product-title-style {
+    font-family: Lato;
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: 0.12em;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.ctg-product-title {
+    width: 90%;
+    margin-top: 10px;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.12rem;
+    font-weight: 800;
+    font-family: Lato;
+    text-decoration: none;
+    color: black;
+}
+
+.ctg-product-title:hover {
+    color: #FF8000;
+}
+
+.ctg-product-title:visited {
+    color: inherit;
+}
+
+.ctg-product-title:visited:hover {
+    color: #FF8000;
+}
+
+.link-line {
+    font-size: 12px;
+    letter-spacing: 0.12rem;
+    margin-right: 5px;
+    margin-left: 5px;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    color: black;
+}
+
+.active-link {
+    font-size: 12px;
+    letter-spacing: 0.12rem;
+    margin-right: 5px;
+    margin-left: 5px;
+    text-decoration: none;
+    color: #FF8000;
+}
+
+.link-line:hover {
+    color: #FF8000;
+}
+
+.link-line:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #FF8000;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+.link-line:visited {
+    color: inherit;
+}
+
+.link-line:visited:hover {
+    color: #FF8000;
+}
+
+.link-line:hover:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.larger-container {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.products-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 40px;
+    align-items: flex-start;
+    padding: 50px 100px;
+    max-width: 1610px;
+}
+
+.ctg-product-card {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+    width: 250px;
+    height: 350px;
+    padding: 0px;
+    border-radius: 5px;
+}
+
+.top-half {
+    width: 100%;
+    height: 50%;
+}
+
+.bottom-half {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand-name {
+    width: 70%;
+    text-align: center;
+    font-size: 13px;
+    letter-spacing: 0.08rem;
+    font-weight: 500;
+    font-family: Lato;
+    color: grey;
+    line-height: 13px;
+}
+
+.price-content {
+    font-family: Lato;
+    font-size: 18px;
+    font-weight: 700;
+    color: #FF8000;
+    letter-spacing: 0.12rem;
+}
+
+.add-item-button {
+    background-color: #FF8000;
+    color: white;
+    border-radius: 50px !important;
+    font-family: Lato;
+    letter-spacing: 0.12rem;
 }
 
 /* MEDIA DECLARATIONS - ALWAYS LAST!! */

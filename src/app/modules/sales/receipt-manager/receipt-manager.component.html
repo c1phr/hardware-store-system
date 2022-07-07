@@ -1,1 +1,17 @@
-<p>receipt-manager works!</p>
+<div class="general-container">
+    <div class="receipt-container">
+
+        <div class="page-content-card form-container">
+            <h2 class="page-title-style centered-title-container">OBTENER BOLETA</h2>
+            <form [formGroup]="receiptForm" class="form-fields" style="margin-bottom: 20px;">
+                <label for="id_sale" class="title-label">Código Compra: </label>
+                <input class="select-container" id="id_sale" type="text" required formControlName="id_sale">
+                <label for="id_sale" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('id_sale') ? 'visible' : 'hidden'}">Código alfanumérico, mínimo 9 caracteres.</span></label>
+            </form>
+            <button mat-raised-button class="receipt-button" (click)="getReceipt()" color="primary">
+                Obtener Boleta
+            </button>
+        </div>
+
+    </div>
+</div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { RutPipe } from 'src/app/pipes/rut.pipe';
 import { AuthService } from '../../services/auth.service';
@@ -12,6 +13,16 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
+  configSuccess: MatSnackBarConfig = {
+    duration: 3000,
+    panelClass: ['success-sb']
+  }
+
+  configError: MatSnackBarConfig = {
+    duration: 5000,
+    panelClass: ['error-sb']
+  }
+
   login_rut = '';
 
   loginForm: FormGroup = this._fb.group({
@@ -19,11 +30,14 @@ export class LoginComponent implements OnInit {
     password: [,[Validators.minLength(1), Validators.maxLength(16)]]
   })
 
+  wait_spinner: boolean = false;
+
   constructor(private _authService: AuthService,
               private _router: Router,
               private _fb: FormBuilder,
               private rutPipe: RutPipe,
-              private _matDialog: MatDialog) { }
+              private _matDialog: MatDialog,
+              private _sb: MatSnackBar,) { }
 
   ngOnInit(): void {
   }
@@ -34,6 +48,7 @@ export class LoginComponent implements OnInit {
   }
 
   async login() {
+    this.wait_spinner = true;
     this.loginForm.controls['rut'].setValue(this.rutPipe.transform(this.loginForm.controls['rut'].value));
     if(this.loginForm.invalid) {
       return this.loginForm.markAllAsTouched();
@@ -42,17 +57,14 @@ export class LoginComponent implements OnInit {
       this.loginForm.controls['rut'].setValue(this.loginForm.controls['rut'].value.replace(/\./g,''));
       var res = await this._authService.login(this.loginForm.controls['rut'].value, this.loginForm.controls['password'].value)
       if(res) {
+        this.wait_spinner = false;
         return (res.status === 200)
-          ? (this._router.navigate(['']), this._matDialog.closeAll())
+          ? (this._router.navigate(['']), this._matDialog.closeAll(), this.openSnackBar(res.msg, this.configSuccess))
           : (res.status === 400)
-            ? console.log('ERROR')
-            : console.log('UNKNOWN ERROR')
+            ? (this.openSnackBar(res.msg, this.configError))
+            : (this.openSnackBar(res.msg, this.configError))
       }
     }
-  }
-
-  register() {
-    this._router.navigateByUrl('/auth/registrar');
   }
 
   closeDialogs() {
@@ -64,6 +76,10 @@ export class LoginComponent implements OnInit {
     this.loginForm.controls['rut'].setValue(aux)
     return this.loginForm.controls['rut'].errors
       && this.loginForm.controls['rut'].touched;
+  }
+
+  openSnackBar(message: string, config: MatSnackBarConfig) {
+    this._sb.open(message, 'CERRAR', config);
   }
 
 }

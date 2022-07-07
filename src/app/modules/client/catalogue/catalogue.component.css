@@ -1,3 +1,10 @@
+.wait-spinner-container {
+    margin-left: 50%;
+    transform: scale(1.5) translate(5%,100%);
+    margin-bottom: 100px;
+    color: #FF8000;
+}
+
 .banner-grid {
     height: 100px;
     background-color: gray;
@@ -119,23 +126,6 @@
     box-sizing: border-box;
     padding: 6px 15px;
     background-color: white;
-}
-
-.title-container {
-    display: flex;
-    flex-flow: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-}
-
-.product-title {
-    font-family: Lato;
-    font-weight: 800;
-    font-size: 18px;
-    line-height: 22px;
-    letter-spacing: 0.12em;
-    margin: 0;
-    text-transform: uppercase;
 }
 
 .price-tag {

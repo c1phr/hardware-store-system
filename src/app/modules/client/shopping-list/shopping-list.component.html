@@ -16,7 +16,7 @@
         <div class="product-info-container">
             <div class="product-info-content">
                 <label class="title-label">Total: </label>
-                <span class="product-price">${{ product.value | number:'1.0-0':'es-CL' }}</span>
+                <span class="product-price">${{ getTotalProduct(product.price, product.amount) | number:'1.0-0':'es-CL' }}</span>
             </div>
             <div class="product-info-content">
                 <label class="title-label">Cantidad: </label>
@@ -24,23 +24,33 @@
             </div>
         </div>
         <div class="product-actions-container-top">
-            <button mat-icon-button class="action-button-style" color="primary" (click)="subtractProduct(wishlist.indexOf(product))">
+            <button mat-icon-button class="action-button-style" color="primary" (click)="subtractProduct(wishlist.indexOf(product))" [disabled]="confirmed">
                 <mat-icon class="button-icon-style">remove</mat-icon>
             </button>
-            <button mat-icon-button class="action-button-style" color="primary" (click)="addProduct(wishlist.indexOf(product))">
+            <button mat-icon-button class="action-button-style" color="primary" (click)="addProduct(wishlist.indexOf(product))" [disabled]="confirmed">
                 <mat-icon class="button-icon-style">add</mat-icon>
             </button>
         </div>
         <div class="product-actions-container-bottom">
-            <button mat-icon-button class="action-button-style" color="primary" [disabled]="!product.changed" (click)="modifyProduct(product.id_product, product.amount)">
+            <button mat-icon-button class="action-button-style" color="primary" [disabled]="!product.changed || confirmed" (click)="modifyProduct(product.id_product, product.amount)">
                 <mat-icon class="button-icon-style">save</mat-icon>
             </button>
-            <button mat-icon-button class="action-button-style" color="warn" (click)="deleteProduct(product.id_product)">
+            <button mat-icon-button class="action-button-style" color="warn" (click)="deleteProduct(product.id_product)" [disabled]="confirmed">
                 <mat-icon class="button-icon-style">delete</mat-icon>
             </button>
-        </div>
+        </div> 
     </div>
-    <div class="product-card">
-
+    <div class="product-card total-wishlist-container">
+        <label class="title-label">TOTAL: </label>
+        <span class="product-price" style="margin-left: 20px;">${{ getTotalWishlist() | number:'1.0-0':'es-CL' }}</span>
+    </div>
+    <div class="product-card total-wishlist-container">
+        <button mat-raised-button (click)="confirmWishlist()" class="confirm-button" *ngIf="!confirmed">
+            Confirmar
+        </button>
+        <span class="product-price" *ngIf="confirmed">CONFIRMADO</span>
+    </div>
+    <div>
+        <p>*Recordatorio: Al confirmar la wishlist, se bloquearán los cambios a esta hasta el momento de su compra, o la desconfirmación de esta desde su perfil de usuario</p>
     </div>
 </div>

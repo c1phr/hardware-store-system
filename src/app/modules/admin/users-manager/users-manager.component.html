@@ -1,1 +1,117 @@
-<p>users-manager works!</p>
+<div class="general-container">
+    <div class="page-content-card page-title-container">
+        <h1 class="page-title-style">GESTOR DE USUARIOS</h1>
+    </div>
+    <div class="page-content-card">
+        <div class="page-actions-container">
+            <div>
+                <div class="form-fields">
+                    <label class="title-label">Filtrar:</label>
+                    <input class="select-container" (keyup)="applyFilter(inputUserFilter.valid)" placeholder="Ejemplo: nombre usuario" [pattern]="input_regex" #inputUserFilter="ngModel" [(ngModel)]="userFilterValue">
+                    <label class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': !inputUserFilter.valid ? 'visible' : 'hidden'}">Búsqueda ingresada contiene caracteres no aceptados.</span></label>
+                </div>
+                <mat-button-toggle-group name="userType" aria-label="User Type" (change)="filterActiveUser()" class="button-toggle-container" [(ngModel)]="userFilter">
+                    <mat-button-toggle value="-1" class="button-toggle-content">TODOS</mat-button-toggle>
+                    <mat-button-toggle value="1" class="button-toggle-content">CLIENTE</mat-button-toggle>
+                    <mat-button-toggle value="2" class="button-toggle-content">BODEGA</mat-button-toggle>
+                    <mat-button-toggle value="3" class="button-toggle-content">VENTAS</mat-button-toggle>
+                    <mat-button-toggle value="4" class="button-toggle-content">ADMIN</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+            <div class="form-fields" style="align-items: flex-end;">
+                <button mat-raised-button class="add-button" color="primary" (click)="registerUserDialog()" style="letter-spacing: 0.12rem; width: 220px;">
+                    <mat-icon>add</mat-icon> AGREGAR USUARIO
+                </button>
+                <mat-button-toggle-group name="userType" aria-label="User Type" (change)="filterActiveUser()" class="button-toggle-container" [(ngModel)]="filterActive">
+                    <mat-button-toggle value="-1" class="button-toggle-content">TODOS</mat-button-toggle>
+                    <mat-button-toggle value="0" class="button-toggle-content">ACTIVOS</mat-button-toggle>
+                    <mat-button-toggle value="1" class="button-toggle-content">INACTIVOS</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+        </div>
+        <div class="table-wait-spinner-container" *ngIf="loading_spinner">
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
+        <table mat-table #dataTable [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%; margin-top: 20px;" matSort>
+    
+            <ng-container matColumnDef="rut">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Rut</th>
+                <td mat-cell *matCellDef="let element" style="width: 100px;"> 
+                    {{ element.rut }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Completo</th>
+                <td mat-cell *matCellDef="let element" style="padding-right: 5px;">
+                    {{ element.name }} {{ element.surname }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Correo</th>
+                <td mat-cell *matCellDef="let element" style="padding-right: 5px;"> 
+                    {{ element.email }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="role">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Rol</th>
+                <td mat-cell *matCellDef="let element" style="width: 120px;"> 
+                    {{ getRoleName(element.role) }}
+                </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="city">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Ciudad</th>
+                <td mat-cell *matCellDef="let element" style="width: 120px;"> 
+                    {{ element.city }}
+                </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="address">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Dirección</th>
+                <td mat-cell *matCellDef="let element" style="width: 140px;">
+                    <p #tooltip="matTooltip"
+                       class="table-bounds"
+                       [matTooltip]="element.address"
+                       matTooltipPosition="above"
+                       matTooltipClass="tooltip-position"
+                       style="max-width: 120px;">
+                        {{ element.address }}
+                    </p>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="phone">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Teléfono</th>
+                <td mat-cell *matCellDef="let element" style="padding-right: 5px;"> 
+                    {{ element.phone }}
+                </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="state">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Activo</th>
+                <td mat-cell *matCellDef="let element" style="padding-right: 5px;"> 
+                    <mat-slide-toggle [checked]="!element.banned" (change)="banWarning($event, element.rut)">
+                    </mat-slide-toggle>
+                </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                <td mat-cell *matCellDef="let row; let i = index" style="min-width: 120px; padding-right: 5px;">
+                    <button mat-icon-button style="color: green" (click)="passwordWarning(row.rut)">
+                        <mat-icon>lock_reset</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    
+        </table>
+        <mat-paginator #myPaginator [pageSizeOptions]="pageSizeOptions" showFirstLastButtons aria-label="Select page of users">
+        </mat-paginator>
+    </div>
+</div>

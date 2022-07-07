@@ -1,5 +1,5 @@
 <div class="question-card" *ngIf="type === 'general'">
-    <div class="title-container">
+    <div class="dialog-title-banner">
         <h1 class="dialog-title">¿ESTÁ SEGURO?</h1>
         <button mat-icon-button class="close-button-pos" (click)="close()">
             <mat-icon class="close-button">close</mat-icon>
@@ -7,7 +7,7 @@
     </div>
     <div class="body-container">
         <p style="font-size: 14px;">{{ data.message }}</p>
-        <div class="buttons-container">
+        <div class="warning-buttons-container">
             <button mat-raised-button class="answer-button continue-button" (click)="answerQuestion(true)">
                 CONTINUAR
             </button>

@@ -1,6 +1,6 @@
 <div>
     <a name="top"></a>
-    <div style="margin-top: 20px; margin-left: 20px;">
+    <div style="padding-top: 20px; margin-left: 20px;">
         <a class="link-line" href="./">INICIO</a>
         >
         <a class="link-line" href="./">CATÁLOGO</a>
@@ -43,7 +43,7 @@
                         <input id="product_amount" class="select-container" min="1" type="number" [max]="selectedProduct.amount" style="width: 80px;" [(ngModel)]="amount">
                     </div>
 
-                    <button mat-raised-button class="add-item-button" [disabled]="selectedProduct.removed || !checkLogged" (click)="addItemToWishlist(selectedProduct.id)">
+                    <button mat-raised-button class="add-item-button" [disabled]="selectedProduct.removed || !checkLogged || confirmedcart" (click)="addItemToWishlist(selectedProduct.id)">
                         AGREGAR A LISTA
                     </button>
                 </div>

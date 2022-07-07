@@ -141,7 +141,7 @@
                         (click)="sidenav.toggle()" *ngIf="inStaff()">
                     <mat-icon class="menu-ham-button">menu</mat-icon>
                 </button>
-                <input class="search-input" type="text" placeholder="Buscar" (keyup.enter)="search($event)" *ngIf="inStart() || inAuth()">
+                <input class="search-input" type="text" placeholder="Buscar" (keyup.enter)="search(inputUserFilter.valid)" *ngIf="inStart() || inAuth()" [pattern]="input_regex" #inputUserFilter="ngModel" [(ngModel)]="filterValue">
                 <div class="client-buttons" style="margin-right: 5%">
                     <button mat-fab class="client-button-style" *ngIf="inStart() && checkLog()" [matMenuTriggerFor]="wishlistMenu" (click)="openWishlist()">
                         <span class="material-icons-outlined">
@@ -152,39 +152,39 @@
                         <button mat-menu-item
                                 *ngFor="let product of wishlist"
                                 [routerLink]="product.nav"
-                                style="font-family: Lato; font-size: 14px !important; height: 60px !important;">
-                            <div style="display: flex; flex-flow: row; gap: 4px; align-items: center;">
+                                class="matmenu-button">
+                            <div class="matmenu-product-container">
                                 <img [src]="product.url" style="width: 50px; height: 50px; object-fit: cover;">
-                                <p style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: black;"> {{ product.name }} </p>
+                                <p class="matmenu-name"> {{ product.name }} </p>
                                 <p style="font-size: 16px; color: #FF8000;"> {{ product.amount }} </p>
                             </div>
                         </button>
                         
-                        <button mat-menu-item style="text-align: center; font-family: Lato; font-size: 16px !important; height: 60px !important;">
-                            <div style="border: 2px solid #FF8000; border-radius: 30px; background-color:#FF8000; color: white; font-weight: 700;"
+                        <button mat-menu-item class="matmenu-action-button">
+                            <div class="matmenu-action-button-style"
                                  routerLink="/inicio/lista-compras">
                                 Ir a la wishlist
                             </div>
                         </button>
+
                     </mat-menu>
                     <div *ngIf="checkLog()" class="client-info-card">
                         <div class="client-info-content">
                             <span class="user-name-text">{{ nameUser() | uppercase }}</span>
                             <span class="portal-name" *ngIf="inStart()">Vista Cliente</span>
-                            <span class="portal-name" *ngIf="inWH()">Vista Bodega</span>
-                            <span class="portal-name" *ngIf="inAdmin()">Vista Administración</span>
-                            <span class="portal-name" *ngIf="inSales()">Vista Venta</span>
+                            <span class="portal-name" *ngIf="inStaff()">Vista {{ type | titlecase }}</span>
                         </div>
                         <button mat-icon-button style="transform: scale(1.5); margin-left: 10px" [matMenuTriggerFor]="beforeMenu">
                             <span class="material-icons-outlined">
                                 face
                             </span>
                         </button>
-                        <button mat-fab class="notifications-button" *ngIf="!inStart() && (inAdmin() || inWH())">
-                            <span class="material-icons-outlined">
+                        <button mat-fab class="notifications-button" *ngIf="!inStart() && (inAdmin() || inWH())" [matBadge]="stock_min.length" matBadgeColor="accent" matBadgeSize="medium" [matMenuTriggerFor]="notifMenu" (click)="reloadStock()">
+                            <span class="material-icons-outlined" style="transform: scale(2.5);">
                                 notifications
                             </span>
                         </button>
+                        <!-- logged in menu -->
                         <mat-menu #beforeMenu="matMenu" xPosition="before">
                             <button mat-menu-item
                                     *ngIf="inStart() && (typeUser() != 'client')"
@@ -216,7 +216,29 @@
                                 <mat-icon style="color: #F44336;">logout</mat-icon>CERRAR SESIÓN
                             </button>
                         </mat-menu>
-                        
+
+                        <!-- notifications menu -->
+                        <mat-menu #notifMenu="matMenu" xPosition="before">
+                            <button mat-menu-item
+                                    *ngFor="let product of stock_min"
+                                    (click)="openRestockDialog(product.id, product.amount, product.stockmin, product.name)"
+                                    class="matmenu-button">
+                                    <div class="matmenu-product-container">
+                                        <img [src]="product.url" style="width: 50px; height: 50px; object-fit: cover;">
+                                        <p class="matmenu-name"> {{ product.name }} </p>
+                                        <div style="display: flex; flex-flow: row; gap: 0px; align-items: center;">
+                                            <p style="font-size: 14px; color: red;"> {{ product.amount }}</p><p style="color: black;">/{{ product.stockmin }}</p>
+                                        </div>
+                                    </div>
+                            </button>
+                            <button mat-menu-item
+                                    (click)="reloadStock()"
+                                    class="matmenu-action-button">
+                                <div class="matmenu-action-button-style">
+                                    Recargar
+                                </div>
+                            </button>
+                        </mat-menu>
                     </div>
                     <button mat-fab class="client-button-style" (click)="openLogin()" *ngIf="!checkLog()">
                         <span class="material-icons-outlined">
@@ -231,28 +253,27 @@
                 </div>
                 
             </div>
-            
+
             <div class="nav-buttons-grid" *ngIf="!inStaff()">
-                <button mat-button class="nav-button"
-                        *ngFor="let button of navig"
-                        name="button.name"
-                        [routerLink]="button.nav"
-                        [matMenuTriggerFor]="belowMenu"
-                        #menuTrigger="matMenuTrigger"
-                        (mouseenter)="menuTrigger.openMenu()">
-                    <div class="button-flex">
-                        <span>{{ button.name | uppercase }}</span>
-                        <mat-icon style="color: #000000;">expand_more</mat-icon>
-                    </div>
-                    <mat-menu #belowMenu="matMenu" yPosition="below" [overlapTrigger]="false">
-                        <span (mouseleave)="menuTrigger.closeMenu()">
-                            <a mat-menu-item class="menu-nav-button" [routerLink]="button.nav" [state]="{ category_name: button.name }"></a>
-                            <a mat-menu-item *ngFor="let subcat of button.subcat" [routerLink]="subcat.nav" class="mat-menu-link" [state]="{ subcat_name: subcat.name }">
-                                {{ subcat.name | uppercase }}
+                <div class="dropmenu" *ngFor="let button of navig">
+                    <button mat-button class="nav-button"
+                            name="button.name">
+                        <div class="button-flex">
+                            <span>{{ button.name | uppercase }}</span>
+                            <mat-icon style="color: #000000;">expand_more</mat-icon>
+                        </div>
+                    </button>
+                    <div class="dropmenu-container" (mouseenter)="openDropdown(button.name)" (mouseleave)="closeDropdown(button.name)"  (click)="closeDropdown(button.name)">
+                        <div style="height: 80px; width: 166px; background-color: transparent !important" [routerLink]="button.nav" class="category-button"></div>
+                        <div [id]="button.name" class="dropmenu-container-buttons">
+                            <a [routerLink]="subcat.nav"  *ngFor="let subcat of button.subcat" class="navigation-button">
+                                <p class="button-name-ellipsis">
+                                    {{ subcat.name | uppercase }}
+                                </p>
                             </a>
-                        </span>
-                    </mat-menu>
-                </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </mat-toolbar>
         <div class="router-height" *ngIf="!inStaff()">

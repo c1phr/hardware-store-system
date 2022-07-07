@@ -12,10 +12,18 @@ export class ReportService {
 
   getReportExist() {
     return this.http.get(this._baseUrl+'api/get-reporte-existencia', { responseType: 'blob' })
-      // .subscribe(res => {
-      //   var pdfUrl = URL.createObjectURL(res);
-      //   window.open(pdfUrl)
-      // })
+  }
+
+  getReportDefects() {
+    return this.http.get(this._baseUrl+'api/get-reporte-defective-product', { responseType: 'blob' })
+  }
+
+  getReportSalesPrice() {
+    return this.http.get(this._baseUrl+'api/get-reporte-ventas-totales-por-precio', { responseType: 'blob' })
+  }
+
+  getReportSalesAmount() {
+    return this.http.get(this._baseUrl+'api/get-reporte-ventas-totales-por-cantidad-vendida', { responseType: 'blob' })
   }
 
 }

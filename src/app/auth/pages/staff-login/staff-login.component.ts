@@ -51,13 +51,12 @@ export class StaffLoginComponent implements OnInit {
       const pass = this.loginForm.value.password;
       var res = await this._authService.staffLogin(email, pass)
       if(res) {
+        this.wait_account = false
         return (res.status === 200)
             ? (this._router.navigate(['/staff/' + this._authService.getType()]), this.openSnackBar('Se inició sesión correctamente!', this.configSuccess))
             : (res.status === 400)
-              ? (this.wait_account = false, this.openSnackBar('El correo electrónico ingresado no se encuentra registrado.', this.configError))
-              : (res.status === 401)
-                ? (this.wait_account = false, this.openSnackBar('La contraseña ingresada es incorrecta. Intente nuevamente.', this.configError))
-                : (this.wait_account = false, this.openSnackBar('Se produjo un error en el inicio de sesión. Intente nuevamente.', this.configError))
+              ? (this.openSnackBar(res.msg, this.configError))
+              : (this.openSnackBar(res.msg, this.configError))
       }
     }
   }

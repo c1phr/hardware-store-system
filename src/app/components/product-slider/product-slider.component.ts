@@ -5,6 +5,8 @@ import SwiperCore, { Pagination, SwiperOptions } from 'swiper';
 import localeEsCl from '@angular/common/locales/es-CL';
 import { CatalogueService } from '../../services/catalogue.service';
 import { lastValueFrom } from 'rxjs';
+import { CommsService } from '../../services/comms.service';
+import { HttpErrorResponse } from '@angular/common/http';
 registerLocaleData(localeEsCl, 'es-CL');
 
 SwiperCore.use([Pagination])
@@ -46,6 +48,7 @@ export class ProductSliderComponent implements OnInit {
 
   check_prod: boolean = false;
 
+
   private _baseUrl: string = 'https://sistemaventainventario.herokuapp.com/'
 
   constructor(private _catalogueService: CatalogueService) { }
@@ -57,21 +60,25 @@ export class ProductSliderComponent implements OnInit {
 
   async getProducts() {
     this.check_prod = false;
-    var res = await lastValueFrom(this._catalogueService.getRandomProducts())
-    if(res) {
-      this.slides = res.products
-      this.productsArray()
+    try {
+      var res = await lastValueFrom(this._catalogueService.getRandomProducts())
+      if(res) {
+        this.slides = res
+        this.productsArray()
+      }
+    }
+    catch(error) {
+      var errorSt = error as HttpErrorResponse
     }
   }
 
   productsArray() {
     for(var i=0; i<this.slides.length;i++) {
       this.slides[i].nav = `/inicio/catalogo/${this.slides[i].category}/${this.slides[i].subcategory}/producto/${this.slides[i].id}`
-      this.slides[i].url = `${this._baseUrl}${this.slides[i].url}`
+      this.slides[i].url = this.slides[i].url
       this.check_prod = true;
     }
     this.check_prod = true;
-    console.log(this.slides)
   }
 
 }

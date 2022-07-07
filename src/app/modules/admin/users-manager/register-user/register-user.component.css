@@ -1,0 +1,35 @@
+.select-container {
+    height: 30px;
+    width: 220px;
+}
+
+.phone-input {
+    background-color: #3d3d3d;
+    height: 30px;
+    width: 220px;
+    border-radius: 2px;
+    border: none;
+    outline: none;
+    padding: 5px 10px 5px 45px;
+    box-sizing: border-box;
+    color: white;
+    font-size: 16px;
+    font-family: Lato;
+}
+
+.input-line {
+    display: flex;
+    align-items: center;
+    flex-flow: row;
+}
+
+.prefix-space {
+    position: relative;
+    width: 0;
+    height: 0;
+    left: 9px;
+    top: -9px;
+    color: white;
+    font-size: 16px;
+    font-family: Lato;
+}

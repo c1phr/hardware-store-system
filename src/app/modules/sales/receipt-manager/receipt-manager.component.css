@@ -1,0 +1,33 @@
+.receipt-container {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-evenly;
+    min-height: 700px;
+}
+
+.form-container {
+    width: 50%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.select-container {
+    height: 30px;
+    width: 220px;
+}
+
+.form-error-field {
+    font-size: 12px;
+    line-height: 12px;
+}
+
+.receipt-button {
+    font-weight: 700;
+    font-family: Lato;
+    margin-bottom: 10px;
+    width: 180px;
+    letter-spacing: 0.1rem;
+}

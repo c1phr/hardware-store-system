@@ -1,0 +1,58 @@
+<div class="dialog-general-container">
+    <div class="dialog-title-banner">
+        <h1 class="dialog-title">AGREGAR USUARIO</h1>
+    </div>
+
+    <div class="column-container">
+        <div class="form-fields">
+            <form [formGroup]="newUserData" class="form-fields">
+                <label for="rut" class="title-label">Rut: </label>
+                <input class="select-container" id="rut" type="text" placeholder="11111111-1" required formControlName="rut">
+                <label for="rut" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('rut') ? 'visible' : 'hidden'}">Rut sin puntos y con guión.</span></label>
+
+                <label for="name" class="title-label">Nombre: </label>
+                <input class="select-container" id="name" type="text" placeholder="Nombre" required formControlName="name">
+                <label for="name" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('name') ? 'visible' : 'hidden'}">Nombre entre 2 y 25 caractéres.</span></label>
+
+                <label for="surname" class="title-label">Apellido: </label>
+                <input class="select-container" id="surname" type="text" placeholder="Apellido" required formControlName="surname">
+                <label for="surname" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('surname') ? 'visible' : 'hidden'}">Apellido entre 2 y 25 caractéres.</span></label>
+
+                <label for="email" class="title-label">Correo: </label>
+                <input class="select-container" id="email" type="text" placeholder="correo@correo.cl" required formControlName="email">
+                <label for="email" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('email') ? 'visible' : 'hidden'}">Ingrese un correo válido.</span></label>
+
+                <label for="city" class="title-label">Ciudad: </label>
+                <input class="select-container" id="city" type="text" placeholder="Ciudad" required formControlName="city">
+                <label for="city" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('city') ? 'visible' : 'hidden'}">Ciudad entre 2 y 25 caractéres.</span></label>
+
+                <label for="address" class="title-label">Dirección: </label>
+                <input class="select-container" id="address" type="text" placeholder="Dirección" required formControlName="address">
+                <label for="address" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('address') ? 'visible' : 'hidden'}">Dirección entre 2 y 70 caractéres.</span></label>
+
+                <label for="phone" class="title-label">Teléfono: </label>
+                <div class="input-line">
+                    <span class="prefix-space">+56</span>
+                    <input class="phone-input" id="phone" type="text" placeholder="9XXXXXXXX" required formControlName="phone">
+                </div>
+                <label for="phone" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('phone') ? 'visible' : 'hidden'}">Formato +569XXXXXXXX.</span></label>
+
+            </form>
+        
+            <label for="role" class="title-label">Rol: </label>
+            <select class="select-container" [(ngModel)]="selected_role">
+                <option class="option-style" value="2"> {{ getRoleName(2) }} </option>
+                <option class="option-style" value="3"> {{ getRoleName(3) }} </option>
+            </select>
+        </div>
+
+        <div class="buttons-container">
+            <button mat-raised-button class="orange-action-button" (click)="addUserWarning()">
+                AGREGAR   
+            </button>
+            <button mat-raised-button class="dialog-close-button" (click)="close()">
+                CANCELAR       
+            </button>
+        </div>
+    </div>
+</div>

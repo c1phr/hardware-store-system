@@ -8,6 +8,13 @@
     height: fit-content;
 }
 
+.wait-spinner-container {
+    margin-left: 30%;
+    transform: scale(1.5) translate(-25%,25%);
+    margin-bottom: 100px;
+    color: #FF8000;
+}
+
 .bigger-logo {
     font-size: 60px;
     background: -moz-linear-gradient(90deg, #3D3D3D 0%, #FF7911 100%);
@@ -80,11 +87,7 @@
 }
 
 .buttons-container {
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
+    margin-bottom: 0px;
 }
 
 .password-link {

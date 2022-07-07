@@ -1,4 +1,7 @@
-<div class="page-content-min">
+<div class="wait-spinner-container" *ngIf="wait_load">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+</div>
+<div class="page-content-min" *ngIf="!wait_load">
     <div class="banner-grid">
 
     </div>
@@ -25,8 +28,8 @@
                                 <img [src]="ctg.highlights![0].url" class="product-img-pos">
                             </div>
                             <div class="bottom-half-card">
-                                <div class="title-container">
-                                    <h1 class="product-title" style="max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ ctg.highlights![0].name }}</h1>
+                                <div class="product-title-container">
+                                    <h1 class="product-title-style" style="max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ ctg.highlights![0].name }}</h1>
                                 </div>
                                 <div class="price-button-container">
                                     <h5 class="price-tag">${{ ctg.highlights![0].value | number:'1.0-0':'es-CL' }}</h5>
@@ -41,8 +44,8 @@
                                 <img [src]="ctg.highlights![1].url" class="product-img-pos">
                             </div>
                             <div class="bottom-half-card">
-                                <div class="title-container">
-                                    <h1 class="product-title" style="max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ ctg.highlights![1].name }}</h1>
+                                <div class="product-title-container">
+                                    <h1 class="product-title-style" style="max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ ctg.highlights![1].name }}</h1>
                                 </div>
                                 <div class="price-button-container">
                                     <h5 class="price-tag">${{ ctg.highlights![1].value | number:'1.0-0':'es-CL' }}</h5>
@@ -57,8 +60,8 @@
                                 <img [src]="ctg.highlights![2].url" class="product-img-pos">
                             </div>
                             <div class="bottom-half-card">
-                                <div class="title-container">
-                                    <h1 class="product-title" style="max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ ctg.highlights![2].name }}</h1>
+                                <div class="product-title-container">
+                                    <h1 class="product-title-style" style="max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ ctg.highlights![2].name }}</h1>
                                 </div>
                                 <div class="price-button-container">
                                     <h5 class="price-tag">${{ ctg.highlights![2].value | number:'1.0-0':'es-CL' }}</h5>
@@ -73,8 +76,8 @@
                                 <img [src]="ctg.highlights![3].url" class="product-img-pos">
                             </div>
                             <div class="bottom-half-card">
-                                <div class="title-container">
-                                    <h1 class="product-title" style="max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ ctg.highlights![3].name }}</h1>
+                                <div class="product-title-container">
+                                    <h1 class="product-title-style" style="max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ ctg.highlights![3].name }}</h1>
                                 </div>
                                 <div class="price-button-container">
                                     <h5 class="price-tag">${{ ctg.highlights![3].value | number:'1.0-0':'es-CL' }}</h5>

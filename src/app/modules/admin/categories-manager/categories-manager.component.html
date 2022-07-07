@@ -1,1 +1,137 @@
-<p>categories-manager works!</p>
+<div class="general-container">
+    <div class="page-content-card page-title-container">
+        <h1 class="page-title-style">GESTOR DE CATEGORÍAS Y SUBCATEGORÍAS</h1>
+    </div>
+
+    <div class="page-content-card" style="margin-bottom: 15px;">
+        <h2 class="page-title-style page-title-container">CATEGORÍAS</h2>
+        <div class="page-actions-container">
+            <div class="form-fields">
+                <label class="title-label">Filtrar:</label>
+                <input class="select-container" (keyup)="applyFilterCtg(inputCtgFilter.valid)" placeholder="Ejemplo: nombre categoría" [pattern]="input_regex" #inputCtgFilter="ngModel" [(ngModel)]="ctgFilterValue">
+                <label class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': !inputCtgFilter.valid ? 'visible' : 'hidden'}">Búsqueda ingresada contiene caracteres no aceptados.</span></label>
+                <mat-button-toggle-group name="userType" aria-label="User Type" (change)="filterActiveCtg()" class="button-toggle-container" [(ngModel)]="filterCtgActive">
+                    <mat-button-toggle value="-1" class="button-toggle-content">TODOS</mat-button-toggle>
+                    <mat-button-toggle value="0" class="button-toggle-content">ACTIVOS</mat-button-toggle>
+                    <mat-button-toggle value="1" class="button-toggle-content">INACTIVOS</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+            <button mat-raised-button class="add-button" color="primary" style="letter-spacing: 0.12rem; margin-bottom: 8px;" (click)="openCtgDialog('add','ctg')">
+                <mat-icon>add</mat-icon> AGREGAR CATEGORÍA
+            </button>
+        </div>
+        <div class="table-wait-spinner-container" *ngIf="loading_spinner_ctg">
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
+        <table mat-table #dataTable [dataSource]="ctgDataSource" class="mat-elevation-z8" style="width: 100%; margin-top: 20px;" matSort="ctgMatSort">
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Categoría</th>
+                <td mat-cell *matCellDef="let element" style="padding-right: 5px;">
+                    {{ element.name }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripción</th>
+                <td mat-cell *matCellDef="let element" style="padding-right: 5px;"> 
+                    {{ element.description }}
+                </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="removed">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Activo</th>
+                <td mat-cell *matCellDef="let element" style="padding-right: 5px;"> 
+                    <mat-slide-toggle [checked]="!element.removed" (change)="removeCtgWarning($event, element.id)">
+                    </mat-slide-toggle>
+                </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                <td mat-cell *matCellDef="let row; let i = index" style="min-width: 120px; padding-right: 5px;">
+                    <button mat-icon-button style="color: green" (click)="openCtgDialog('edit','ctg', row)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="primary" (click)="openImageDialog(row.id)">
+                        <mat-icon>image</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="ctgDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: ctgDisplayedColumns"></tr>
+    
+        </table>
+        <mat-paginator #ctgPaginator [pageSizeOptions]="pageSizeOptions" showFirstLastButtons aria-label="Select page of users">
+        </mat-paginator>
+    </div>
+
+    <div class="page-content-card">
+        <h2 class="page-title-style page-title-container">SUBCATEGORÍAS</h2>
+        <div class="page-actions-container">
+            <div class="form-fields">
+                <label class="title-label">Filtrar:</label>
+                <input class="select-container" (keyup)="applyFilterSubctg(inputSubctgFilter.valid)" placeholder="Ejemplo: nombre subcategoría" [pattern]="input_regex" #inputSubctgFilter="ngModel" [(ngModel)]="subctgFilterValue">
+                <label class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': !inputSubctgFilter.valid ? 'visible' : 'hidden'}">Búsqueda ingresada contiene caracteres no aceptados.</span></label>
+                <mat-button-toggle-group name="userType" aria-label="User Type" (change)="filterActiveSubctg()" class="button-toggle-container" [(ngModel)]="filterSubctgActive">
+                    <mat-button-toggle value="-1" class="button-toggle-content">TODOS</mat-button-toggle>
+                    <mat-button-toggle value="0" class="button-toggle-content">ACTIVOS</mat-button-toggle>
+                    <mat-button-toggle value="1" class="button-toggle-content">INACTIVOS</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+            <button mat-raised-button class="add-button" color="primary" style="letter-spacing: 0.12rem; margin-bottom: 8px" (click)="openCtgDialog('add','subctg')">
+                <mat-icon>add</mat-icon> AGREGAR SUBCATEGORÍA
+            </button>
+        </div>
+        <div class="table-wait-spinner-container" *ngIf="loading_spinner_subctg">
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
+        <table mat-table #dataTable [dataSource]="subctgDataSource" class="mat-elevation-z8" style="width: 100%; margin-top: 20px;" matSort="subctgMatSort">
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Subcategoría</th>
+                <td mat-cell *matCellDef="let element" style="padding-right: 5px;">
+                    {{ element.name }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripción</th>
+                <td mat-cell *matCellDef="let element" style="padding-right: 5px;"> 
+                    {{ element.description }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="category">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Categoría</th>
+                <td mat-cell *matCellDef="let element" style="padding-right: 5px;"> 
+                    {{ getCategoryName(element.id_category) }}
+                </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="removed">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Activo</th>
+                <td mat-cell *matCellDef="let element" style="padding-right: 5px;"> 
+                    <mat-slide-toggle [checked]="!element.removed" (change)="removeSubctgWarning($event, element.id)">
+                    </mat-slide-toggle>
+                </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                <td mat-cell *matCellDef="let row; let i = index" style="min-width: 120px; padding-right: 5px;">
+                    <button mat-icon-button style="color: green" (click)="openCtgDialog('edit','subctg', row)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="subctgDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: subctgDisplayedColumns"></tr>
+    
+        </table>
+        <mat-paginator #subctgPaginator [pageSizeOptions]="pageSizeOptions" showFirstLastButtons aria-label="Select page of users">
+        </mat-paginator>
+    </div>
+</div>

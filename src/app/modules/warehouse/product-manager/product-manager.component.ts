@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CatalogueService } from '../../../services/catalogue.service';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Subscription } from 'rxjs';
 import { Product } from 'src/app/interfaces/product.interface';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -13,6 +13,8 @@ import { RegisterProductComponent } from './register-product/register-product.co
 import { WarningDialogComponent } from 'src/app/components/warning-dialog/warning-dialog.component';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { DataManagerService } from 'src/app/services/data-manager.service';
+import { CommsService } from '../../../services/comms.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export interface MinMaxRange {
   min: number,
@@ -95,10 +97,21 @@ export class ProductManagerComponent implements OnInit, AfterViewInit {
     panelClass: ['error-sb']
   }
 
+  loading_spinner: boolean = true;
+
+  restockChangeSub: Subscription | undefined = undefined;
+
+  input_regex: string = `[a-zA-ZÁÉÍÓÚÑáéíóúñü '-]+`
+
   constructor(private _catalogueService: CatalogueService,
               private _matDialog: MatDialog,
               private _sb: MatSnackBar,
-              private _dataService: DataManagerService) { }
+              private _dataService: DataManagerService,
+              private _commsService: CommsService) {
+                this.restockChangeSub = this._commsService.restockChange$
+                  .subscribe($event =>
+                    this.receiveChange($event))
+               }
 
   ngOnInit(): void {
     this.getCategories()
@@ -110,9 +123,10 @@ export class ProductManagerComponent implements OnInit, AfterViewInit {
   }
 
   async getProducts() {
+    this.loading_spinner = true;
     var res = await lastValueFrom(this._catalogueService.getProducts())
     if(res) {
-      this.products_list = res.products
+      this.products_list = res
       this.brands = this.products_list.map(x => x.brand).filter((value, index, self) => self.indexOf(value) === index)
 
       this.searchJson.value = {min:0,max: Math.max(...this.products_list.map(x => x.value))}
@@ -138,8 +152,8 @@ export class ProductManagerComponent implements OnInit, AfterViewInit {
     var resCat = await lastValueFrom(this._catalogueService.getCategories())
     var resSubCat = await lastValueFrom(this._catalogueService.getSubCategories())
     if(resCat && resSubCat) {
-      this.categories = resCat.categorys
-      this.sub_categories = resSubCat.subcategorys
+      this.categories = resCat
+      this.sub_categories = resSubCat
       this.filtered_sub_categories = this.sub_categories
     }
     this.getProducts()
@@ -151,17 +165,22 @@ export class ProductManagerComponent implements OnInit, AfterViewInit {
     }
     this.filtered_products = this.products_list
     this.dataSource.data = this.filtered_products;
+    this.loading_spinner = false;
     this.myTable?.renderRows();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
   removeWarning(event: MatSlideToggleChange, id: number) {
+    var action = 'desactivar'
+    if(event.checked) {
+      action = 'activar'
+    }
     const popupRef = this._matDialog.open(WarningDialogComponent, {
       autoFocus: false,
       panelClass: ['delete-warning-dialog'],
       data: {
-        message: `¿Está seguro que desea desactivar el producto?`
+        message: `¿Está seguro que desea ${action} el producto?`
       },
       disableClose: true
     });
@@ -176,11 +195,17 @@ export class ProductManagerComponent implements OnInit, AfterViewInit {
   }
 
   async toggleRemove(removed: boolean, id: number) {
-    var res = await lastValueFrom(this._dataService.changeProductStatus(id, removed));
-    if(res) {
-      return (res.status === 200)
-        ? (this.openSnackBar(res.body.msg, this.configSuccess), this.checkUpdate())
-        : (this.openSnackBar(res.body.msg, this.configError), this.checkUpdate())
+    try {
+      var res = await lastValueFrom(this._dataService.changeProductStatus(id, removed));
+      if(res) {
+        return (res.status === 200)
+          ? (this.openSnackBar(res.body.msg, this.configSuccess), this.checkUpdate())
+          : (this.openSnackBar(res.body.msg, this.configError), this.checkUpdate())
+      }
+    }
+    catch(error) {
+      this.openSnackBar((error as HttpErrorResponse).error.msg, this.configError)
+      this.checkUpdate()
     }
   }
 
@@ -192,9 +217,11 @@ export class ProductManagerComponent implements OnInit, AfterViewInit {
     return this.sub_categories.find(x => x.id === id)!.name
   }
 
-  filterName(event: Event) {
+  filterName(event: any) {
     //this.searchJson.name = (event.target as HTMLInputElement).value;
-    this.filterTable(this.searchJson)
+    if(event) {
+      this.filterTable(this.searchJson)
+    }
   }
 
   filterBrand(event: Event) {
@@ -308,7 +335,7 @@ export class ProductManagerComponent implements OnInit, AfterViewInit {
       popupRef.afterClosed().subscribe(res => {
         if(res) {
           return (res.data.status === 200)
-            ? (this.openSnackBar(res.data.message, this.configSuccess), this.checkUpdate())
+            ? (this.openSnackBar(res.data.message, this.configSuccess), this.checkUpdate(), this.sendChange('Cambio stock', 201))
             : (this.openSnackBar(res.data.message, this.configError), this.checkUpdate())
         }
       })
@@ -325,40 +352,12 @@ export class ProductManagerComponent implements OnInit, AfterViewInit {
       popupRef.afterClosed().subscribe(res => {
         if(res) {
           return (res.data.status === 200)
-            ? (this.openSnackBar(res.data.message, this.configSuccess), this.checkUpdate())
+            ? (this.openSnackBar(res.data.message, this.configSuccess), this.checkUpdate(), this.sendChange('Cambio stock', 201))
             : (this.openSnackBar(res.data.message, this.configError), this.checkUpdate())
         }
       })
     }
     
-  }
-
-  deleteWarning(id: number) {
-    const popupRef = this._matDialog.open(WarningDialogComponent, {
-      autoFocus: false,
-      panelClass: ['delete-warning-dialog'],
-      data: {
-        message: `¿Está seguro que desea eliminar el producto del sistema?`
-      },
-      disableClose: true
-    });
-    popupRef.afterClosed().subscribe(res => {
-      if(res.data.answer) {
-        this.deleteProduct(id)
-      }
-      this.myTable?.renderRows();
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    })
-  }
-
-  async deleteProduct(id: number) {
-    var res = await lastValueFrom(this._dataService.deleteProduct(id));
-    if(res) {
-      return (res.status === 200)
-        ? (this.openSnackBar(res.body.msg, this.configSuccess), this.checkUpdate())
-        : (this.openSnackBar(res.body.msg, this.configError), this.checkUpdate())
-    }
   }
 
   checkUpdate() {
@@ -370,6 +369,16 @@ export class ProductManagerComponent implements OnInit, AfterViewInit {
 
   openSnackBar(message: string, config: MatSnackBarConfig) {
     this._sb.open(message, 'CERRAR', config);
+  }
+
+  sendChange(msg: string, status: number) {
+    this._commsService.createDbProdChange({ msg: msg, status: status })
+  }
+  
+  receiveChange(event: any) {
+    if(event.status === 202) {
+      this.checkUpdate()
+    }
   }
 
 }

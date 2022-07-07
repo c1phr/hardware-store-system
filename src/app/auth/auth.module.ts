@@ -7,6 +7,7 @@ import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../modules/material/material.module';
 import { AuthRoutingModule } from './auth-routing.module';
 import { StaffLoginComponent } from './pages/staff-login/staff-login.component';
+import { PassResetComponent } from './pages/pass-reset/pass-reset.component';
 
 
 
@@ -15,7 +16,8 @@ import { StaffLoginComponent } from './pages/staff-login/staff-login.component';
     AuthComponent,
     LoginComponent,
     RegisterComponent,
-    StaffLoginComponent
+    StaffLoginComponent,
+    PassResetComponent
   ],
   imports: [
     CommonModule,

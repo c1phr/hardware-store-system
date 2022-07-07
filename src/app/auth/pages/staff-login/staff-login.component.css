@@ -37,11 +37,6 @@
     z-index: 1
 }
 
-.form-fields {
-    display: flex;
-    flex-flow: column;
-}
-
 .separator-label {
     margin-top: 0px;
     margin-bottom: 10px;
