@@ -33,7 +33,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
         ? (true)
         : ((root_path == 'staff') && ((full_path.includes('login'))))
           ? (true)
-          : ((root_path == 'inicio') && ((full_path.includes('perfil'))))
+          : (((full_path.includes('perfil'))))
             ? ((this._router.navigateByUrl('/auth/login')), false)
             : ((this._router.navigateByUrl('/auth/login')), false)
     }
@@ -42,7 +42,9 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
         ? (this._router.navigateByUrl(`/inicio`), false)
         : ((root_path) && (root_path == 'staff') && ((full_path.includes(this._authService.getType()))))
           ? (true)
-          : (this._router.navigateByUrl(`/inicio`), false)
+          : (((full_path.includes('perfil'))))
+            ? (true)
+            : (this._router.navigateByUrl(`/inicio`), false)
     }
   }
 }
