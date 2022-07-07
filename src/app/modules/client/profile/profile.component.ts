@@ -7,6 +7,7 @@ import { WarningDialogComponent } from 'src/app/components/warning-dialog/warnin
 import { DataManagerService } from 'src/app/services/data-manager.service';
 import { lastValueFrom } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UsersService } from '../../../services/users.service';
 
 @Component({
   selector: 'app-profile',
@@ -17,6 +18,8 @@ export class ProfileComponent implements OnInit {
 
   wait_spinner: boolean = false;
   pass_match: boolean = false;
+
+  confirmed_wl: boolean = false;
 
   toggle_pass: boolean = false;
   disable_data: boolean = false;
@@ -52,7 +55,8 @@ export class ProfileComponent implements OnInit {
               private _matDialog: MatDialog,
               private _dataService: DataManagerService,
               private _authService: AuthService,
-              private _sb: MatSnackBar) { }
+              private _sb: MatSnackBar,
+              private _userService: UsersService) { }
 
   ngOnInit(): void {
     this.getUserData()
@@ -64,6 +68,7 @@ export class ProfileComponent implements OnInit {
     try {
       var res = await lastValueFrom(this._dataService.searchUser(this._authService.getID()))
       if(res) {
+        this.confirmed_wl = res.body[0].confirmcart;
         this.wait_spinner = false;
         this.modifyUserData.controls['rut_profile'].setValue(res.body[0].rut)
         this.modifyUserData.controls['name'].setValue(res.body[0].name)
@@ -171,6 +176,7 @@ export class ProfileComponent implements OnInit {
         this.wait_spinner = false;
         this.openSnackBar(res.body.msg, this.configSuccess)
         this.toggleDisable()
+        this.getUserData()
       }
     }
     catch(error) {
@@ -187,6 +193,7 @@ export class ProfileComponent implements OnInit {
       if(res) {
         this.wait_spinner = false;
         this.openSnackBar(res.body.msg, this.configSuccess)
+        this.getUserData();
         this.togglePassChange()
       }
     }
@@ -195,6 +202,30 @@ export class ProfileComponent implements OnInit {
       var errorSt = error as HttpErrorResponse
       this.openSnackBar(errorSt.error.mg, this.configError)
     }
+  }
+
+  deconfirmWarning() {
+    const popupRef = this._matDialog.open(WarningDialogComponent, {
+      autoFocus: false,
+      panelClass: ['delete-warning-dialog'],
+      data: {
+        message: `¿Está seguro que desea desbloquear la wishlist?`
+      },
+      disableClose: true
+    });
+    popupRef.afterClosed().subscribe(res => {
+      if(res.data.answer) {
+        this.deconfirmWishlist()
+      }
+    })
+  }
+
+  async deconfirmWishlist() {
+    var res = await lastValueFrom(this._userService.changeStateWishlist(this._authService.getID(), false))
+      if(res){
+        this.openSnackBar('Se desbloqueo la wishlist. Puede hacer cambios nuevamente', this.configSuccess)
+        this.getUserData()
+      }
   }
 
   openSnackBar(message: string, config: MatSnackBarConfig) {

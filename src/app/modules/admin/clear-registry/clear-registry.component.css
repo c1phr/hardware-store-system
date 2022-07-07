@@ -1,0 +1,55 @@
+.type-button-container {
+    width: 50%;
+    height: 300px;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.type-button {
+    font-weight: 700;
+    font-family: Lato;
+    margin-bottom: 10px;
+    width: 220px;
+    height: 50px;
+    letter-spacing: 0.1rem;
+}
+
+.centered-container {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.inline-container {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.sales-type-container {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-evenly;
+    min-height: 700px;
+}
+
+.page-title-style {
+    text-align: center;
+}
+
+
+.wait-spinner-container {
+    margin-left: 50%;
+    transform: scale(1.5) translate(-95%,15%);
+    margin-bottom: 75px;
+    color: #FF8000;
+}
+
+.bigger-logo {
+    font-size: 120px;
+}

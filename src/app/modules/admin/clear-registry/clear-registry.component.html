@@ -1,1 +1,28 @@
-<p>clear-registry works!</p>
+<div class="general-container">
+    <div class="sales-type-container" *ngIf="!wait_spinner && !success_check">
+        <div class="page-content-card type-button-container">
+            <h1 class="page-title-style">ELIMINAR REGISTRO CON MÁS DE DOS AÑOS DE ANTIGÜEDAD</h1>
+            <button mat-raised-button class="type-button" color="primary" (click)="clearRegistryWarning()">
+                ELIMINAR REGISTROS
+            </button>
+        </div>
+        
+    </div>
+
+    <div class="sales-type-container" *ngIf="wait_spinner && !success_check">
+        <div class="page-content-card type-button-container">
+            <div class="wait-spinner-container">
+                <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+            </div>
+        </div>
+    </div>
+
+    <div class="sales-type-container" *ngIf="!wait_spinner && success_check">
+        <div class="page-content-card type-button-container">
+            <span class="material-icons-outlined bigger-logo" style="color: green;">
+                check_circle
+            </span>
+            <h2 class="page-title-style">Se eliminaron los registros con éxito.</h2>
+        </div>
+    </div>
+</div>

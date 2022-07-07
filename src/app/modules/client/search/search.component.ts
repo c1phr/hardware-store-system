@@ -34,21 +34,23 @@ export class SearchComponent implements OnInit {
 
   
   async searchProduct(param: string) {
-    this.results = [];
+    this.results = [];;
+    this.products_to_show = []
     var respSearch = await lastValueFrom(this._catalogueService.searchProduct(param))
     if(respSearch) {
-      respSearch.forEach((element: any) => {
-        element.nav = `inicio/catalogo/${element.id_category}/${element.id_subcategory}/producto/${element.id}`
-      });
-      this.results = respSearch
-      this.products_to_show = this.results;
-      this.paginator._changePageSize(5);
+      if(!respSearch.msg) {
+        respSearch.forEach((element: any) => {
+          element.nav = `inicio/catalogo/${element.id_category}/${element.id_subcategory}/producto/${element.id}`
+        });
+        this.results = respSearch
+        this.products_to_show = this.results;
+        this.paginator._changePageSize(5);
+      }
     }
   }
 
   onPageChange(event: PageEvent, scroll: HTMLElement) {
     this.products_to_show =  this.results.slice(event.pageIndex*event.pageSize, event.pageIndex*event.pageSize + event.pageSize);
-    //window.location.hash = '#top';
     scroll.scrollIntoView()
   }
 }

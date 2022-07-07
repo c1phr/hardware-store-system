@@ -149,7 +149,6 @@ export class DataManagerService {
       password: pass,
       newpassword: new_pass
     }
-    console.log(body)
     return this._http.post(this._baseUrl+'resetpassword', body, { observe: 'response' })
   }
 
@@ -264,5 +263,10 @@ export class DataManagerService {
       id: id_product
     }
     return this._http.post(this._baseUrl+'api/deletereturnproduct', body, { observe: 'response' })
+  }
+
+  //delete records 2 years
+  clearRegistry(): Observable<any> {
+    return this._http.get(this._baseUrl+'api/deleterecordsoftwoyears', { observe: 'response' })
   }
 }

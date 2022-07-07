@@ -115,9 +115,11 @@ export class ShoppingListComponent implements OnInit {
   }
 
   async confirmWishlist() {
-    var res = await lastValueFrom(this._userService.changeStateWishlist(this._authService.getID(), true))
-    if(res){
-      this.getWishlist()
+    if(this.wishlist.length > 0) {
+      var res = await lastValueFrom(this._userService.changeStateWishlist(this._authService.getID(), true))
+      if(res){
+        this.getWishlist()
+      }
     }
   }
 

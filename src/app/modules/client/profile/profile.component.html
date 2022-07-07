@@ -17,6 +17,9 @@
                     <button mat-raised-button class="login-button longer-button" (click)="togglePassChange(to_pass_change)">
                         {{ toggle_pass_action }} CAMBIO CONTRASEÑA  
                     </button>
+                    <button mat-raised-button class="login-button longer-button" (click)="deconfirmWarning()" [disabled]="!confirmed_wl">
+                        ACTIVAR WISHLIST  
+                    </button>
                 </div>
 
                 <form [formGroup]="modifyUserData" class="form-fields">

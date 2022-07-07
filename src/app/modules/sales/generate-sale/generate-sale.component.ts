@@ -152,6 +152,7 @@ export class GenerateSaleComponent implements OnInit, AfterViewInit {
     try {
       var res = await lastValueFrom(this._dataService.continueSale(this.continueSaleForm.value.id_sale))
       if(res) {
+        console.log(res)
         if(res.status === 200){
           if(!res.body.msg) {
             this.sale_data = res.body;
