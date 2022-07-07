@@ -76,7 +76,6 @@ export class CategoryViewComponent implements OnInit {
     this._catalogueService.checkExists()
       .subscribe((res: boolean) => {
         if(res) {
-          console.log(res)
           this.name_category = this._catalogueService.getCategoryName(Number(this.id_category))
           this.category_link = "inicio/"+this._catalogueService.getCategoryLink(Number(this.id_category))
         }
@@ -120,7 +119,6 @@ export class CategoryViewComponent implements OnInit {
 
   onPageChange(event: PageEvent, scroll: HTMLElement) {
     this.products_to_show =  this.category_products.slice(event.pageIndex*event.pageSize, event.pageIndex*event.pageSize + event.pageSize);
-    //window.location.hash = '#top';
     scroll.scrollIntoView()
   }
 

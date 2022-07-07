@@ -17,7 +17,6 @@ export class ShoppingListComponent implements OnInit {
 
   total_wishlist: number = 0;
 
-  //wait_check: boolean = false;
   checkLogged: boolean = false;
   message: string = 'Inicie sesión para ver su lista de productos deseados.'
   confirmed: boolean = false;

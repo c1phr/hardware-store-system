@@ -56,7 +56,6 @@ export class SearchComponent implements OnInit {
     var respSearch = await lastValueFrom(this._catalogueService.searchProduct(param))
     if(respSearch) {
       if(!respSearch.msg) {
-        console.log(respSearch)
         respSearch.forEach((element: any) => {
           element.nav = `inicio/catalogo/${element.id_category}/${element.id_subcategory}/producto/${element.id}`
         });

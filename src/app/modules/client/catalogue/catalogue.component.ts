@@ -65,7 +65,6 @@ export class CatalogueComponent implements OnInit {
     if(array){
       for(var i=0; i<array.length;i++) {
         array[i].nav = `/inicio/catalogo/${array[i].category}/${array[i].subcategory}/producto/${array[i].id}`
-        //array[i].url = `${this._baseUrl}${array[i].url}`
       }
     }
     this.categories[index].highlights = array;

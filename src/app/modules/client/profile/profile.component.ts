@@ -60,7 +60,6 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserData()
-    //this.modifyUserData.disable()
   }
 
   async getUserData() {

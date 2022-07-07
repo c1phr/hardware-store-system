@@ -44,12 +44,12 @@ export class CatalogueService {
 
   getCategoryName(id: number): string {
     return this.navig.find(x => x.id === id)!.name
-    //return this.category_name;
   }
+
   getSubcatName(id_cat: number, id_subcat: number): string {
     return this.navig.find(x => x.id === id_cat)!.subcat.find(x => x.id === id_subcat)!.name
-    //return this.subcat_name;
   }
+  
   getProductName(): string {
     return this.product_name;
   }

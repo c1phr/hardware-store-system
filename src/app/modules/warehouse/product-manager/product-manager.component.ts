@@ -131,17 +131,14 @@ export class ProductManagerComponent implements OnInit, AfterViewInit {
       this.brands = this.products_list.map(x => x.brand).filter((value, index, self) => self.indexOf(value) === index)
 
       this.searchJson.value = {min:0,max: Math.max(...this.products_list.map(x => x.value))}
-      //this.searchJson.value = this.value_range;
       this.value_slider_options.ceil = this.searchJson.value.max;
       this.show_value_range = true;
 
       this.searchJson.amount = {min:0,max: Math.max(...this.products_list.map(x => x.amount))}
-      //this.searchJson.amount = this.amount_range;
       this.amount_slider_options.ceil = this.searchJson.amount.max;
       this.show_amount_range = true;
       
       this.searchJson.stockmin = {min:0,max: Math.max(...this.products_list.map(x => x.stockmin!))}
-      //this.searchJson.stockmin = this.stockmin_range;
       this.stock_slider_options.ceil = this.searchJson.stockmin.max;
       this.show_stock_range = true;
 
@@ -219,14 +216,12 @@ export class ProductManagerComponent implements OnInit, AfterViewInit {
   }
 
   filterName(event: any) {
-    //this.searchJson.name = (event.target as HTMLInputElement).value;
     if(event) {
       this.filterTable(this.searchJson)
     }
   }
 
   filterBrand(event: Event) {
-    //this.searchJson.brand = (event.target as HTMLInputElement).value;
     this.filterTable(this.searchJson)
   }
 

@@ -319,7 +319,6 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
   wishlistArray() {
     for(var i=0; i<this.wishlist.length;i++) {
-      //this.wishlist[i].url = `${this._baseUrl}${this.wishlist[i].url}`
       this.wishlist[i].nav = `/inicio/catalogo/${this.wishlist[i].category}/${this.wishlist[i].subcategory}/producto/${this.wishlist[i].id_product}`
     }
   }
