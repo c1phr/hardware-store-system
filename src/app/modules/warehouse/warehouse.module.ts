@@ -7,6 +7,7 @@ import { WarehouseDashboardComponent } from './warehouse-dashboard/warehouse-das
 import { SharedModule } from 'src/app/shared/shared.module';
 import { WarehouseReportsComponent } from './warehouse-reports/warehouse-reports.component';
 import { RegisterProductComponent } from './product-manager/register-product/register-product.component';
+import { UploadProdImageComponent } from './product-manager/upload-prod-image/upload-prod-image.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { RegisterProductComponent } from './product-manager/register-product/reg
     ProductManagerComponent,
     WarehouseDashboardComponent,
     WarehouseReportsComponent,
-    RegisterProductComponent
+    RegisterProductComponent,
+    UploadProdImageComponent
   ],
   imports: [
     CommonModule,

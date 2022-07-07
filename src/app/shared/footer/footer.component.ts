@@ -60,20 +60,16 @@ export class FooterComponent implements OnInit {
       links: [
         {
           name: 'Regístrate',
-          path: './'
+          path: '/auth/registrar'
         },
         {
           name: 'Cambio de clave',
-          path: './'
+          path: '/inicio/perfil'
         },
         {
-          name: 'Recordar clave',
-          path: './'
-        },
-        {
-          name: 'Consultar boletas y facturas',
-          path: './'
-        },
+          name: 'Reestablecer clave',
+          path: '/auth/reset-password'
+        }
       ]
     },
     {

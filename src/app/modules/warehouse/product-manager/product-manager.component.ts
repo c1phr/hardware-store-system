@@ -15,6 +15,7 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { DataManagerService } from 'src/app/services/data-manager.service';
 import { CommsService } from '../../../services/comms.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UploadProdImageComponent } from './upload-prod-image/upload-prod-image.component';
 
 export interface MinMaxRange {
   min: number,
@@ -358,6 +359,29 @@ export class ProductManagerComponent implements OnInit, AfterViewInit {
       })
     }
     
+  }
+
+  openImageDialog(prod_id: number) {
+    const popupRef = this._matDialog.open(UploadProdImageComponent, {
+      autoFocus: false,
+      panelClass: ['register-product-dialog'],
+      disableClose: true,
+      data: {
+        id: prod_id
+      }
+    });
+    popupRef.afterClosed().subscribe(res => {
+      if(res) {
+        if (res.data.status === 200) {
+          this.openSnackBar(res.data.message, this.configSuccess);
+          this.getCategories()
+        }
+        else {
+          this.openSnackBar(res.data.message, this.configError);
+          this.getCategories()
+        }
+      }
+    })
   }
 
   checkUpdate() {

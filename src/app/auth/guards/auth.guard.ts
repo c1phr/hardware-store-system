@@ -29,15 +29,17 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
   private authenticate(root_path: string | undefined, full_path: string): boolean {
     if(!this._authService.isLoggedIn()) {
-      return ((root_path == 'auth') && ((full_path.includes('login')) || (full_path.includes('registrar'))))
+      return ((root_path == 'auth') && ((full_path.includes('login')) || (full_path.includes('registrar')) || (full_path.includes('reset-password'))))
         ? (true)
         : ((root_path == 'staff') && ((full_path.includes('login'))))
           ? (true)
-          : ((this._router.navigateByUrl('/auth/login')), false)
+          : ((root_path == 'inicio') && ((full_path.includes('perfil'))))
+            ? ((this._router.navigateByUrl('/auth/login')), false)
+            : ((this._router.navigateByUrl('/auth/login')), false)
     }
     else {
-      return ((root_path == 'auth') && ((full_path.includes('login')) || (full_path.includes('registrar')))) 
-        ? (false)
+      return ((root_path == 'auth') && ((full_path.includes('login')) || (full_path.includes('registrar')) || (full_path.includes('reset-password')))) 
+        ? (this._router.navigateByUrl(`/inicio`), false)
         : ((root_path) && (root_path == 'staff') && ((full_path.includes(this._authService.getType()))))
           ? (true)
           : (this._router.navigateByUrl(`/inicio`), false)

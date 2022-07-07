@@ -58,3 +58,31 @@
     height: 40px;
     color: white;
 }
+
+.file-input {
+    height: 30px;
+    width: 180px;
+    margin: 0;
+    border-radius: 0px 4px 4px 0px;
+    background-color: #3d3d3d;
+    border: none;
+    outline: none;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    color: white;
+    font-size: 16px;
+    font-family: Lato;
+}
+
+.input-png {
+    background-color: #FF8000;
+    color: white;
+    height: 30px;
+    border-radius: 4px 0px 0px 4px;
+    width: 40px;
+}
+
+.input-row {
+    display: flex; 
+    flex-flow: row wrap;
+}

@@ -1,0 +1,32 @@
+<div class="dialog-general-container">
+    <div class="dialog-title-banner">
+        <h1 class="dialog-title">AGREGAR IMAGEN</h1>
+    </div>
+
+    <div class="column-container">
+        <div class="form-fields" style="margin-top: 20px">
+            <label for="name" class="title-label">Subir Imagen: </label>
+            <div class="form-fields">
+                <div class="input-row">
+                    <button mat-icon-button
+                            class="input-png"
+                            (click)="fileInput.click()">
+                        <mat-icon style="height: 30px; width: 30px">file_upload</mat-icon>
+                    </button>
+                    <p class="select-container">{{ name_file }}</p>
+                </div>
+                <input hidden class="select-container" #fileInput id="name" type="file" placeholder="Nombre" required (change)="fileToUpload($event)" placeholder="Suba imagen png..." accept=".png">
+            </div>
+            <label for="name" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField() ? 'visible' : 'hidden'}">Suba imagen en formato png.</span></label>
+        </div>
+
+        <div class="buttons-container">
+            <button mat-raised-button class="orange-action-button" (click)="addImageProdWarning()">
+                AGREGAR   
+            </button>
+            <button mat-raised-button class="dialog-close-button" (click)="close()">
+                CANCELAR       
+            </button>
+        </div>
+    </div>
+</div>

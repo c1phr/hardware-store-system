@@ -25,10 +25,10 @@ export class RegisterProductComponent implements OnInit {
   current_date: Date = new Date()
 
   editProductForm: FormGroup = this._fb.group({
-    product_name: [,[Validators.required, Validators.minLength(7), Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9ÁÉÍÓÚÑáéíóúñü., \'\-\(\)]+$')]],
+    product_name: [,[Validators.required, Validators.minLength(7), Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9ÁÉÍÓÚÑáéíóúñü., \'\(\)\-]+$')]],
     product_year: [,[Validators.required, Validators.min(1990), Validators.max(this.current_date.getFullYear())]],
-    product_brand: [, [Validators.required, Validators.minLength(2), Validators.maxLength(25), Validators.pattern('^[a-zA-Z0-9ÁÉÍÓÚÑáéíóúñü., \'\-\(\)]+$')]],
-    product_desc: [, [Validators.required, Validators.minLength(0), Validators.maxLength(1000), Validators.pattern('^[a-zA-Z0-9ÁÉÍÓÚÑáéíóúñü., \'\-\(\)]+$')]],
+    product_brand: [, [Validators.required, Validators.minLength(2), Validators.maxLength(25), Validators.pattern('^[a-zA-Z0-9ÁÉÍÓÚÑáéíóúñü., \'\(\)\-]+$')]],
+    product_desc: [, [Validators.required, Validators.minLength(0), Validators.maxLength(1000), Validators.pattern('^[a-zA-Z0-9ÁÉÍÓÚÑáéíóúñü., \'\(\)\-]+$')]],
     product_amount: [, [Validators.required, Validators.min(1), Validators.max(10000)]],
     product_value: [, [Validators.required, Validators.min(1), Validators.max(10000000)]],
     product_stockmin: [, [Validators.required, Validators.min(1), Validators.max(10000)]],

@@ -1,1 +1,96 @@
-<p>register works!</p>
+<div class="general-container" *ngIf="!reg_success && !wait_spinner">
+    <div class="page-title-container">
+        <h1 class="page-title-style">REGISTRO DE USUARIO</h1>
+        
+    </div>
+    <div class="page-title-container">
+        <span class="material-icons-outlined bigger-logo user-reg-logo">
+            account_circle
+        </span>
+    </div>
+    <div class="column-container">
+        <div class="form-fields">
+            <form [formGroup]="newUserData" class="form-fields">
+                <label for="rut" class="title-label">Rut: </label>
+                <input class="select-container" id="rut" type="text" placeholder="11111111-1" required formControlName="rut">
+                <label for="rut" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('rut') ? 'visible' : 'hidden'}">Rut sin puntos y con guión.</span></label>
+
+                <label for="name" class="title-label">Nombre: </label>
+                <input class="select-container" id="name" type="text" placeholder="Nombre" required formControlName="name">
+                <label for="name" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('name') ? 'visible' : 'hidden'}">Nombre entre 2 y 25 caractéres.</span></label>
+
+                <label for="surname" class="title-label">Apellido: </label>
+                <input class="select-container" id="surname" type="text" placeholder="Apellido" required formControlName="surname">
+                <label for="surname" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('surname') ? 'visible' : 'hidden'}">Apellido entre 2 y 25 caractéres.</span></label>
+
+                <label for="email" class="title-label">Correo: </label>
+                <input class="select-container" id="email" type="text" placeholder="correo@correo.cl" required formControlName="email">
+                <label for="email" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('email') ? 'visible' : 'hidden'}">Ingrese un correo válido.</span></label>
+
+                <label for="city" class="title-label">Ciudad: </label>
+                <input class="select-container" id="city" type="text" placeholder="Ciudad" required formControlName="city">
+                <label for="city" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('city') ? 'visible' : 'hidden'}">Ciudad entre 2 y 25 caractéres.</span></label>
+
+                <label for="address" class="title-label">Dirección: </label>
+                <input class="select-container" id="address" type="text" placeholder="Dirección" required formControlName="address">
+                <label for="address" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('address') ? 'visible' : 'hidden'}">Dirección entre 2 y 70 caractéres.</span></label>
+
+                <label for="phone" class="title-label">Teléfono: </label>
+                <div class="input-line">
+                    <span class="prefix-space">+56</span>
+                    <input class="phone-input" id="phone" type="text" placeholder="9XXXXXXXX" required formControlName="phone">
+                </div>
+                <label for="phone" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('phone') ? 'visible' : 'hidden'}">Formato +569XXXXXXXX.</span></label>
+
+                <span class="password-clue">NOTA: <span [ngStyle]="{'color': validField('password') ? 'red' : 'black'}">Contraseña entre 6 y 15 caractéres. Caractéres especiales permitidos: & # @ % ! $ ^.</span></span>
+
+                <label for="password" class="title-label">Contraseña: </label>
+                <input class="select-container" id="password" type="password" placeholder="Contraseña" required formControlName="password">
+                <label for="password" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validPassword(password_retry.value) ? 'visible' : 'hidden'}">Contraseñas deben ser iguales.</span></label>
+                
+
+                <label for="password" class="title-label">Repetir Contraseña: </label>
+                <input class="select-container" #password_retry type="password" placeholder="Repetir" required >
+                <label for="password" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validPassword(password_retry.value) ? 'visible' : 'hidden'}">Contraseñas deben ser iguales.</span></label>
+
+            </form>
+        </div>
+
+        <div class="buttons-container" style="margin-bottom: 50px;">
+            <button mat-raised-button class="login-button" (click)="registerWarning()">
+                REGISTRARSE   
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="general-container" *ngIf="wait_spinner">
+    <div class="wait-spinner-container">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+</div>
+
+<div class="general-container" *ngIf="reg_success">
+    <div class="page-title-container">
+        <h1 class="page-title-style">REGISTRO DE USUARIO</h1>
+        
+    </div>
+    <div class="page-title-container">
+        <span class="material-icons-outlined bigger-logo" style="color: green;">
+            check_circle
+        </span>
+    </div>
+    <div class="column-container">
+        <p class="success-paragraph">Se ha registrado con éxito. Puede proceder al inicio de sesión.</p>
+
+        <div class="buttons-container">
+            <button mat-raised-button class="login-button" routerLink="/auth/login" style="width: 280px;">
+                IR A INICIO SESIÓN   
+            </button>
+            <button mat-raised-button class="login-button" routerLink="/inicio/" style="width: 280px;">
+                VOLVER A PÁGINA PRINCIPAL   
+            </button>
+        </div>
+    </div>
+</div>
+

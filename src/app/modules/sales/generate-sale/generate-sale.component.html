@@ -6,21 +6,13 @@
         <!-- NEW SALE FORM -->
         <div class="page-content-card type-button-container">
             <h2 class="page-title-style centered-title-container">INICIAR NUEVA VENTA</h2>
-            <div class="inline-container">
-                <mat-slide-toggle [(ngModel)]="add_wanted_cart">
-                    <span class="title-label" style="font-family: Lato">Agregar Wishlist</span>
-                </mat-slide-toggle>
-            </div>
             <form [formGroup]="newSaleForm" class="form-fields" style="margin-bottom: 12px;">
                 <label for="rut" class="title-label">Rut Cliente: </label>
                 <input class="select-container" id="rut" type="text" placeholder="11111111-1" required formControlName="rut">
                 <label for="rut" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldNew('rut') ? 'visible' : 'hidden'}">Rut sin puntos, con guión.</span></label>
                 <label for="rut" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'display': checkIfSame() ? 'inline-block' : 'none'}">No puede iniciar una venta propia.</span></label>
             </form>
-            <button mat-raised-button class="type-button" (click)="startNewSale()" color="primary" *ngIf="!add_wanted_cart">
-                Nueva Venta
-            </button>
-            <button mat-raised-button class="type-button" (click)="startNewSale()" color="accent" *ngIf="add_wanted_cart" style="color: white;">
+            <button mat-raised-button class="type-button" (click)="startNewSale()" color="primary">
                 Nueva Venta
             </button>
         </div>
@@ -49,6 +41,12 @@
     <div *ngIf="sale_type === 'continue' || sale_type === 'new'">
         <div class="page-content-card">
             <h2 class="page-title-style centered-title-container" style="margin: 10px;"><b style="font-weight: 800; margin-right: 20px;">ID DE VENTA: </b> {{ id_sale }}</h2>
+        </div>
+        <div class="page-content-card" style="margin-top: 20px; text-align: center;" *ngIf="sale_type === 'new'">
+            <h3 class="page-title-style centered-title-container" style="margin: 10px;">AGREGAR PRODUCTOS DE LA WISHLIST</h3>
+            <button mat-raised-button class="wishlist-button" color="primary" (click)="addWishlistWarning()">
+                <span style="color: white">Agregar Wishlist</span>
+            </button>
         </div>
         <div class="page-content-card centered-container" style="margin-top: 20px;">
             <h3 class="page-title-style centered-title-container" style="margin: 10px;">BÚSQUEDA DE PRODUCTOS</h3>

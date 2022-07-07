@@ -53,7 +53,7 @@ export class AdminReportsComponent implements OnInit {
         window.open(pdfUrl)
       }
       else {
-        this.openSnackBar('No se pudo obtener el reporte de existencias.', this.configError)
+        this.openSnackBar('No se pudo obtener el reporte de productos defectuosos.', this.configError)
       }
     }
     catch(error) {
@@ -70,7 +70,7 @@ export class AdminReportsComponent implements OnInit {
         window.open(pdfUrl)
       }
       else {
-        this.openSnackBar('No se pudo obtener el reporte de existencias.', this.configError)
+        this.openSnackBar('No se pudo obtener el reporte de ventas por precio.', this.configError)
       }
     }
     catch(error) {
@@ -87,7 +87,24 @@ export class AdminReportsComponent implements OnInit {
         window.open(pdfUrl)
       }
       else {
-        this.openSnackBar('No se pudo obtener el reporte de existencias.', this.configError)
+        this.openSnackBar('No se pudo obtener el reporte de ventas por cantidad.', this.configError)
+      }
+    }
+    catch(error) {
+      this.openSnackBar((error as HttpErrorResponse).error.msg, this.configError)
+    }
+  }
+
+  async getReportReturnedProd() {
+    try {
+      var res = await lastValueFrom(this._reportService.getReportReturnedProducts())
+      if(res) {
+        var pdfUrl = URL.createObjectURL(res);
+        this.openSnackBar('Reporte se obtuvo correctamente.', this.configSuccess)
+        window.open(pdfUrl)
+      }
+      else {
+        this.openSnackBar('No se pudo obtener el reporte de productos devueltos.', this.configError)
       }
     }
     catch(error) {

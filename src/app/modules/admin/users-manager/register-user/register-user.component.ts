@@ -20,9 +20,9 @@ export class RegisterUserComponent implements OnInit {
     name: [, [Validators.required, Validators.minLength(2), Validators.maxLength(25), Validators.pattern('^[a-zA-ZÁÉÍÓÚÑáéíóúñü \'\-]+$')]],
     surname: [, [Validators.required, Validators.minLength(2), Validators.maxLength(25), Validators.pattern('^[a-zA-ZÁÉÍÓÚÑáéíóúñü \'\-]+$')]],
     email: [,[Validators.required,Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")]],
-    address: [, [Validators.required, Validators.minLength(2), Validators.maxLength(70), Validators.pattern('^[a-zA-Z0-9ÁÉÍÓÚÑáéíóúñü., \'\-\(\)]+$')]],
+    address: [, [Validators.required, Validators.minLength(2), Validators.maxLength(70), Validators.pattern('^[a-zA-Z0-9ÁÉÍÓÚÑáéíóúñü., \'\(\)\-]+$')]],
     phone: [,[Validators.required, Validators.min(0), Validators.pattern('^[0-9]{7,10}$')]],
-    city: [,[Validators.required, Validators.minLength(2), Validators.maxLength(25), Validators.pattern('^[a-zA-ZÁÉÍÓÚÑáéíóúñü., \'\-\(\)]+$')]],
+    city: [,[Validators.required, Validators.minLength(2), Validators.maxLength(25), Validators.pattern('^[a-zA-ZÁÉÍÓÚÑáéíóúñü., \'\(\)\-]+$')]],
   })
 
   constructor(private _fb: FormBuilder,

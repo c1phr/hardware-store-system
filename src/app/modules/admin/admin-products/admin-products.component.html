@@ -4,15 +4,21 @@
     </div>
     <div class="column-separator">
         <div class="page-content-card half-size-card column-separator">
-            <h2 class="page-title-style">DEVOLUCIÓN PRODUCTO</h2>
-            <button mat-raised-button class="report-gen-button" color="primary">
-                Devolver Producto
+            <h2 class="page-title-style">DEVOLUCIÓN PRODUCTOS</h2>
+            <button mat-raised-button class="report-gen-button" color="primary" (click)="openProductDialog('add', 'dev')">
+                Devolución de Producto
+            </button>
+            <button mat-raised-button class="report-gen-button" color="primary" (click)="openProductDialog('remove', 'dev')">
+                Eliminar Producto Devuelto
             </button>
         </div>
         <div class="page-content-card half-size-card column-separator">
-            <h2 class="page-title-style">REEMPLAZO PRODUCTO</h2>
-            <button mat-raised-button class="report-gen-button" color="primary">
-                Reemplazar Producto
+            <h2 class="page-title-style">PRODUCTOS DEFECTUOSOS</h2>
+            <button mat-raised-button class="report-gen-button" color="primary" (click)="openProductDialog('add', 'def')">
+                Registrar Producto Defectuoso
+            </button>
+            <button mat-raised-button class="report-gen-button" color="primary" (click)="openProductDialog('remove', 'def')">
+                Eliminar Producto Defectuoso
             </button>
         </div>
     </div>

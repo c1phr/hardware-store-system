@@ -125,6 +125,11 @@
     text-align: center;
 }
 
+.wishlist-button {
+    width: 300px;
+    letter-spacing: 0.1rem;
+}
+
 .product-total-container {
     display: flex; 
     flex-flow: row; 

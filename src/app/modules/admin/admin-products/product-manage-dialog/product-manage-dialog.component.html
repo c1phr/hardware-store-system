@@ -1,0 +1,68 @@
+<div class="dialog-general-container">
+    <div class="dialog-title-banner" *ngIf="subtype === 'def'">
+        <h1 *ngIf="type === 'add'" class="dialog-title">REGISTRAR PRODUCTO</h1>
+        <h1 *ngIf="type === 'remove'" class="dialog-title">ELIMINAR DEFECTUOSO</h1>
+    </div>
+    <div class="dialog-title-banner" *ngIf="subtype === 'dev'">
+        <h1 *ngIf="type === 'add'" class="dialog-title">DEVOLVER PRODUCTO</h1>
+        <h1 *ngIf="type === 'remove'" class="dialog-title">ELIMINAR DEVOLUCIÓN</h1>
+    </div>
+
+    <div class="column-container" *ngIf="type === 'add'">
+        <form [formGroup]="addProductForm" class="form-fields">
+            <label for="id_sale" class="title-label">ID Venta: </label>
+            <input class="select-container" id="id_sale" type="text" placeholder="ID de Venta" required formControlName="id_sale">
+            <label for="id_sale" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldAdd('id_sale') ? 'visible' : 'hidden'}">ID alfanumérico.</span></label>
+
+            <label for="id_product" class="title-label">ID Producto: </label>
+            <input class="select-container" id="id_product" type="number" placeholder="ID Producto" required formControlName="id_product">
+            <label for="id_product" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldAdd('id_product') ? 'visible' : 'hidden'}">ID numérico.</span></label>
+
+            <label for="amount" class="title-label">Cantidad: </label>
+            <input class="select-container" id="amount" type="number" min="1" max="10000" placeholder="100" required formControlName="amount">
+            <label for="amount" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldAdd('amount') ? 'visible' : 'hidden'}">Cantidad debe ser entre 1 y 10000.</span></label>
+        </form>        
+    
+
+        <form [formGroup]="addProductForm" class="form-fields" style="width: 100%;">
+            <label for="description" class="title-label">Descripción: </label>
+            <textarea #desc_text class="textarea-container" id="description" placeholder="Descripción" required formControlName="description"></textarea>
+            <label align="end" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'color': validFieldAdd('description') ? 'red' : 'black'}"> {{desc_text.value?.length || 0}}/1000 </span></label>
+            <label for="description" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldAdd('description') ? 'visible' : 'hidden'}">Descripción debe tener entre 0 y 1000 caractéres.</span></label>
+        </form>
+
+        <div class="buttons-container">
+            <button mat-raised-button class="orange-action-button" *ngIf="subtype === 'def'" (click)="addDefectiveWarning()">
+                AGREGAR   
+            </button>
+            <button mat-raised-button class="orange-action-button" *ngIf="subtype === 'dev'" (click)="addReturnWarning()">
+                AGREGAR   
+            </button>
+            <button mat-raised-button class="dialog-close-button" (click)="close()">
+                CANCELAR       
+            </button>
+        </div>
+    </div>
+
+    <div class="column-container" *ngIf="type === 'remove'">
+        <form [formGroup]="removeProductForm" class="form-fields">
+
+            <label for="id" class="title-label">ID Producto: </label>
+            <input class="select-container" id="id" type="number" placeholder="ID Producto" required formControlName="id">
+            <label for="id" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validFieldRemove('id') ? 'visible' : 'hidden'}">ID numérico.</span></label>
+
+        </form>
+
+        <div class="buttons-container">
+            <button mat-raised-button class="orange-action-button" *ngIf="subtype === 'def'" (click)="removeDefectiveWarning()">
+                AGREGAR   
+            </button>
+            <button mat-raised-button class="orange-action-button" *ngIf="subtype === 'dev'" (click)="removeReturnWarning()">
+                AGREGAR   
+            </button>
+            <button mat-raised-button class="dialog-close-button" (click)="close()">
+                CANCELAR       
+            </button>
+        </div>
+    </div>
+</div>

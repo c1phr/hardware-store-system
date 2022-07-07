@@ -1,1 +1,58 @@
-<p>pass-reset works!</p>
+<div class="general-container" *ngIf="!reset_success && !wait_spinner">
+    <div class="page-title-container">
+        <h1 class="page-title-style">REESTABLECER CONTRASEÑA</h1>
+        
+    </div>
+    <div class="page-title-container">
+        <span class="material-icons-outlined bigger-logo user-reg-logo">
+            lock_reset
+        </span>
+    </div>
+    <div class="column-container">
+        <div class="form-fields">
+            <form [formGroup]="passResetForm" class="form-fields">
+
+                <label for="email" class="title-label">Correo: </label>
+                <input class="select-container" id="email" type="text" placeholder="correo@correo.cl" required formControlName="email">
+                <label for="email" class="form-separator-label"><span class="form-error-field" [ngStyle]="{'visibility': validField('email') ? 'visible' : 'hidden'}">Ingrese un correo válido.</span></label>
+
+            </form>
+        </div>
+
+        <div class="buttons-container" style="margin-bottom: 50px;">
+            <button mat-raised-button class="login-button" (click)="resetWarning()">
+                REESTABLECER  
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="general-container" *ngIf="wait_spinner">
+    <div class="wait-spinner-container">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+</div>
+
+<div class="general-container" *ngIf="reset_success">
+    <div class="page-title-container">
+        <h1 class="page-title-style">REESTABLECER CONTRASEÑA</h1>
+        
+    </div>
+    <div class="page-title-container">
+        <span class="material-icons-outlined bigger-logo" style="color: green;">
+            check_circle
+        </span>
+    </div>
+    <div class="column-container">
+        <p class="success-paragraph">Se ha reestablecido su contraseña con éxito. Se han enviado las nuevas credenciales a {{ passResetForm.value.email }}. Inicie sesión y proceda a cambiar su contraseña desde el perfil de usuario.</p>
+
+        <div class="buttons-container">
+            <button mat-raised-button class="login-button" routerLink="/auth/login" style="width: 280px;">
+                IR A INICIO SESIÓN   
+            </button>
+            <button mat-raised-button class="login-button" routerLink="/inicio/" style="width: 280px;">
+                VOLVER A PÁGINA PRINCIPAL   
+            </button>
+        </div>
+    </div>
+</div>

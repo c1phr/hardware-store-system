@@ -26,4 +26,8 @@ export class ReportService {
     return this.http.get(this._baseUrl+'api/get-reporte-ventas-totales-por-cantidad-vendida', { responseType: 'blob' })
   }
 
+  getReportReturnedProducts() {
+    return this.http.get(this._baseUrl+'api/get-reporte-productos-devueltos', { responseType: 'blob' })
+  }
+
 }

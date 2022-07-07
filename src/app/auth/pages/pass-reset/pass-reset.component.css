@@ -1,0 +1,43 @@
+.wait-spinner-container {
+    margin-left: 50%;
+    transform: scale(1.5) translate(10%,25%);
+    margin-bottom: 100px;
+    color: #FF8000;
+}
+
+.select-container {
+    height: 30px;
+    width: 320px;
+}
+
+.login-button {
+    border-radius: 20px;
+    width: 150px;
+    height: 36px;
+    letter-spacing: 0.1rem;
+    font-family: Lato;
+    font-weight: 700;
+    /* background-color: #FF7911; */
+    background: linear-gradient(90deg, #3D3D3D 0%, #FF7911 100%);
+    color: white;
+}
+
+.bigger-logo {
+    font-size: 120px;
+}
+
+.user-reg-logo {
+    background: -moz-linear-gradient(90deg, #3D3D3D 0%, #FF7911 100%);
+    background: -webkit-linear-gradient(90deg, #3D3D3D 0%, #FF7911 100%);
+    background: linear-gradient(90deg, #3D3D3D 0%, #FF7911 100%);
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.success-paragraph {
+    width: 50%;
+    text-align: center;
+    font-size: 18px;
+}

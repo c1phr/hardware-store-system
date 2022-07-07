@@ -156,19 +156,6 @@ export class UsersManagerComponent implements OnInit {
             : 'Desconocido'
   }
 
-  async deleteUser(id: string) {
-    try {
-      var res = await lastValueFrom(this._dataService.deleteUser(id))
-      if(res) {
-        this.openSnackBar(res.body.msg, this.configSuccess)
-        this.getUsersList()
-      }
-    }
-    catch(error) {
-      this.openSnackBar((error as HttpErrorResponse).error.msg, this.configError)
-    }
-  }
-
   async toggleActive(id: string, ban: boolean) {
     try {
       var res = await lastValueFrom(this._dataService.toggleUserActivation(id, ban))

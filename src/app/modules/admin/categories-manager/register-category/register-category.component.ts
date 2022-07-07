@@ -24,7 +24,7 @@ export class RegisterCategoryComponent implements OnInit {
 
   newCtg: FormGroup = this._fb.group({
     name: [, [Validators.required, Validators.minLength(2), Validators.maxLength(40), Validators.pattern('^[a-zA-ZÁÉÍÓÚÑáéíóúñü \'\-]+$')]],
-    description: ['', [Validators.minLength(0), Validators.maxLength(70), Validators.pattern('^[a-zA-Z0-9ÁÉÍÓÚÑáéíóúñü., \'\-\(\)]+$')]],
+    description: ['', [Validators.minLength(0), Validators.maxLength(70), Validators.pattern('^[a-zA-Z0-9ÁÉÍÓÚÑáéíóúñü., \'\(\)\-]+$')]],
   })
 
   constructor(private _dialogRef: MatDialogRef<RegisterCategoryComponent>,

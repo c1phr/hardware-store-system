@@ -38,14 +38,12 @@ export class GenerateSaleComponent implements OnInit, AfterViewInit {
 
   sale_data: any[] = [];
 
-  add_wanted_cart: boolean = false;
-
   newSaleForm: FormGroup = this._fb.group({
     rut: [,[Validators.required, Validators.minLength(8), Validators.maxLength(13), Validators.pattern("^([0-9]{7,8}-[0-9kK])$")]],
   })
 
   continueSaleForm: FormGroup = this._fb.group({
-    id_sale: [, [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
+    id_sale: [, [Validators.required, Validators.minLength(8), Validators.maxLength(20), Validators.pattern('^[a-zA-Z0-9]+$')]],
   })
 
   configSuccess: MatSnackBarConfig = {
@@ -112,16 +110,8 @@ export class GenerateSaleComponent implements OnInit, AfterViewInit {
       return this.newSaleForm.markAllAsTouched();
     }
     else {
+      this.sale_data = [];
       this.sendNewSale()
-    }
-  }
-
-  startNewSaleWishlist() {
-    if(this.newSaleForm.invalid || this.newSaleForm.value.rut === this.id_salesman) {
-      return this.newSaleForm.markAllAsTouched();
-    }
-    else {
-      this.sendNewSaleWishlist()
     }
   }
 
@@ -157,27 +147,6 @@ export class GenerateSaleComponent implements OnInit, AfterViewInit {
     }
   }
 
-  async sendNewSaleWishlist() {
-    try {
-      var res = await lastValueFrom(this._dataService.newSaleWantedCart(this.newSaleForm.value.rut, this.id_salesman))
-      if(res) {
-        if(res.status === 200){
-          this.id_sale = res.body.id;
-          this.openSnackBar('Se inicio la venta con éxito.', this.configSuccess)
-          this.sale_type = 'new'
-        }
-        else {
-          this.openSnackBar(res.body.msg, this.configError)
-        }
-      }
-      else {
-        this.openSnackBar('No se pudo iniciar la venta.', this.configError)
-      }
-    }
-    catch(error) {
-      this.openSnackBar((error as HttpErrorResponse).error.msg, this.configError)
-    }
-  }
 
   async sendSaleRequest() {
     try {
@@ -324,13 +293,50 @@ export class GenerateSaleComponent implements OnInit, AfterViewInit {
     popupRef.afterClosed().subscribe((res) => {
       if(res) {
         return (res.data.status === 200)
-          ? (this.openSnackBar(res.data.message, this.configSuccess), this.checkSaleUpdate())
+          ? (this.openSnackBar('Se ha realizado la compra.', this.configSuccess), this.checkSaleUpdate())
           : (this.openSnackBar(res.data.message, this.configError), this.checkSaleUpdate())
       }
       else {
         return
       }
     })
+  }
+
+  addWishlistWarning() {
+    const popupRef = this._matDialog.open(WarningDialogComponent, {
+      autoFocus: false,
+      panelClass: ['delete-warning-dialog'],
+      data: {
+        message: '¿Está seguro que desea agregar la wishlist a la compra?'
+      },
+      disableClose: true
+    });
+    popupRef.afterClosed().subscribe((res) => {
+      if(res.data.answer) {
+        this.addWishlistProducts();
+      }
+    })
+  }
+
+  async addWishlistProducts() {
+    try {
+      var res = await lastValueFrom(this._dataService.addWantedProducts(this.newSaleForm.value.rut, this.id_sale))
+      if(res) {
+        if(res.status === 200){
+          this.checkSaleUpdate()
+          return this.openSnackBar(res.body.msg, this.configSuccess)
+        }
+        else {
+          return this.openSnackBar(res.body.msg, this.configError)
+        }
+      }
+      else {
+        return this.openSnackBar('Error al intentar agregar la wishlist.', this.configError)
+      }
+    }
+    catch(error) {
+      this.openSnackBar((error as HttpErrorResponse).error.msg, this.configError)
+    }
   }
 
 }

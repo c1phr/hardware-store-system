@@ -59,14 +59,6 @@ export class DataManagerService {
     return this._http.post(this._baseUrl+'api/addsale', body, { observe: 'response' })
   }
 
-  newSaleWantedCart(rut: string, id_salesman: string): Observable<any> {
-    var body = {
-      rut: rut,
-      id_salesman: id_salesman
-    }
-    return this._http.post(this._baseUrl+'api/addsalewantedcart', body, { observe: 'response' })
-  }
-
   continueSale(id: string): Observable<any> {
     var body = {
       id: id
@@ -99,12 +91,12 @@ export class DataManagerService {
     return this._http.post(this._baseUrl+'api/confirmansale', body, { observe: 'response' })
   }
 
-  confirmSaleWantedCart(id_sale: number, id_payment: number): Observable<any> {
+  addWantedProducts(rut: string, id_sale: string): Observable<any> {
     var body = {
-      id: id_sale,
-      id_payment_method: id_payment
+      rut: rut,
+      id_sale: id_sale
     }
-    return this._http.post(this._baseUrl+'api/confirmsalewantedcart', body, { observe: 'response' })
+    return this._http.post(this._baseUrl+'api/addsalewantedcart', body, { observe: 'response' })
   }
 
   getReceipt(id_sale: string): Observable<any> {
@@ -122,6 +114,13 @@ export class DataManagerService {
 
   getUsers(): Observable<any> {
     return this._http.get(this._baseUrl+'api/users', { observe: 'response' })
+  }
+
+  searchUser(rut: string): Observable<any> {
+    var body = {
+      rut: rut
+    }
+    return this._http.post(this._baseUrl+'api/searchuser', body, { observe: 'response' })
   }
 
   toggleUserActivation(rut: string, banned: boolean): Observable<any> {
@@ -207,7 +206,7 @@ export class DataManagerService {
     return this._http.post(this._baseUrl+'api/changestatuscategory', body, { observe: 'response' })
   }
 
-  //TODO: currently is a get, needs to be a post
+  
   uploadImageCategory(b64data: string, id_cat: number): Observable<any> {
     var body = {
       base64Data: b64data,
@@ -241,5 +240,28 @@ export class DataManagerService {
       removed: removed
     }
     return this._http.post(this._baseUrl+'api/changestatussubcategory', body, { observe: 'response' })
+  }
+
+  //defective and returns
+  addDefectiveProduct(body: any): Observable<any> {
+    return this._http.post(this._baseUrl+'api/adddefectiveproduct', body, { observe: 'response' })
+  }
+
+  addReturnProduct(body: any): Observable<any> {
+    return this._http.post(this._baseUrl+'api/addreturnproduct', body, { observe: 'response' })
+  }
+
+  removeDefectiveProduct(id_product: number): Observable<any> {
+    var body = {
+      id: id_product
+    }
+    return this._http.post(this._baseUrl+'api/deletedefectiveproduct', body, { observe: 'response' })
+  }
+
+  removeReturnProduct(id_product: number): Observable<any> {
+    var body = {
+      id: id_product
+    }
+    return this._http.post(this._baseUrl+'api/deletereturnproduct', body, { observe: 'response' })
   }
 }

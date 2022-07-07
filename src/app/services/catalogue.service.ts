@@ -88,7 +88,6 @@ export class CatalogueService {
     this.navig = new_navig;
     for(var i = 0; i < categories.length; i++) {
       if(!categories[i].removed) {
-        console.log(categories[i])
         var str = categories[i].name;
         str = str.normalize("NFD").replace(/\p{Diacritic}/gu, "");
         str = str.replace(/\ /g,'-');

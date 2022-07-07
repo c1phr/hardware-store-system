@@ -15,6 +15,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { RegisterSupplierComponent } from './suppliers-manager/register-supplier/register-supplier.component';
 import { RegisterCategoryComponent } from './categories-manager/register-category/register-category.component';
 import { UploadCtgImageComponent } from './categories-manager/upload-ctg-image/upload-ctg-image.component';
+import { ProductManageDialogComponent } from './admin-products/product-manage-dialog/product-manage-dialog.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { UploadCtgImageComponent } from './categories-manager/upload-ctg-image/u
     RegisterUserComponent,
     RegisterSupplierComponent,
     RegisterCategoryComponent,
-    UploadCtgImageComponent
+    UploadCtgImageComponent,
+    ProductManageDialogComponent
   ],
   imports: [
     CommonModule,
